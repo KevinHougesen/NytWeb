@@ -1,0 +1,42 @@
+﻿@using NytWeb.Authentication
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+
+<PageTitle>NytWeb</PageTitle>
+
+<div class="page">
+    <AuthorizeView>
+        <Authorized>
+                <div style="background-color:white;" class="sidebar">
+                    <NavMenu />
+                </div>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView>
+        <Authorized>
+    <main style="background-color:white;">
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+        </Authorized>
+    </AuthorizeView>
+
+    <AuthorizeView>
+        <NotAuthorized>
+        <main style="background-color:red;">
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code
+{
+
+}

@@ -1,0 +1,63 @@
+@page "/Login"
+@inject IUserService UserService
+@inject IJSRuntime js
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+
+
+    <div class="row"> 
+        <div class="item-1">
+            <div class ="mb-3 text-center">
+                <h3 class="modaltext">Login på nyt!</h3>
+            </div>
+            <div class="mb-3">
+                <label>Brugernavn</label>
+                <input @bind="model.UserName" class="form-control" placeholder="Brugernavn" />
+            </div>
+            <div class="mb-3">
+                <label>Adgangskode</label>
+                <input @bind="model.Password" class="form-control" placeholder="Adgangskode" />
+            </div>
+            <div class="mb-3 d-grid gap-2">
+                <button @onclick="Authenticate" class="btn btn-veryrare">Login</button>
+            </div>
+            <div class="mb-3 d-grid gap-2">
+                <button @onclick="Authenticate" class="btn btn-secondary">Glemt din adgangskode?</button>
+            </div>
+        </div>
+    </div>
+
+@code
+{
+    private class Model
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+
+    private Model model = new Model();
+
+    private async Task Authenticate()
+    {
+        var userAccount = await UserService.GetUserAsync(model.UserName);
+        var isMatch = BCrypt.Net.BCrypt.EnhancedVerify(model.Password, userAccount.Password);
+        if (userAccount == null)
+        {
+            await js.InvokeVoidAsync("alert", "Invalid Username or Password");
+            return;
+        }
+        else if (isMatch == false)
+        {
+            await js.InvokeVoidAsync("alert", "Invalid Username or Password");
+            return;
+        }
+
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+        {
+            UserName = userAccount.Username,
+            Role = userAccount.Role
+        });
+        NavigationManager.NavigateTo("/", true);
+    }
+}

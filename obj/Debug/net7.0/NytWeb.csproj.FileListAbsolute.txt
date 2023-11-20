@@ -1,0 +1,8 @@
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.GeneratedMSBuildEditorConfig.editorconfig
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.AssemblyInfoInputs.cache
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.AssemblyInfo.cs
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.csproj.CoreCompileInputs.cache
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.MvcApplicationPartsAssemblyInfo.cache
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.RazorAssemblyInfo.cache
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.RazorAssemblyInfo.cs
+/Users/kevinhougesen/Application/Nyt/NytWeb/obj/Debug/net7.0/NytWeb.csproj.AssemblyReference.cache

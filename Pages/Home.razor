@@ -1,0 +1,27 @@
+@page "/home"
+@inject IJSRuntime js
+@inject IUserService UserService
+@inject IModalService modal
+
+<body class="content-body">
+    <AuthorizeView>
+        <Authorized>
+            <h1>Hello, @context.User.Identity.Name!</h1>
+            <br /> <br />
+            <button class="btn btn-outline-primary" @onclick="DisplayGreetingAlert">Display Greeting</button>
+        </Authorized>
+    </AuthorizeView>
+</body>
+
+@code
+{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private async Task DisplayGreetingAlert()
+    {
+        var authState = await authenticationState;
+        var message = $"Hello {authState.User.Identity.Name}";
+        await js.InvokeVoidAsync("alert", message);
+    }
+}

@@ -1,0 +1,50 @@
+@page "/register"
+@inject IUserService UserService
+@inject IJSRuntime js
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+
+<div class="row"> 
+                    <div class="item-1">
+                        <div class ="mb-3 text-center">
+                            <h3 class="modaltext">Opret en ny konto</h3>
+                        </div>
+
+                        <EditForm Model="user" OnValidSubmit="HandleValidSubmit" FormName="createUser" Context="RegForm" >
+                        <div class="mb-3">
+                            <label Context="NameLabel" >Nyt! Navn</label>
+                            <InputText @bind-Value="user.DisplayName" Context="InputNameLabel" ></InputText>
+                        </div>
+
+                        <div class="mb-3">
+                            <label Context="EmailLabel" >Email</label>
+                            <InputText @bind-Value="user.Email" Context="InputEmailLabel" ></InputText>
+                        </div>
+
+                        <div class="mb-3">
+                            <label Context="UsernameLabel" >Brugernavn</label>
+                            <InputText @bind-Value="user.Username" Context="InputUsernameLabel" ></InputText>
+                        </div>
+
+                        <div class="mb-3">
+                            <label Context="PassLabel" >Adgangskode</label>
+                            <InputText @bind-Value="user.Password" Context="InputPassLabel" ></InputText>
+                        </div>
+
+                        <div class="mb-3 d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" Context="But" >Submit</button>
+                        </div>
+                        </EditForm>
+                    
+                    </div>
+                </div>
+
+@code 
+{
+    [SupplyParameterFromForm]
+    UserModel user { get; set; } = new();
+    async Task HandleValidSubmit()
+    {
+        await UserService.AddUser(user);
+    }
+}

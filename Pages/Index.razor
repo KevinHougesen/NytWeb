@@ -1,0 +1,173 @@
+@page "/"
+@inject IJSRuntime js
+@inject IUserService UserService
+@inject IModalService modal
+
+
+
+<PageTitle>Nyt!</PageTitle>
+
+    <AuthorizeView>
+
+        <NotAuthorized>
+<body style="background-color:red;">
+
+                <div class="container container-0">
+
+                    <div class="container container-1">
+                        <div class="item item-1">
+                            <h1 class="sitetitle">Nyt!</h1>
+                        </div>
+                    </div>
+
+                    <div class="container container-2">
+                        <div class="container container-4">
+                            <div class="item item-1">
+                                <h1 class="mobiletitle">Nyt!</h1>
+                            </div>
+                        </div>
+                        <div class="item item-2">
+                            <h1 class="mainslogan">Noget nyt?</h1>
+                            <h1 class="secondslogan">Tilmed dig i dag.</h1>
+                        </div>
+                        <div class="container container-3">
+                            <div class="item item-3">
+                                <button @onclick="ShowRegisterModal" class="btn btn-primary">Tilmeld via Google</button>
+                            </div>  
+                            <div class="item item-4">
+                                <button @onclick="ShowRegisterModal" class="btn btn-primary">Tilmeld via Apple</button>
+                            </div>  
+                            <div class="item item-5">
+                                <button @onclick="ShowRegisterModal" class="btn btn-secondary">Opret konto</button>
+                            </div>  
+                            <div class="item item-6">
+                                <button @onclick="ShowLoginModal" class="btn btn-rare">Login</button>
+                            </div>  
+                        </div>
+                    </div>  
+                </div>
+</body>
+
+        </NotAuthorized>
+    </AuthorizeView>
+<body style="background-color: white;">
+    <AuthorizeView>
+        <Authorized>
+            <div class="containermain container-main">
+                <div class="containermain container-middle">
+                    <div class="containermain container-mid-top" style="min-width: 100%; width: 100%">
+                        <RadzenSelectBar TValue="dynamic" Style="min-width: 100%">
+                            <Items>
+                                <RadzenSelectBarItem Style="min-width: 50%; text-align: center" Text="Dansk Nyt!"></RadzenSelectBarItem>
+                                <RadzenSelectBarItem Style="min-width: 50%; text-align: center" Text="Dit Nyt!"></RadzenSelectBarItem>
+                            </Items>
+                        </RadzenSelectBar>
+
+                    </div>
+                    <div class="container container-user-post" style="float: left">
+                        <div class="container container-user-post-content">
+                            <button class="btn btn-rare-img" style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px; max-width: 38px">i</button>
+                            <RadzenTextBox Style="border-radius: 0px; border: 1px hidden #bdbdbd" Placeholder="Sker der noget nyt?"></RadzenTextBox>
+                        </div>
+                        <div class="container container-user-post-media" style="float: left; visibility: visible; margin: 23px; width: 203px">
+                            <RadzenIcon Style="width: 117px" Icon="insert_photo"></RadzenIcon>
+                            <RadzenIcon Icon="gif" Style="width: 117px"></RadzenIcon>
+                            <RadzenIcon Icon="dns" Style="width: 117px"></RadzenIcon>
+                            <RadzenIcon Icon="add_location" Style="width: 117px"></RadzenIcon>
+                        </div>
+                    </div>
+                    <div class="container container-feed" style="float: none; display: inline-block; width: 720px; height: 390px; min-width: 360px; max-width: 720px">
+                        <div style="min-width: 100%; width: 100%; max-width: 100%">
+                            <div style="min-width: 6.5%; min-height: 100%">
+                                <RadzenButton Style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px"></RadzenButton>
+                            </div>
+                        </div>
+                        
+                        <div style="min-width: 90%; min-height: 100%">
+                            <RadzenLabel Text="Kevin Samuel" /> @context.User.Identity.Name
+                        </div>
+ 
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="container container-last" style="width: 349px; height: 351px; border-right: 0px none #e6e6e6; border: 0px none #000000">
+                    <div class="container container-search">
+                        <RadzenIcon Icon="search" Style="width: 83px; height: 27px"></RadzenIcon>
+                        <RadzenTextBox Style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px; background-color: #eeeeee" Placeholder="Søger du noget nyt?"></RadzenTextBox>
+                    </div>
+                    <div class="container container-follow-suggestions" style="background-color: rgba(232, 232, 232, 0.37); border-top-left-radius: 32px; border-bottom-left-radius: 32px; border-top-right-radius: 32px; border-bottom-right-radius: 32px; height: 256px; width: 300px">
+                        <button>Kevin</button>
+                        <button>Garlic</button>
+                        <RadzenImage Path="../../wwwroot/N!Logo.png"></RadzenImage>
+                    </div>
+                    <div class="container container-trending-topics" style="background-color: rgba(232, 232, 232, 0.37)">
+                        <button>Fri Palæstina</button>
+                        <button>Israel er en terrorstat</button>
+                        <button>Mette er krigsforbryder</button>
+                        <button>Astralis</button>
+                    </div>
+                </div>
+            </div>
+            </Authorized>
+    </AuthorizeView>
+</body>
+@code
+{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private async Task DisplayGreetingAlert()
+    {
+        var authState = await authenticationState;
+        var message = $"Hello {authState.User.Identity.Name}";
+        await js.InvokeVoidAsync("alert", message);
+    }
+
+    
+
+
+    [CascadingParameter] IModalService Modal { get; set; } = default!;
+
+    private async Task ShowRegisterModal()
+    {
+        var options = new ModalOptions() 
+        { 
+            OverlayCustomClass = "custom-modal-overlay"
+        };
+
+        var registerModal = Modal.Show<Register>("", options);
+        var result = await registerModal.Result;
+
+        if (result.Cancelled)
+        {
+            Console.WriteLine("Modal was cancelled");
+        }
+        else if (result.Confirmed)
+        {
+            Console.WriteLine("Modal was closed");
+        }
+    }
+
+    private async Task ShowLoginModal()
+    {
+        var options = new ModalOptions() 
+        { 
+            OverlayCustomClass = "custom-modal-overlay" 
+        };
+
+        var loginModal = Modal.Show<Login>("", options);
+        var result = await loginModal.Result;
+
+        if (result.Cancelled)
+        {
+            Console.WriteLine("Modal was cancelled");
+        }
+        else if (result.Confirmed)
+        {
+            Console.WriteLine("Modal was closed");
+        }
+    }
+}
+

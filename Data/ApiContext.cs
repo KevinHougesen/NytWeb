@@ -47,6 +47,35 @@ namespace NytWeb.Data
             return itemList;
         }
 
+        public async Task<List<PostModel>> GetPostsAsync()
+        {
+            // Create a CosmosDB client.
+            CosmosClient client = new CosmosClient("AccountEndpoint=https://nytapp-db.documents.azure.com:443/;AccountKey=JQ7KtPNPPgXRnvUR7F2VJes0BGEjRHmqGiHaADL11K4jib1cnuAEhO5UWbiraKSdTXmYBt8az49FACDbncbT1A==;");
+
+            // Get the database and collection.
+            Database database = client.GetDatabase("Social");
+            Container container = database.GetContainer("Posts");
+
+            var feedIterator = container.GetItemQueryIterator<PostModel>($"SELECT * FROM c");
+
+            List<PostModel> itemList = new();
+
+            while (feedIterator.HasMoreResults)
+            {
+                foreach (var item in await feedIterator.ReadNextAsync())
+                {
+                    itemList.Add(item);
+                }
+            }
+
+
+            // Close the client.
+            client.Dispose();
+
+
+            return itemList;
+        }
+
         public async Task CreateUserAsync(UserModel NewUser)
         {
             // Create a CosmosDB client.

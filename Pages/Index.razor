@@ -1,5 +1,8 @@
 @page "/"
+@using NytWeb.Models
+@using NytWeb.Data
 @inject IJSRuntime js
+@inject IUserService UserService
 @inject IUserService UserService
 @inject IModalService modal
 
@@ -66,7 +69,7 @@
                     </div>
                     <div class="container container-user-post" style="float: left">
                         <div class="container container-user-post-content">
-                            <button class="btn btn-rare-img" style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px; max-width: 38px">i</button>
+                            <button class="btn btn-rare-img" style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px; max-width: 38px"></button>
                             <RadzenTextBox Style="border-radius: 0px; border: 1px hidden #bdbdbd" Placeholder="Sker der noget nyt?"></RadzenTextBox>
                         </div>
                         <div class="container container-user-post-media" style="float: left; visibility: visible; margin: 23px; width: 203px">
@@ -76,16 +79,31 @@
                             <RadzenIcon Icon="add_location" Style="width: 117px"></RadzenIcon>
                         </div>
                     </div>
-                    <div class="container container-feed" style="float: none; display: inline-block; width: 720px; height: 390px; min-width: 360px; max-width: 720px">
-                        <div style="min-width: 100%; width: 100%; max-width: 100%">
-                            <div style="min-width: 6.5%; min-height: 100%">
-                                <RadzenButton Style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px"></RadzenButton>
-                            </div>
-                        </div>
-                        
-                        <div style="min-width: 90%; min-height: 100%">
-                            <RadzenLabel Text="Kevin Samuel" /> @context.User.Identity.Name
-                        </div>
+                    <div class="container container-feed" style="float: none; display: inline-block; width: 720px; height: 300px; min-width: 360px; max-width: 720px">
+                        @if (posts == null)
+                        {
+                            <p><em>Loading...</em></p>
+                        }
+                        else
+                        {
+                            
+                                @foreach (var posts in posts)
+                                    {
+                                        <div class="container container-post" style="border-top: 1px solid #e6e6e6; min-width: 90%; min-height: 90% ">
+                                            <div style=" display:flex; flex-direction:column; min-width: 100%; width: 100%; max-width: 100%">
+                                                <div style="display:flex; flex-direction:row; min-width: 6.5%; min-height: 90%">
+                                                    <button class="btn btn-rare-img" style="border-top-left-radius: 48px; border-top-right-radius: 48px; border-bottom-left-radius: 48px; border-bottom-right-radius: 48px; max-width: 48px; max-height: 42px;"></button>
+                                                    <div class="container-user-post" style="display:flex; flex-direction:col;">
+                                                        <h3 class="usertitle">&#160;@posts.DisplayName</h3>
+                                                        <h3 class="userheader">&#160;&#64;@posts.UserId</h3>
+                                                    </div>
+                                                </div>
+                                                <RadzenLabel Text="" /> @posts.Description
+                                            </div>
+                                        </div>
+                                    }
+                                
+                        }
  
                     </div>
                     
@@ -148,6 +166,14 @@
         {
             Console.WriteLine("Modal was closed");
         }
+    }
+
+    private List<PostModel> posts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await UserService.GetUsersFeedAsync();
+        return;
     }
 
     private async Task ShowLoginModal()

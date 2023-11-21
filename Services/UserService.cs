@@ -28,6 +28,12 @@ namespace NytWeb.Services
             return users;
         }
 
+        public async Task<List<PostModel>> GetUsersFeedAsync()
+        {
+            var posts = await _context.GetPostsAsync();
+            return posts;
+        }
+
         // Get Singular User
         public async Task<UserModel> GetUserAsync(string User)
         {

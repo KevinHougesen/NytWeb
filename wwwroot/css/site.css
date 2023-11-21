@@ -32,6 +32,7 @@
 
 html, body {
     font-family: 'DRPublikRegular', Helvetica, Arial, sans-serif;
+    background-color:#fff;
 }
 
 .content-body {
@@ -95,6 +96,22 @@ html, body {
     paint-order: stroke fill;
     -webkit-text-fill-color: #ffffff;
 }
+
+.usertitle {
+    font-family: 'DRPublikSemiBold';
+    font-size: 1rem;
+    paint-order: stroke fill;
+    -webkit-text-fill-color: #0c0c0c;
+}
+
+.userheader {
+    font-family: 'DRPublikRegular';
+    font-size: 0.9rem;
+    paint-order: stroke fill;
+    -webkit-text-fill-color: #808080;
+}
+
+
 .commonbuttontext{
     font-family: 'DRPublikBlack';
 }
@@ -137,10 +154,14 @@ html, body {
 .container-user-post {
     display: flex;
     flex-flow: column nowrap;
-    justify-content:end; 
-    align-content: end; 
-    align-items: end; 
     width: 100%;
+}
+
+.container-post {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+    padding-top: 2.5%;
 }
 
 .container-user-post-content {
@@ -152,12 +173,25 @@ html, body {
     gap:1.5rem;
 }
 
+.displayname {
+    font-family: 'DRPublikSemiBold';
+    font-size: 0.25rem;
+    paint-order: stroke fill;
+    -webkit-text-fill-color: #ffffff;
+}
+
+.username {
+    font-family: 'DRPublikRegular';
+    font-size: 0.1rem;
+}
+
 .container-user-post-media {
     display: flex;
     flex-flow: row nowrap;
     justify-content:end; 
     align-content: end; 
     align-items: end; 
+    
 }
 
 .container-middle {
@@ -167,6 +201,8 @@ html, body {
     align-content: end; 
     align-items: end; 
     gap:1.5rem;
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
 }
 
 .container-mid-top {
@@ -452,6 +488,16 @@ a, .btn-link {
     }
 }
 
+@media (min-width: 1080px) {
+    .container-4{
+        display: none;
+    }
+    .container-main {
+        margin-left: 8rem;
+    }
+}
+
+
 @media (max-width: 1080px) {
     .container-4{
         display: contents;
@@ -463,9 +509,11 @@ a, .btn-link {
     }
     .container-main {
         width: 20px;
+        
     }
     .container-middle {
         width: calc(720px - 12.5rem);
+        
     }
     .bodyindex {
         margin-left: 0;

@@ -8,6 +8,8 @@ namespace NytWeb.Services
         Task<UserModel> AddUser(UserModel user);
         Task<List<UserModel>> GetUsersAsync();
 
+        Task<List<PostModel>> GetUsersFeedAsync();
+
         Task<UserModel> GetUserAsync(string User);
 
         Task<UserModel> LoginAsync(string Email, string Password);

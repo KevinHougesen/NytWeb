@@ -1,6 +1,8 @@
 ﻿@page "/fetchdata"
 @using NytWeb.Data
+@using NytWeb.Models
 @attribute [Authorize(Roles = "Administrator")]
+@inject IUserService UserService
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -8,3 +10,36 @@
 
 <p>This component demonstrates fetching data from a service.</p>
 
+@if (posts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var posts in posts)
+            {
+                <tr>
+                    <td>@posts.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<PostModel> posts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await UserService.GetUsersFeedAsync();
+        return;
+    }
+}

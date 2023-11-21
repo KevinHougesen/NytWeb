@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 using System.Security.Claims;
 using NytWeb.Data;
+using NytWeb.Algorithms;
 using NytWeb.Services;
 using Blazored.Modal;
 
@@ -21,6 +22,8 @@ builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ProtectedSessionStorage>();
+builder.Services.AddScoped<ContentFilter>();
+builder.Services.AddScoped<ContentRanker>();
 builder.Services.AddBlazoredModal();
 // builder.Services.AddScoped<DbContext, ApiContext>();
 builder.Services.AddDbContext<ApiContext>

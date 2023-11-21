@@ -13,5 +13,7 @@ namespace NytWeb.Services
         Task<UserModel> GetUserAsync(string User);
 
         Task<UserModel> LoginAsync(string Email, string Password);
+
+        Task<List<PostModel>> DisplayFeedAsync(string userId);
     }
 }

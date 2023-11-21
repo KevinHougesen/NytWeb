@@ -1,6 +1,7 @@
 using NytWeb.Models;
 using NytWeb.Data;
 using NytWeb.Services;
+using NytWeb.Algorithms;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,14 +12,19 @@ namespace NytWeb.Services
 {
     public class UserService : IUserService
     {
-        private readonly ApiContext _context;
         private IConfiguration _config;
 
+        private ContentFilter _filter;
+        private ContentRanker _ranker;
+
+        private readonly ApiContext _context;
         // Database Constructor
-        public UserService(ApiContext context, IConfiguration config)
+        public UserService(ApiContext context, IConfiguration config, ContentFilter filter, ContentRanker ranker)
         {
-            _config = config;
             _context = context;
+            _config = config;
+            _filter = filter;
+            _ranker = ranker;
         }
 
         // Get All Users
@@ -125,6 +131,28 @@ namespace NytWeb.Services
                 findUser = user;
             }
             return user;
+        }
+
+        public async Task<List<PostModel>> DisplayFeedAsync(string userId)
+        {
+            var User = await _context.GetUsersAsync();
+            var user = User.FirstOrDefault(i => i.Id == userId);
+            var occupation = user.Occupation.ToString();
+            var posts = await _context.GetPostsAsync();
+
+            //var likes = await _service.GetLikes();
+
+            var filteredPosts = await _filter.FilterByInterestsAsync(posts, occupation);
+            var rankedPosts = await _ranker.RankByLikes(filteredPosts);
+
+            Console.WriteLine($"Welcome, {user.Id}!");
+            Console.WriteLine("Here are the top posts in your feed:");
+            foreach (var post in rankedPosts)
+            {
+                Console.WriteLine($"- {post.Description} (likes: {post.Likes.Count})");
+            }
+            return rankedPosts;
+
         }
 
 

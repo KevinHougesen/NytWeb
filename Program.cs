@@ -5,6 +5,7 @@ using NytWeb.Services;
 using Blazored.Modal;
 using MudBlazor.Services;
 using Neo4j.Driver;
+using InstagramApiSharp.Helpers;
 
 
 
@@ -12,14 +13,14 @@ internal class Program
 {
     static readonly HttpClient client = new HttpClient();
 
+
     private static async Task Main(string[] args)
     {
 
         var builder = WebApplication.CreateBuilder(args);
-        var uri = NytWeb.Config.UnpackContextConfig();
-        client.BaseAddress = new Uri(uri);
 
         builder.Services.AddSingleton(client);
+
         builder.Services.AddSingleton(GraphDatabase.Driver(
             builder.Configuration.GetConnectionString("NEO4J_URI"),
             AuthTokens.Basic(

@@ -6,9 +6,9 @@ namespace NytWeb.Services
     {
         Task<UserModel> RegisterAsync(UserModel User);
 
-        Task<UserModel> DeleteUserByIdAsync(string userId);
+        Task<string> DeleteUserByIdAsync(string Username);
 
-        Task<UserModel> DeleteUserAsync(string userId);
+        Task<string> DeleteUserAsync(string Username);
 
     }
 }

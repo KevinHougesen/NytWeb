@@ -8,6 +8,7 @@ namespace NytWeb
         private static readonly string Neo4jUsername;
         private static readonly string Neo4jPassword;
         private static readonly string Connection;
+        private static readonly string Key;
 
         private static readonly string JwtSecret;
 
@@ -27,6 +28,7 @@ namespace NytWeb
             JwtSecret = config.GetSection("Jwt")["secret"];
 
             Connection = config.GetSection("ConnectionStrings")["CONTEXT"];
+            Key = config.GetSection("ConnectionStrings")["CONTEXT_KEY"];
 
             SaltRounds = int.Parse(config.GetSection("Password")["rounds"]);
         }
@@ -41,9 +43,9 @@ namespace NytWeb
             return JwtSecret;
         }
 
-        public static string UnpackContextConfig()
+        public static (string Connection, string Key) UnpackContextConfig()
         {
-            return Connection;
+            return (Connection, Key);
         }
 
         public static int UnpackPasswordConfig()

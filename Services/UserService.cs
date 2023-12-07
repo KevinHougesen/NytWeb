@@ -1,49 +1,123 @@
+using System.Net.Http.Headers;
+using System.Text;
+using Newtonsoft.Json;
 using NytWeb.Models;
 
 namespace NytWeb.Services
 {
     public class UserService : IUserService
     {
-        private readonly HttpClient client = new HttpClient();
+        private readonly HttpClient _client;
+        private readonly string Context;
+        private readonly string Key;
+
+        public UserService(HttpClient client)
+        {
+            _client = client;
+            var (context, key) = NytWeb.Config.UnpackContextConfig();
+            Context = context;
+            Key = key;
+        }
 
         // Get Singular User
-        public async Task<UserModel> GetUserAsync(string userId)
+        public async Task<UserModel> GetUserAsync(string Username)
         {
-            Console.WriteLine("fetching");
-            UserModel response = await client.GetFromJsonAsync<UserModel>($"http://localhost:7071/api/GetUserAsync?={userId}");
-            return response;
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserAsync" + Key;
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { Username });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<UserModel>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
         }
 
         // Get All Users
         public async Task<List<UserModel>> GetUsersAsync()
         {
-            Console.WriteLine("fetching");
-            List<UserModel> response = await client.GetFromJsonAsync<List<UserModel>>($"http://localhost:7071/api/GetUsersAsync");
-            return response;
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserAsync" + Key;
+
+            // SENDING JSON CONTENT
+            var response = await _client.GetAsync(apiURL);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<UserModel>>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
         }
 
         // Get All Users
-        public async Task<List<string>> GetUserFollowersAsync(string userId)
+        public async Task<List<string>> GetUserFollowersAsync(string Username)
         {
-            Console.WriteLine("fetching");
-            List<string> response = await client.GetFromJsonAsync<List<string>>($"http://localhost:7071/api/GetUserFollowersAsync?={userId}");
-            return response;
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserFollowersAsync" + Key;
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { Username });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<string>>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
         }
 
         // Get All Users
-        public async Task<List<string>> GetUserFollowingAsync(string userId)
+        public async Task<List<string>> GetUserFollowingAsync(string Username)
         {
-            Console.WriteLine("fetching");
-            List<string> response = await client.GetFromJsonAsync<List<string>>($"http://localhost:7071/api/GetUserFollowingAsync?={userId}");
-            return response;
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserFollowingAsync" + Key;
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { Username });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<string>>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
         }
 
         // Get All Users
-        public async Task<List<UserModel>> FollowUserAsync(string userId, string toFollow)
+        public async Task<string> FollowUserAsync(string Username, string ToFollow)
         {
-            Console.WriteLine("fetching");
-            List<UserModel> response = await client.GetFromJsonAsync<List<UserModel>>($"http://localhost:7071/api/GetUserFollowingAsync?={userId}&={toFollow}");
-            return response;
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserAsync" + Key;
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { Username });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<string>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
         }
 
     }

@@ -27,7 +27,7 @@
                 </MudCardHeader>
                 <MudCardActions>
                     <MudSpacer />
-                         @if (@Following == null)
+                         @if (@Followers == null)
                         {   <MudText Typo="Typo.subtitle1"><b> tæller </b> </MudText> } 
                         else 
                         {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b>  </b> </MudText> } 
@@ -36,12 +36,12 @@
                         @if (@Followers == null)
                         {   <MudText Typo="Typo.subtitle1"><b> tæller </b> </MudText> } 
                         else 
-                        {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b> @Followers følgere </b> </MudText> } 
+                        {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b> @Followers.Count() følgere </b> </MudText> } 
                     <MudSpacer />
                         @if (@Following == null)
                         {   <MudText Typo="Typo.subtitle1"><b> tæller </b> </MudText> } 
                         else 
-                        {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b> @Following fulgte </b> </MudText> } 
+                        {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b> @Following.Count() fulgte </b> </MudText> } 
                     <MudSpacer />
                 </MudCardActions>
                 <MudCardContent>
@@ -105,11 +105,8 @@
     [Parameter]
     public string Username { get; set; }
 
-    public int Followers;
-    public int Following;
-
-    List<string> Follows;
-    List<string> Followee;
+    List<string> Followers;
+    List<string> Following;
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -122,12 +119,9 @@
 
         Username = authState.User.Identity.Name;
 
-        Follows = await UserService.GetUserFollowersAsync(Username);
-        Followee = await UserService.GetUserFollowingAsync(Username);
+        Followers = await UserService.GetUserFollowersAsync(Username);
+        Following = await UserService.GetUserFollowingAsync(Username);
 
-        Following = Follows.Count();
-        Followers = Followee.Count();
-        
         return;
     }
 

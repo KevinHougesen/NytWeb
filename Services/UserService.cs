@@ -103,7 +103,7 @@ namespace NytWeb.Services
         public async Task<string> FollowUserAsync(string Username, string ToFollow)
         {
             // CREATING URL STRING
-            string apiURL = Context + "GetUserAsync" + Key;
+            string apiURL = Context + "FollowUserAsync" + Key;
 
             // CREATING PAYLOAD AND JSON CONTENT
             var payload = JsonConvert.SerializeObject(new { Username });

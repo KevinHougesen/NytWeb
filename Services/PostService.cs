@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using Newtonsoft.Json;
 using NytWeb.Models;
@@ -14,7 +12,7 @@ namespace NytWeb.Services
 
         public PostService(HttpClient client)
         {
-            _client = _client;
+            _client = client;
             var (context, key) = NytWeb.Config.UnpackContextConfig();
             Context = context;
             Key = key;
@@ -140,13 +138,13 @@ namespace NytWeb.Services
             return result;
         }
 
-        public async Task<PostModel> GetPostByIdAsync(string Username)
+        public async Task<PostModel> GetPostByIdAsync(string postId)
         {
             // CREATING URL STRING
-            string apiURL = Context + "DisplayUsersFeed" + Key;
+            string apiURL = Context + "GetPostByIdAsync" + Key;
 
             // CREATING PAYLOAD AND JSON CONTENT
-            var payload = JsonConvert.SerializeObject(new { Username });
+            var payload = JsonConvert.SerializeObject(new { postId });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
@@ -163,7 +161,7 @@ namespace NytWeb.Services
         public async Task<int> GetLikesCount(string Username)
         {
             // CREATING URL STRING
-            string apiURL = Context + "DisplayUsersFeed" + Key;
+            string apiURL = Context + "GetLikesCount" + Key;
 
             // CREATING PAYLOAD AND JSON CONTENT
             var payload = JsonConvert.SerializeObject(new { Username });
@@ -183,7 +181,7 @@ namespace NytWeb.Services
         public async Task<int> GetSharesCount(string Username)
         {
             // CREATING URL STRING
-            string apiURL = Context + "DisplayUsersFeed" + Key;
+            string apiURL = Context + "GetSharesCount" + Key;
 
             // CREATING PAYLOAD AND JSON CONTENT
             var payload = JsonConvert.SerializeObject(new { Username });
@@ -203,7 +201,7 @@ namespace NytWeb.Services
         public async Task<float> UpdateUserEmbedding(string Username, string TargetId)
         {
             // CREATING URL STRING
-            string apiURL = Context + "DisplayUsersFeed" + Key;
+            string apiURL = Context + "UpdateUserEmbedding" + Key;
 
             // CREATING PAYLOAD AND JSON CONTENT
             var payload = JsonConvert.SerializeObject(new { Username, TargetId });

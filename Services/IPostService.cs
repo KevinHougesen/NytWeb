@@ -10,7 +10,7 @@ public interface IPostService
 
     Task<PostModel> CreateReplyAsync(string Username, string TargetId, string Content);
 
-    Task<PostModel> GetPostByIdAsync(string Username);
+    Task<PostModel> GetPostByIdAsync(string postId);
 
     Task<PostModel> CreateQuoteAsync(string Username, string TargetId, string Content);
 

@@ -16,26 +16,15 @@ public class PostModel
     public required string Id { get; set; }
 
     public string? DisplayName { get; set; }
+    public string? Username { get; set; }
+
 
     public string? Location { get; set; }
-
-    public string Description { get; set; }
+    public string? Description { get; set; }
+    public string? Content { get; set; }
 
     public string? PicturePath { get; set; }
     public string? UserPicturePath { get; set; }
-
-    public ICollection<LikesModel>? Likes { get; set; } = new Collection<LikesModel>();
-
-    //public List<string> Comments { get; set; } = new List<string>();
-
-    public DateTime Time { get; set; }
-
-    [JsonProperty(PropertyName = "UserId")]
-    [ForeignKey("UserId")]
-    public string? UserId { get; set; }
-    public virtual UserModel? User { get; set; }
-
-
 
 }
 

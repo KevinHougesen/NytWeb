@@ -275,3 +275,10 @@
 /Users/kevinhougesen/NytWeb/obj/Debug/net8.0/NytWeb.pdb
 /Users/kevinhougesen/NytWeb/obj/Debug/net8.0/NytWeb.genruntimeconfig.cache
 /Users/kevinhougesen/NytWeb/obj/Debug/net8.0/ref/NytWeb.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/MudBlazor.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/InstagramApiSharp.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/BouncyCastle.Crypto.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/FluentValidation.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Neo4j.Driver.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Neo4j.Driver.Simple.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Neo4jClient.dll

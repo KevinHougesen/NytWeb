@@ -51,6 +51,14 @@
               "target": "Package",
               "version": "[7.1.0, )"
             },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.8.1, )"
+            },
+            "InstagramApiSharp": {
+              "target": "Package",
+              "version": "[1.7.4, )"
+            },
             "Microsoft.AspNetCore.Components": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -76,6 +84,22 @@
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[7.0.3, )"
+            },
+            "MudBlazor": {
+              "target": "Package",
+              "version": "[6.11.1, )"
+            },
+            "Neo4j.Driver": {
+              "target": "Package",
+              "version": "[5.15.0, )"
+            },
+            "Neo4j.Driver.Simple": {
+              "target": "Package",
+              "version": "[5.15.0, )"
+            },
+            "Neo4jClient": {
+              "target": "Package",
+              "version": "[5.1.11, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",

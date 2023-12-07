@@ -1,7 +1,5 @@
 @page "/"
 @using NytWeb.Models
-@using NytWeb.Data
-@using NytWeb.Algorithms
 @inject IJSRuntime js
 @inject IUserService UserService
 @inject IModalService modal
@@ -13,27 +11,26 @@
     <AuthorizeView>
 
         <NotAuthorized>
-<body style="background-color:red;">
 
-                <div class="container container-0">
 
-                    <div class="container container-1">
-                        <div class="item item-1">
+                <div class="row">
+
+                        <div>
                             <h1 class="sitetitle">Nyt!</h1>
                         </div>
-                    </div>
 
-                    <div class="container container-2">
+
+
                         <div class="container container-4">
                             <div class="item item-1">
                                 <h1 class="mobiletitle">Nyt!</h1>
                             </div>
                         </div>
-                        <div class="item item-2">
+                        <div class="col">
                             <h1 class="mainslogan">Noget nyt?</h1>
                             <h1 class="secondslogan">Tilmed dig i dag.</h1>
                         </div>
-                        <div class="container container-3">
+                        <div class="col">
                             <div class="item item-3">
                                 <button @onclick="ShowRegisterModal" class="btn btn-primary">Tilmeld via Google</button>
                             </div>  
@@ -47,112 +44,55 @@
                                 <button @onclick="ShowLoginModal" class="btn btn-rare">Login</button>
                             </div>  
                         </div>
-                    </div>  
+
                 </div>
-</body>
+
 
         </NotAuthorized>
     </AuthorizeView>
-<body style="background-color: white;">
+    
     <AuthorizeView>
         <Authorized>
-            <div class="containermain container-main">
-                <div class="containermain container-middle">
-                    <div class="containermain container-mid-top" style="min-width: 100%; width: 100%">
-                        <RadzenSelectBar TValue="dynamic" Style="min-width: 100%">
-                            <Items>
-                                <RadzenSelectBarItem Style="min-width: 50%; text-align: center" Text="Dansk Nyt!"></RadzenSelectBarItem>
-                                <RadzenSelectBarItem Style="min-width: 50%; text-align: center" Text="Dit Nyt!"></RadzenSelectBarItem>
-                            </Items>
-                        </RadzenSelectBar>
+            <MudAppBar Color="Color.Secondary" Elevation="0"  Square="true" Width="100%">
+                <MudPaper Width="100%" Class="flex-none" Elevation="0">
+                    <MudContainer Height="100%" MaxWidth="MaxWidth.Small" Width="100%">
+                        <MudTabs Elevation="0"  Rounded="true" Centered="true" Width="100%">
+                            <MudTabPanel Color="Color.Primary" Text="Dit Nyt" OnClick='() => Activate("pn_one")'>
+                            </MudTabPanel>
+                            <MudTabPanel Text="Dit Nyt" Color="@Color.Primary" OnClick='() => Activate("pn_two")'>
+                            </MudTabPanel>
+                        </MudTabs>
+                    </MudContainer>
+                </MudPaper>
+            </MudAppBar>
 
-                    </div>
-                    <div class="container container-user-post" style="float: left">
-                        <div class="container container-user-post-content">
-                            <button class="btn btn-rare-img" style="border-top-left-radius: 48px; border-top-right-radius: 48px; border-bottom-left-radius: 48px; border-bottom-right-radius: 48px; max-width: 48px; max-height: 42px;"></button>
-                            <RadzenTextBox Style="border-radius: 0px; border: 1px hidden #bdbdbd" Placeholder="Sker der noget nyt?"></RadzenTextBox>
-                        </div>
-                        <div class="container container-user-post-media" style="float: left; visibility: visible; margin: 23px; width: 203px">
-                            <RadzenIcon Style="width: 117px" Icon="insert_photo"></RadzenIcon>
-                            <RadzenIcon Icon="gif" Style="width: 117px"></RadzenIcon>
-                            <RadzenIcon Icon="dns" Style="width: 117px"></RadzenIcon>
-                            <RadzenIcon Icon="add_location" Style="width: 117px"></RadzenIcon>
-                        </div>
-                    </div>
-                    <div class="container container-feed" style="float: none; display: inline-block; width: 720px; height: 300px; min-width: 360px; max-width: 720px">
-                        @if (user == null)
-                        {
-                            <p><em>Loading...</em></p>
-                        }
-                        else
-                        {
-                            @if (posts == null)
-                            {
-                                <p><em>Loading...</em></p>
-                            }
-                            else
-                            {
-                                
-                                    @foreach (var posts in posts)
-                                        {
-                                            <div class="container container-post" style="border-top: 1px solid #e6e6e6; min-width: 90%; min-height: 90% ">
-                                                <div style=" display:flex; flex-direction:column; min-width: 100%; width: 100%; max-width: 100%">
-                                                    <div style="display:flex; flex-direction:row; min-width: 6.5%; min-height: 90%">
-                                                        <button class="btn btn-rare-img" style="border-top-left-radius: 48px; border-top-right-radius: 48px; border-bottom-left-radius: 48px; border-bottom-right-radius: 48px; max-width: 48px; max-height: 42px;"></button>
-                                                        <div class="container-user-post" style="display:flex; flex-direction:col;">
-                                                            <h3 class="usertitle">&#160;@posts.DisplayName</h3>
-                                                            <h3 class="userheader">&#160;&#64;@posts.UserId</h3>
-                                                        </div>
-                                                    </div>
-                                                    <RadzenLabel Text="" /> @posts.Description
-                                                </div>
-                                            </div>
-                                        }
-                                    
-                            }
-                            }
- 
-                    </div>
-                    
-                    
-                </div>
+                
 
-                <div class="container container-last" style="width: 349px; height: 351px; border-right: 0px none #e6e6e6; border: 0px none #000000">
-                    <div class="container container-search">
-                        <RadzenIcon Icon="search" Style="width: 83px; height: 27px"></RadzenIcon>
-                        <RadzenTextBox Style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px; background-color: #eeeeee" Placeholder="Søger du noget nyt?"></RadzenTextBox>
-                    </div>
-                    <div class="container container-follow-suggestions" style="background-color: rgba(232, 232, 232, 0.37); border-top-left-radius: 32px; border-bottom-left-radius: 32px; border-top-right-radius: 32px; border-bottom-right-radius: 32px; height: 256px; width: 300px">
-                        <button>Kevin</button>
-                        <button>Garlic</button>
-                        <RadzenImage Path="../../wwwroot/N!Logo.png"></RadzenImage>
-                    </div>
-                    <div class="container container-trending-topics" style="background-color: rgba(232, 232, 232, 0.37)">
-                        <button>Fri Palæstina</button>
-                        <button>Israel er en terrorstat</button>
-                        <button>Mette er krigsforbryder</button>
-                        <button>Astralis</button>
-                    </div>
-                </div>
-            </div>
-            </Authorized>
+                <MudPaper Width="100%" Class="flex-none" Elevation="0">
+                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+
+                        <MudTabs Position="Position.Bottom" Elevation="0" Rounded="true" Centered="true" Color="@Color.Secondary" @ref="tabs">
+                                        
+                            <MudTabPanel Text="" @ref="panel01" Height="100%" ID="@("pn_one")" >
+                                <UserPost/>
+                                            
+                                <LoadedInNetworkFeed />
+                            </MudTabPanel>
+
+                            <MudTabPanel Color="@Color.Primary" ApplyEffectsToContainer="true" Text="" @ref="panel02" ID="@("pn_two")">
+                                <UserPost/>
+                                <LoadedOutNetworkFeed />
+                            </MudTabPanel>
+
+                        </MudTabs>
+
+                    </MudContainer>
+                </MudPaper>
+            
+        </Authorized>
     </AuthorizeView>
-</body>
 @code
 {
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-
-    private async Task DisplayGreetingAlert()
-    {
-        var authState = await authenticationState;
-        var message = $"Hello {authState.User.Identity.Name}";
-        await js.InvokeVoidAsync("alert", message);
-    }
-
-    
-
-
     [CascadingParameter] IModalService Modal { get; set; } = default!;
 
     private async Task ShowRegisterModal()
@@ -174,29 +114,9 @@
             Console.WriteLine("Modal was closed");
         }
     }
-
-    private UserModel user;
-
-    private List<PostModel> posts;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await authenticationState;
-        var users = await UserService.GetUsersAsync();
-        user = users.FirstOrDefault(i => i.Id == authState.User.Identity.Name);
-        if (user == null)
-        {
-            Console.WriteLine("Has not logged in yet.");
-            return;
-        }
-        else
-        {
-            Console.WriteLine("Retrieving feed.");
-        }
-        posts = await UserService.DisplayFeedAsync(user.Username);
-
-        return;
-    }
+    
+    
+    
 
     private async Task ShowLoginModal()
     {
@@ -216,6 +136,15 @@
         {
             Console.WriteLine("Modal was closed");
         }
+    }
+
+    MudTabs tabs;
+    MudTabPanel panel01;
+    MudTabPanel panel02;
+
+    void Activate(object id)
+    {
+        tabs.ActivatePanel(id);
     }
 }
 

@@ -1,8 +1,8 @@
 ﻿@page "/fetchdata"
-@using NytWeb.Data
-@using NytWeb.Models
 @attribute [Authorize(Roles = "Administrator")]
+@using NytWeb.Models
 @inject IUserService UserService
+@inject IPostService PostService
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -39,7 +39,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        posts = await UserService.GetUsersFeedAsync();
+        //posts = await PostService.GetUsersFeedAsync();
         return;
     }
 }

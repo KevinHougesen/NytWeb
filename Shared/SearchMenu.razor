@@ -1,0 +1,54 @@
+@using NytWeb.Authentication
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+@inject IUserService UserService
+
+
+<MudNavMenu>
+    <SearchBar />
+    <MudPaper>
+        <MudButton Variant="Variant.Text">Kevin</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Garlic</MudButton>
+    </MudPaper>
+    <MudPaper>
+        <MudButton Variant="Variant.Text">Default</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Primary</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Secondary">Secondary</MudButton>
+        <MudButton Variant="Variant.Text" Disabled="true">Disabled</MudButton>
+    </MudPaper>
+</MudNavMenu>
+
+
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private MudTheme _theme = new();
+    private bool _isDarkMode;
+
+    bool open = false;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    } 
+    
+    private async Task Logout()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(null);
+        NavigationManager.NavigateTo("/", true);
+    }
+}

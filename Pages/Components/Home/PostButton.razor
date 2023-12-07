@@ -1,0 +1,128 @@
+@using FluentValidation
+@using Severity = MudBlazor.Severity
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+@inject IPostService PostService
+@inject IUserService UserService
+@inject IJSRuntime js
+
+<MudCard Elevation="0" Width="100%">
+    <MudForm Model="@model" @ref="@form" Validation="@(ValidationRules.ValidateValue)" ValidationDelay="0" Width="100%">
+        <MudCardHeader>
+            <CardHeaderAvatar>
+                <MudAvatar>
+                    <MudImage Src="../../Images/pain.png"></MudImage>
+                </MudAvatar>
+            </CardHeaderAvatar>
+        </MudCardHeader>
+        <MudCardContent Width="100%">
+            <MudTextField @bind-Value="model.Content"
+                          For="@(() => model.Content)"
+                          Immediate="true"
+                          Color="Color.Secondary"
+                          Label="Nå... Noget nyt?" />
+            <MudFileUpload T="IBrowserFile" For="@(() => model.File)" Accept=".png, .jpg" @bind-Files="model.File" OnFilesChanged="UploadFiles" >
+                <ButtonTemplate>
+                    <MudFab    HtmlTag="label"
+                               Elevation="0"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               StartIcon="@Icons.Material.Filled.Image"
+                               for="@context.Id">
+                    </MudFab>
+                    
+                </ButtonTemplate>
+            </MudFileUpload>
+            
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" 
+                               Color="Color.Primary" 
+                               Elevation="0" 
+                               StartIcon="@Icons.Material.Filled.Add"
+                               Class="ml-auto" 
+                               OnClick="@(async () => await Submit())">
+                            </MudButton>
+        </MudCardActions>
+    </MudForm>
+</MudCard>
+
+@code
+{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private MudForm form;
+    bool success;
+    private UserModel user;
+    private FileModel model = new();
+    private FileModelFluentValidator ValidationRules = new();
+    private bool SuppressOnChangeWhenInvalid;
+
+    private void UploadFiles(InputFileChangeEventArgs e)
+    {
+        //If SuppressOnChangeWhenInvalid is false, perform your validations here
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+        Snackbar.Add($"This file has the extension {model.File.Name.Split(".").Last()}", Severity.Info);
+
+        //TODO upload the files to the server
+    }
+
+    private async Task Submit()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            var authState = await authenticationState;
+
+            var user = await UserService.GetUserAsync(authState.User.Identity.Name);
+
+            if (model.Content == null)
+            {
+                await js.InvokeVoidAsync("alert", "You cannot post empty.");
+                    return;
+            }
+
+            await PostService.CreatePostAsync(user.Username, model.Content);
+            Console.WriteLine("hmm...");
+            
+            success = true;
+            Console.WriteLine("WTH...");
+            
+            
+        }
+    }
+
+    public class FileModel
+    {
+        public string Content { get; set; }
+        public IBrowserFile File { get; set; }
+    }
+
+    /// <summary>
+    /// A standard AbstractValidator which contains multiple rules and can be shared with the back end API
+    /// </summary>
+    /// <typeparam name="OrderModel"></typeparam>
+    public class FileModelFluentValidator : AbstractValidator<FileModel>
+    {
+        public FileModelFluentValidator()
+        {
+            RuleFor(x => x.Content)
+                .Length(1, 125);
+            RuleFor(x => x.File);
+            When(x => x.File != null, () =>
+            {
+                RuleFor(x => x.File.Size).LessThanOrEqualTo(10485760).WithMessage("The maximum file size is 10 MB");
+            });
+        }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(ValidationContext<FileModel>.CreateWithOptions((FileModel)model, x => x.IncludeProperties(propertyName)));
+            if (result.IsValid)
+                return Array.Empty<string>();
+            return result.Errors.Select(e => e.ErrorMessage);
+        };
+    }
+}

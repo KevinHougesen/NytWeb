@@ -22,6 +22,50 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/kevinhougesen/NytWeb/Pages/Components/Auth/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9BdXRoL0xvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Auth/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9BdXRoL1JlZ2lzdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Home/NetworkTabs.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Ib21lL05ldHdvcmtUYWJzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Home/PostButton.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Ib21lL1Bvc3RCdXR0b24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Home/SearchBar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Ib21lL1NlYXJjaEJhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Home/UserPost.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Ib21lL1VzZXJQb3N0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Posts/LoadedInNetworkFeed.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qb3N0cy9Mb2FkZWRJbk5ldHdvcmtGZWVkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Posts/LoadedOutNetworkFeed.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qb3N0cy9Mb2FkZWRPdXROZXR3b3JrRmVlZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Posts/LoadingPost.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qb3N0cy9Mb2FkaW5nUG9zdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Posts/SinglePost.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qb3N0cy9TaW5nbGVQb3N0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Profile/PostsGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qcm9maWxlL1Bvc3RzR3JpZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/kevinhougesen/NytWeb/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -38,12 +82,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevinhougesen/NytWeb/Pages/Login.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4ucmF6b3I=
+[/Users/kevinhougesen/NytWeb/Pages/ProfileUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZmlsZVVzZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevinhougesen/NytWeb/Pages/Register.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVnaXN0ZXIucmF6b3I=
+[/Users/kevinhougesen/NytWeb/Pages/ProfileView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZmlsZVZpZXcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Shared/SearchMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1NlYXJjaE1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/kevinhougesen/NytWeb/Shared/SurveyPrompt.razor]

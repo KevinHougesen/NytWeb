@@ -1,0 +1,60 @@
+@page "/register"
+@inject IUserService UserService
+@inject IAuthService AuthService
+@inject IJSRuntime js
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+
+<div class="row"> 
+    <div class="item-1">
+        <div class ="mb-3 text-center">
+            <h3 class="modaltext">Opret en ny konto</h3>
+        </div>
+        <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <MudGrid>
+            <MudItem xs="12" sm="7">
+                <MudCard>
+                    <MudCardContent>
+                        <MudTextField Label="Display name" HelperText="Max. 8 characters"
+                                    @bind-Value="model.DisplayName" For="@(() => model.DisplayName)"/>
+                        <MudTextField Label="User name" HelperText="Max. 8 characters"
+                                    @bind-Value="model.Username" For="@(() => model.Username)"/>
+                        <MudTextField Label="Email" Class="mt-3"
+                                    @bind-Value="model.Email" For="@(() => model.Email)"/>
+                        <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                    @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+        </EditForm>
+    </div>
+</div>
+
+@code 
+{
+    
+
+    bool success;
+    
+    private UserModel model = new();
+    private async Task OnValidSubmit()
+    {
+        var userAccount = await UserService.GetUserAsync(model.Username);
+        if (userAccount != null)
+        {
+            await js.InvokeVoidAsync("alert", "Username already taken");
+            return;
+        }
+        
+
+        await AuthService.RegisterAsync(model);
+        success = true;
+        StateHasChanged();
+        NavigationManager.NavigateTo("/", true);
+    }
+}

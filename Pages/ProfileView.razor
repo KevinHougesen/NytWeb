@@ -1,0 +1,21 @@
+@inject IUserService UserService
+@inject IPostService PostService
+@page "/u/{Username}"
+
+<MudPaper Width="100%" Class="flex-none" Elevation="0">
+    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+        <MudPaper Width="100%" Class="flex-none" Elevation="3">
+            <MudGrid Spacing="3" Justify="Justify.Center">
+                <MudItem>
+                    <MudPaper Height="140px" Width="140px"/>
+                </MudItem>
+                <MudItem>
+                    <MudPaper Height="140px" Width="140px"/>
+                </MudItem>
+                <MudItem>
+                    <MudPaper Height="140px" Width="140px" />
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </MudContainer>
+</MudPaper>

@@ -109,6 +109,14 @@
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/images/Pain.png",
+      "PackagePath": "staticwebassets/images/Pain.png"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/images/drnyheder.jpg",
+      "PackagePath": "staticwebassets/images/drnyheder.jpg"
+    },
+    {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.NytWeb.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

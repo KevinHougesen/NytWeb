@@ -1,19 +1,18 @@
 using NytWeb.Models;
-using NytWeb.Services;
 
 namespace NytWeb.Services
 {
     public interface IUserService
     {
-        Task<UserModel> AddUser(UserModel user);
-        Task<List<UserModel>> GetUsersAsync();
-
-        Task<List<PostModel>> GetUsersFeedAsync();
-
         Task<UserModel> GetUserAsync(string User);
 
-        Task<UserModel> LoginAsync(string Email, string Password);
+        Task<List<UserModel>> GetUsersAsync();
 
-        Task<List<PostModel>> DisplayFeedAsync(string userId);
+        Task<List<string>> GetUserFollowersAsync(string userId);
+
+        Task<List<string>> GetUserFollowingAsync(string userId);
+
+        Task<List<UserModel>> FollowUserAsync(string userId, string toFollow);
+
     }
 }

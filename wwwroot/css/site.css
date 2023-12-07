@@ -35,6 +35,13 @@ html, body {
     background-color:#fff;
 }
 
+.nav-border {
+    border-top-left-radius: 32px; 
+    border-top-right-radius: 32px; 
+    border-bottom-left-radius: 32px; 
+    border-bottom-right-radius: 32px;
+}
+
 .content-body {
     background-color: #fff;
     display: flex;
@@ -54,8 +61,9 @@ html, body {
 .sitetitle {
     font-family: 'Lobster';
     font-size: 18rem;
+    color: red;
+    -webkit-text-fill-color: red;
     paint-order: stroke fill;
-    -webkit-text-fill-color: #FF102C;
     -webkit-text-stroke-width: 4rem;
     -webkit-text-stroke-color: white;
 }
@@ -65,9 +73,29 @@ html, body {
     font-size: 8rem;
     align-self:center;
     paint-order: stroke fill;
+}
+
+.navmenumargin{
+    margin-left: 15rem;
+}
+
+.appbar {
+    font-family: 'Lobster';
+    font-size: 1.8rem;
+    align-self:center;
+    paint-order: stroke fill;
     -webkit-text-fill-color: #FF102C;
-    -webkit-text-stroke-width: 1.8rem;
     -webkit-text-stroke-color: white;
+}
+
+.network {
+    font-family: 'DRPublikSemiBold';
+    font-size: 1rem;
+    align-self:center;
+    paint-order: stroke fill;
+    -webkit-text-fill-color: #ff324a;
+    -webkit-text-stroke-width: .3rem;
+    -webkit-text-stroke-color: white;   
 }
 
 .custom-modal-overlay {
@@ -146,15 +174,12 @@ html, body {
 .container-main {
     display: flex;
     flex-flow: row nowrap;
-    justify-content:end; 
-    align-content: end; 
-    align-items: end; 
+    width: 75%;
 }
 
 .container-user-post {
     display: flex;
     flex-flow: column nowrap;
-    width: 100%;
 }
 
 .container-post {
@@ -164,12 +189,16 @@ html, body {
     padding-top: 2.5%;
 }
 
+.container-feed {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+    padding-top: 2.5%;
+}
+
 .container-user-post-content {
     display: flex;
     flex-flow: row nowrap;
-    justify-content:end; 
-    align-content: end; 
-    align-items: end; 
     gap:1.5rem;
 }
 
@@ -197,17 +226,16 @@ html, body {
 .container-middle {
     display: flex;
     flex-flow: column nowrap;
+    width: 75%;
     justify-content:end; 
     align-content: end; 
     align-items: end; 
     gap:1.5rem;
-    border-left: 1px solid #e6e6e6;
-    border-right: 1px solid #e6e6e6;
 }
 
 .container-mid-top {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     justify-content:end; 
     align-content: end; 
     align-items:baseline; 
@@ -481,7 +509,7 @@ a, .btn-link {
 
 @media(max-width: 720px) {
     .container-main {
-        width: 100%;
+        width: 50%;
     }
     .container-middle {
         width: calc(520px - 12.5rem);
@@ -491,9 +519,6 @@ a, .btn-link {
 @media (min-width: 1080px) {
     .container-4{
         display: none;
-    }
-    .container-main {
-        margin-left: 8rem;
     }
 }
 
@@ -508,8 +533,7 @@ a, .btn-link {
         font-size: 1rem;
     }
     .container-main {
-        width: 20px;
-        
+        width: 200px;   
     }
     .container-middle {
         width: calc(720px - 12.5rem);

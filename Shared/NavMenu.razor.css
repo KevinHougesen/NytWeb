@@ -12,6 +12,11 @@
     background-color: rgb(255, 255, 255);
 }
 
+.navmenumargin{
+    margin-left: 15rem;
+    gap:2rem;
+}
+
 .navbar-brand {
     font-size: 2rem;
     font-family: 'Lobster';
@@ -26,15 +31,26 @@
 
 
 .oi {
-    width: 2rem;
-    font-size: 1.1rem;
+    width: 2.2rem;
+    font-size: 2rem;
     vertical-align: text-top;
     top: -2px;
+}
+
+.nav-border {
+    border-top-left-radius: 32px; 
+    border-top-right-radius: 32px; 
+    border-bottom-left-radius: 32px; 
+    border-bottom-right-radius: 32px;
 }
 
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
+    border-top-left-radius: 32px; 
+    border-top-right-radius: 32px; 
+    border-bottom-left-radius: 32px; 
+    border-bottom-right-radius: 32px;
 }
 
     .nav-item:first-of-type {

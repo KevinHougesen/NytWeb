@@ -1,0 +1,34 @@
+@inject NavigationManager NavigationManager
+@inject IPostService PostService
+@inject IUserService UserService
+@inject IJSRuntime js
+
+@using Severity = MudBlazor.Severity
+@inject ISnackbar Snackbar
+
+<MudPaper Elevation="0" Width="100%">
+    <MudCard Elevation="0" Width="100%">
+        <PostButton />
+    </MudCard>
+</MudPaper>
+
+            
+
+
+
+
+@code 
+{
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private IEnumerable<string> MaxCharacters(string ch)
+    {
+        if (!string.IsNullOrEmpty(ch) && 125 < ch?.Length)
+            yield return "Max 125 characters";
+    }
+    
+
+    
+}

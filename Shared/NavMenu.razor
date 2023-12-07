@@ -5,58 +5,23 @@
 @inject IJSRuntime js
 @inject IUserService UserService
 
-<div style="background-color:white;" class="top-row ps-3 navbar">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Nyt!</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All" style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px; border-bottom-right-radius: 32px">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
 
-        <AuthorizeView Roles="Administrator, User">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="counter" style="border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-left-radius: 32px"><span class="oi oi-list-rich" aria-hidden="true"></span>
-                    
-                        
-                                                Counter
-                                                
-</NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
 
-        <AuthorizeView Roles="Administrator, User">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="fetchdata" style="border-radius: 32px">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span>
-                        FetchDta
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                            <NavLink class="nav-link" href="javascript:void(0)">
-                                <span class="oi oi-list-rich" @onclick="Logout" aria-hidden="true"></span>
-                                Logout
-                            </NavLink>
-                        </div>
-                    <div class="nav-item px-3" style="border-radius: 32px">
-                    <span class="oi oi-list-rich" aria-hidden="true">Hello, @context.User.Identity.Name!</span>
-                    </div>
-            </Authorized>
-        </AuthorizeView>
-    </nav>
-</div>
-
+    <MudPaper Height="40px" Elevation="0"/>
+    <h1 class="appbar">Nyt!</h1>
+    <MudPaper Height="40px" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Home" Size="Size.Large" Color="Color.Secondary" Label="Hjem" Width="124px" />
+    <MudPaper Height="40px" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Color="Color.Secondary" Label="Søg Nyt" Width="124px"/>
+    <MudPaper Height="40px" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.MailOutline" Size="Size.Large" Color="Color.Secondary" Label="Beskeder" />
+    <MudPaper Height="40px" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Bookmark"  Color="Color.Secondary" Label="Bogmærker" />
+    <MudPaper Height="40px" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Bookmark" Color="Color.Secondary" Label="Bookmark" />
+    <MudPaper Height="40px" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Bookmark" Color="Color.Secondary" Label="Bookmark" />
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -69,6 +34,16 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    private MudTheme _theme = new();
+    private bool _isDarkMode;
+
+    bool open = false;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    } 
     
     private async Task Logout()
     {
@@ -76,4 +51,8 @@
         await customAuthStateProvider.UpdateAuthenticationState(null);
         NavigationManager.NavigateTo("/", true);
     }
+}
+
+@code {
+    private MudTheme Theme = new MudTheme();
 }

@@ -1,42 +1,96 @@
 ﻿@using NytWeb.Authentication
+@using NytWeb.Pages
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager NavigationManager
 
+
 <PageTitle>NytWeb</PageTitle>
 
-<div class="page">
-    <AuthorizeView>
-        <Authorized>
-                <div style="background-color:white;" class="sidebar">
-                    <NavMenu />
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+        <MudLayout>
+            <AuthorizeView>
+                <Authorized>
+                    <MudDrawer @bind-Open="@open" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
+                        <MudPaper Height="100%" Style="margin-left: 1.75rem;" Elevation="0">
+                            <NavMenu/>
+                            <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Toggle Light/Dark Mode"/>
+                        </MudPaper>
+                    </MudDrawer>
+                    <MudMainContent>
+                        @Body
+                    </MudMainContent>
+                </Authorized>
+            </AuthorizeView>
+
+            <AuthorizeView>
+                <NotAuthorized>
+                <div class="page">
+                    <main style="background-color:red;">
+                        <article class="content px-4" style="background-color:red;">
+                            @Body
+                            
+                        </article>
+                    </main>
                 </div>
-        </Authorized>
-    </AuthorizeView>
-    <AuthorizeView>
-        <Authorized>
-    <main style="background-color:white;">
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-        </Authorized>
-    </AuthorizeView>
-
-    <AuthorizeView>
-        <NotAuthorized>
-        <main style="background-color:red;">
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-        </NotAuthorized>
-    </AuthorizeView>
-</div>
+                </NotAuthorized>
+            </AuthorizeView>
+        </MudLayout>
 
 @code
 {
+    private MudTheme _theme = new MudTheme()
+    {
+        Palette = new PaletteLight()
+        {
+            Primary = "#FF102C",
+            Secondary = Colors.Shades.White,
+            AppbarBackground = Colors.Shades.White,
+            Background = Colors.Shades.White,
+            Surface = Colors.Shades.White,
+            DrawerBackground = Colors.Shades.White,
+            SecondaryContrastText = "#050505",
+            TextSecondary = Colors.Shades.White,
+            TableStriped = Colors.Shades.White,
+            SecondaryDarken = "#FF102C",
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#FF102C",
+            Surface = "#050505",
+            Secondary = "#050505",
+            AppbarBackground = "#050505",
+            Background = "#050505",
+            DrawerBackground = "#050505",
+            DarkLighten = Colors.Shades.White,
+            DarkContrastText = Colors.Shades.White,
+            PrimaryContrastText = Colors.Shades.White,
+            GrayDarker = Colors.Shades.White,
+            GrayDark = Colors.Shades.White,
+            GrayLighter = Colors.Shades.White,
+            GrayLight = Colors.Shades.White,
+            SecondaryContrastText = Colors.Shades.White,
+            SecondaryDarken = "#FF102C",
+            
+        },
+
+        LayoutProperties = new LayoutProperties()
+        {
+            DrawerWidthLeft = "200px",
+        }
+    };
+    
+    private bool _isDarkMode;
+
+    bool open = true;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    } 
+
 
 }

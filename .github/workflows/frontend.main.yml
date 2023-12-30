@@ -12,16 +12,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CRESIDENTIALS }}
+      - name: "Checkout Github Action"
+        uses: actions/checkout@main
 
-      # Setup .NET Core SDK
-      - name: Setup .NET Core
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup DotNet ${{ env.DOTNET_VERSION  }} Environment
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_VERSION}}
 
       # Run dotnet build and publish
       - name: dotnet build and publish

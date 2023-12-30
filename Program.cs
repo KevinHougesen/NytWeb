@@ -4,46 +4,37 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using NytWeb.Services;
 using Blazored.Modal;
 using MudBlazor.Services;
-using Neo4j.Driver;
-using InstagramApiSharp.Helpers;
-
-
+using Microsoft.AspNetCore.ResponseCompression;
+using BlazorSignalRApp.Hubs;
+using Azure.Storage.Blobs;
 
 internal class Program
 {
     static readonly HttpClient client = new HttpClient();
 
-
     private static async Task Main(string[] args)
     {
 
         var builder = WebApplication.CreateBuilder(args);
+        var BlobKey = NytWeb.Config.UnpackBlobConfig();
 
-        builder.Services.AddSingleton(client);
-
-        builder.Services.AddSingleton(GraphDatabase.Driver(
-            builder.Configuration.GetConnectionString("NEO4J_URI"),
-            AuthTokens.Basic(
-                builder.Configuration.GetConnectionString("NEO4J_USER"),
-                builder.Configuration.GetConnectionString("NEO4J_PASSWORD")
-            )
-        ));
-
-
-
-        // Add services to the container.
         builder.Services.AddAuthenticationCore();
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
-        builder.Services.AddScoped<ProtectedSessionStorage>();
         builder.Services.AddBlazoredModal();
         builder.Services.AddMudServices();
+        builder.Services.AddSingleton(client);
+        builder.Services.AddScoped<ProtectedSessionStorage>();
         builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IBlobService, BlobService>();
         builder.Services.AddScoped<IPostService, PostService>();
-
-
-
+        builder.Services.AddSingleton(x => new BlobServiceClient(BlobKey));
+        builder.Services.AddResponseCompression(opts =>
+        {
+            opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                new[] { "application/octet-stream" });
+        });
 
         var app = builder.Build();
 
@@ -55,6 +46,8 @@ internal class Program
             app.UseHsts();
         }
 
+        app.UseResponseCompression();
+
         app.UseHttpsRedirection();
 
         app.UseStaticFiles();
@@ -62,12 +55,12 @@ internal class Program
         app.UseRouting();
 
         app.MapBlazorHub();
+        app.MapHub<ChatHub>("/chathub");
+        app.MapHub<PostHub>("/posthub");
         app.MapFallbackToPage("/_Host");
 
         app.Run();
 
     }
-
-
 
 }

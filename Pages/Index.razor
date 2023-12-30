@@ -3,96 +3,86 @@
 @inject IJSRuntime js
 @inject IUserService UserService
 @inject IModalService modal
+@inject IDialogService DialogService
+@attribute [Authorize(Roles = "Administrator, User")]
 
 
 
-<PageTitle>Nyt!</PageTitle>
-
-    <AuthorizeView>
-
-        <NotAuthorized>
-
-
-                <div class="row">
-
-                        <div>
-                            <h1 class="sitetitle">Nyt!</h1>
-                        </div>
+<PageTitle>Dit / Nyt!</PageTitle>
 
 
 
-                        <div class="container container-4">
-                            <div class="item item-1">
-                                <h1 class="mobiletitle">Nyt!</h1>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <h1 class="mainslogan">Noget nyt?</h1>
-                            <h1 class="secondslogan">Tilmed dig i dag.</h1>
-                        </div>
-                        <div class="col">
-                            <div class="item item-3">
-                                <button @onclick="ShowRegisterModal" class="btn btn-primary">Tilmeld via Google</button>
-                            </div>  
-                            <div class="item item-4">
-                                <button @onclick="ShowRegisterModal" class="btn btn-primary">Tilmeld via Apple</button>
-                            </div>  
-                            <div class="item item-5">
-                                <button @onclick="ShowRegisterModal" class="btn btn-secondary">Opret konto</button>
-                            </div>  
-                            <div class="item item-6">
-                                <button @onclick="ShowLoginModal" class="btn btn-rare">Login</button>
-                            </div>  
-                        </div>
 
-                </div>
+<AuthorizeView>
+    <Authorized>
 
+        <MudAppBar Elevation="0"  Square="true" Width="100%">
+            <MudPaper Width="100%" Class="flex-none" Elevation="0">
+                <MudContainer Height="100%" MaxWidth="MaxWidth.Small" Width="100%">
+                    <MudTabs Elevation="0"  Rounded="true" Centered="true" Width="100%">
+                        <MudTabPanel Color="Color.Primary" Text="Dit Nyt" OnClick='() => Activate("pn_one")'>
+                        </MudTabPanel>
+                        <MudTabPanel Text="Lokalt Nyt" Color="@Color.Primary" OnClick='() => Activate("pn_two")'>
+                        </MudTabPanel>
+                    </MudTabs>
+                </MudContainer>
+            </MudPaper>
+        </MudAppBar>
 
-        </NotAuthorized>
-    </AuthorizeView>
-    
-    <AuthorizeView>
-        <Authorized>
-            <MudAppBar Color="Color.Secondary" Elevation="0"  Square="true" Width="100%">
-                <MudPaper Width="100%" Class="flex-none" Elevation="0">
-                    <MudContainer Height="100%" MaxWidth="MaxWidth.Small" Width="100%">
-                        <MudTabs Elevation="0"  Rounded="true" Centered="true" Width="100%">
-                            <MudTabPanel Color="Color.Primary" Text="Dit Nyt" OnClick='() => Activate("pn_one")'>
-                            </MudTabPanel>
-                            <MudTabPanel Text="Dit Nyt" Color="@Color.Primary" OnClick='() => Activate("pn_two")'>
-                            </MudTabPanel>
-                        </MudTabs>
-                    </MudContainer>
-                </MudPaper>
-            </MudAppBar>
+            <MudPaper Width="100%" Color="Color.Secondary" Class="flex-none" Elevation="0">
+                <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+                    <MudTabs Position="Position.Bottom" Elevation="0" Rounded="true" Centered="true" Color="@Color.Secondary" @ref="tabs">
+                                    
+                        <MudTabPanel Text="" @ref="panel01" Height="100%" ID="@("pn_one")" >
 
-                
-
-                <MudPaper Width="100%" Class="flex-none" Elevation="0">
-                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
-
-                        <MudTabs Position="Position.Bottom" Elevation="0" Rounded="true" Centered="true" Color="@Color.Secondary" @ref="tabs">
-                                        
-                            <MudTabPanel Text="" @ref="panel01" Height="100%" ID="@("pn_one")" >
-                                <UserPost/>
-                                            
-                                <LoadedInNetworkFeed />
-                            </MudTabPanel>
-
-                            <MudTabPanel Color="@Color.Primary" ApplyEffectsToContainer="true" Text="" @ref="panel02" ID="@("pn_two")">
-                                <UserPost/>
-                                <LoadedOutNetworkFeed />
-                            </MudTabPanel>
-
-                        </MudTabs>
-
-                    </MudContainer>
-                </MudPaper>
+                            <LoadedInNetworkFeed />
+                        </MudTabPanel>
+                        <MudTabPanel Color="@Color.Primary" ApplyEffectsToContainer="true" Text="" @ref="panel02" ID="@("pn_two")">
+                            <LoadedOutNetworkFeed />
+                        
+                        </MudTabPanel>
+                    </MudTabs>
+                </MudContainer>
+            </MudPaper>
             
-        </Authorized>
-    </AuthorizeView>
+        
+    </Authorized>
+
+    <NotAuthorized>
+            <MudPaper Height="960px" style="background-color:#F5001D;" Class="d-flex align-content-center justify-center flex-wrap flex-grow-1 gap-4">        
+                <MudGrid Spacing="4" Justify="Justify.Center">
+                    <MudItem xs="12" sm="6" md="4">
+                        <MudText style="color:white; 
+                            -webkit-text-fill-color: white;
+                            paint-order: stroke fill;
+                            -webkit-text-stroke-width: 1rem;
+                            -webkit-text-stroke-color: black;" Typo="Typo.h1" Align="Align.Center">Nyt!</MudText>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6" md="4">
+
+                            <MudStack>
+                                <MudText Typo="Typo.h2" Align="Align.Center">Brug for noget nyt?</MudText>
+                                <MudText Typo="Typo.h2" Align="Align.Center">Find det her!</MudText>
+                                <MudButton Variant="Variant.Filled">Login med Fb</MudButton>
+                                <MudButton Variant="Variant.Filled">Login med Google</MudButton>
+                                <MudButton Variant="Variant.Filled">Register</MudButton>
+                                <MudButton @onclick="@(async () => OpenLogin() )" Variant="Variant.Filled">Login</MudButton>
+                            </MudStack>
+
+                    </MudItem>
+                    
+                </MudGrid>
+            </MudPaper>
+    </NotAuthorized>
+</AuthorizeView>
+
 @code
 {
+
+    private bool dataLoaded = false;
+
+
     [CascadingParameter] IModalService Modal { get; set; } = default!;
 
     private async Task ShowRegisterModal()
@@ -113,6 +103,12 @@
         {
             Console.WriteLine("Modal was closed");
         }
+    }
+
+    private void OpenLogin()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<Login>("", options);
     }
     
     

@@ -1,57 +1,204 @@
 @inject IUserService UserService
 @inject IPostService PostService
 @inject NavigationManager NavigationManager
+@inject IModalService modal
+@inject IDialogService DialogService
+@using Microsoft.AspNetCore.SignalR.Client
+
 
 @if (user == null)
 {
-    <LoadingPost />
-    <LoadingPost />
-    <LoadingPost />
+    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+        <MudStack Spacing="8">
+            <LoadingPost />
+            <LoadingPost />
+        </MudStack>
+    </MudContainer>
 }
 else
 {
     @if (posts == null)
     {
-        <LoadingPost />
-        <LoadingPost />
-        <LoadingPost />
+        <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+            <MudStack Spacing="8">
+                <LoadingPost />
+                <LoadingPost />
+            </MudStack>
+        </MudContainer>
     }
     else
     {
         @foreach (var post in posts)
         {
-            <MudDivider />
-            <MudCard Width="100%" Height="100%" Color="Color.Background" Elevation="0" >
-                
+
+            <MudPaper Width="100%" Class="flex-none" Elevation="0">
+            <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+            
+                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" >
                     <MudCardHeader>
-                        <CardHeaderAvatar>
-                            <MudAvatar>
-                                <MudImage Src="../../Images/pain.png"></MudImage>
-                            </MudAvatar>
-                        </CardHeaderAvatar>
-                        <CardHeaderContent>
-                            <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
-                                <MudText Typo="Typo.body1">@post.DisplayName &nbsp;</MudText>
-                            </MudBadge>
-                            <MudText Typo="Typo.body2">&#64;@post.Username</MudText>
-                        </CardHeaderContent>
+
+                                <CardHeaderAvatar>
+
+                                        <MudTooltip Delay="200" Color="Color.Transparent">
+                                            <ChildContent>
+                                                <MudAvatar MudBlazor.Size="Size.Medium" Image="../../Images/pain.png" />
+
+                                            </ChildContent>
+                                            <TooltipContent>
+
+
+                                                    <MudAvatar Style="height:240px; width:240px;" Image="../../Images/pain.png" />
+
+                                            </TooltipContent>
+                                        </MudTooltip>
+
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+
+                                        
+
+                                                <MudTooltip Delay="200" Color="Color.Secondary" Arrow="true" MudBlazor.Placement="Placement.Right">
+                                                    <ChildContent>
+                                                        <MudIconButton Color="Color.Tertiary" Edge="Edge.False" Variant="Variant.Text" OnClick="@(async () => GoToProfile(post.PostCreatorUsername))">
+                                                            <MudStack Justify="Justify.Center" Spacing="0">
+                                                                <b>@post.PostCreatorDisplayName</b>
+                                                                &#64;@post.PostCreatorUsername
+                                                            </MudStack>
+                                                        </MudIconButton>
+
+                                                    </ChildContent>
+                                                    <TooltipContent>
+                                                        <MudCard Width="100%" Height="100%" Elevation="0" >
+                                                            <MudCardHeader>
+                                                                <CardHeaderAvatar>
+                                                                    <MudAvatar>
+                                                                        <MudImage Src="../../Images/pain.png"></MudImage>
+                                                                    </MudAvatar>
+                                                                </CardHeaderAvatar>
+                                                                <CardHeaderContent>
+                                                                    <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
+                                                                        <MudText Typo="Typo.body1">@post.PostCreatorDisplayName &nbsp;</MudText>
+                                                                    </MudBadge>
+                                                                    <MudText Typo="Typo.body2">&#64;@post.PostCreatorUsername</MudText>
+                                                                    <MudText Typo="Typo.body2">The moon reflects your explicit beauty🌒<br/>And if you die.. I want to die with you &#64;dead.pretty_222❤️‍🔥<br/>Creative Director &#64;a1media.dk </MudText>
+                                                                </CardHeaderContent>
+                                                            </MudCardHeader>
+                                                        </MudCard>
+                                                    </TooltipContent>
+                                                </MudTooltip>
+                                                <MudIcon Icon="@Icons.Material.Filled.Verified" MudBlazor.Size="Size.Small" Color="Color.Primary" Title="Verified User" /> 
+                                                &nbsp;
+
+                                        
+
+
+                                </CardHeaderContent>
                         <CardHeaderActions>
-                            <MudIconButton Icon="@Icons.Material.Filled.MoreVert"  Color="Color.Default" />
+
+                                    
+                                <MudToggleIconButton 
+                                    Toggled="@Follows" 
+                                    ToggledChanged="@(toggled => OnFollowChanged(post.PostCreatorUsername, toggled))"
+                                    Icon="@Icons.Material.Filled.AddCircleOutline" 
+                                    Color="@Color.Secondary" 
+                                    Variant="Variant.Filled" 
+                                    Title="Følg" 
+                                    ToggledIcon="@Icons.Material.Filled.CheckCircle" 
+                                    ToggledColor="@Color.Primary" 
+                                    ToggledTitle="Følger" />
+                                
+                                    
+                            <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" />
                         </CardHeaderActions>
                     </MudCardHeader>
-                    <MudCardMedia ObjectFit="ObjectFit.Contain" Height="640" Image="../../Images/pain.png" />
-                    <MudButton OnClick="@(async () => await GoToPost(@post.Id))" Color="Color.Default">
-                    <MudCardContent>
-                        <MudText Typo="Typo.body2">@post.Content</MudText>
-                    </MudCardContent>
-                    </MudButton>
+                        @if (!string.IsNullOrEmpty(post.Post.PicturePath))
+                        {
+                            <MudCardMedia ObjectFit="ObjectFit.Contain" Height="640" Image="@post.Post.PicturePath" />
+                            @if (!string.IsNullOrEmpty(post.Post.Content))
+                            {
+                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    <b>@post.PostCreatorUsername</b> 
+                                </MudText>
+                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    @{
+                                        var displayContent = showFullContent || post.Post.Content.Length <= 200
+                                            ? post.Post.Content
+                                            : post.Post.Content.Substring(0, 200) + "... ";
+                                        @displayContent
+                                    }
+
+                                    @if (post.Post.Content.Length > 200)
+                                    {
+                                        <span @onclick="ToggleContent">@GetReadMoreText()</span>
+                                    }
+                                </MudText>
+
+                                
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.body2"></MudText>
+                            }
+                        }
+                        else
+                        {
+                            @if (!string.IsNullOrEmpty(post.Post.Content))
+                            {
+                                <MudSpacer />
+                                @if (!string.IsNullOrEmpty(post.Post.Content))
+                                {
+                                    <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    @{
+                                        var displayContent = showFullContent || post.Post.Content.Length <= 200 
+                                            ? post.Post.Content 
+                                            : post.Post.Content.Substring(0, 200) + "... ";
+
+                                        @displayContent
+                                    }
+                                    @if (post.Post.Content.Length > 200)
+                                    {
+                                        <span @onclick="ToggleContent">@GetReadMoreText()</span> 
+                                    }
+
+                                    </MudText>
+                                }
+                            }
+                        }
+  
                     <MudCardActions>
-                        <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
-                        <MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
+
+                        <MudText Typo="Typo.body2">@post.LikedBy.Count()</MudText>
+                                <MudToggleIconButton 
+                                    Toggled="@post.LikedBy.Contains(Username)" 
+                                    ToggledChanged="@(toggled => OnToggledChanged(post, toggled))"
+                                    Icon="@Icons.Material.Filled.FavoriteBorder" 
+                                    Color="@Color.Primary" 
+                                    Title="Like" 
+                                    ToggledIcon="@Icons.Material.Outlined.Favorite" 
+                                    ToggledColor="@Color.Primary" 
+                                    ToggledTitle="Liked" /> &nbsp; &nbsp; &nbsp; &nbsp;
+
+                        <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
+                        <MudToggleIconButton 
+                                    Toggled="@post.RepostedBy.Contains(Username)" 
+                                    ToggledChanged="@(toggled => OnRepostedChanged(post, toggled))"
+                                    Icon="@Icons.Material.Outlined.Repeat" 
+                                    Color="@Color.Default" 
+                                    Title="Like" 
+                                    ToggledIcon="@Icons.Material.Outlined.Repeat" 
+                                    ToggledColor="@Color.Warning" 
+                                    ToggledTitle="Reposted" /> &nbsp; &nbsp; &nbsp; &nbsp;
+
+                        <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
+                        <MudIconButton Icon="@Icons.Material.Outlined.Comment" OnClick="@((e) => OpenPost(post.Post.Id))" Color="Color.Info" /> &nbsp; &nbsp; &nbsp; &nbsp;
+
                     </MudCardActions>
-                
-            </MudCard>
-            <MudSpacer />
+                </MudCard>
+            </MudContainer>
+            <MudDivider />
+        </MudPaper>
+        <MudSpacer />
+        
         }
     }
 }
@@ -61,37 +208,341 @@ else
 {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+
+    [CascadingParameter] 
+    IModalService Modal { get; set; } = default!;
+
+    async Task OpenPost(string postId)
+    {
+        var parameters = new DialogParameters<SinglePost> { { SinglePost => SinglePost.PostId, postId } };
+
+        var dialog = await DialogService.ShowAsync<SinglePost>("", parameters);
+        var result = await dialog.Result;
+    }
+
+    async Task ShowPostModal(string postid)
+    {
+        var parameters = new ModalParameters
+        {
+            { nameof(SinglePost.PostId), postid }
+        };
+
+        var options = new ModalOptions() 
+        { 
+            UseCustomLayout = true,
+
+            AnimationType = ModalAnimationType.FadeInOut
+        };
+
+        Modal.Show<SinglePost>("Passing Data", parameters, options);
+
+    }
+
+    private bool showFullContent;
+    
+
+    string postId;
+
+    private void ToggleContent()
+    {
+        showFullContent = !showFullContent;
+    }
+
+    private string GetReadMoreText()
+    {
+        return showFullContent ? "Læs mindre" : "Læs mere";
+    }
+
+
+
     
     private UserModel user;
 
+    private HubConnection? hubConnection;
+
     
-    private List<PostModel> posts;
+
+    
+    private List<PostDetails> posts;
+
+    private List<string> Following;
+
+    private string Username;
+    public bool Liked { get; set; }
+    public bool Follows { get; set; }
+
+    private int Likes;
+
+    private int Shares;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
+        // Initialize the HubConnection
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/posthub"))
+            .WithAutomaticReconnect()
+            .Build();
 
-        user = await UserService.GetUserAsync(authState.User.Identity.Name);
-        //user = users.FirstOrDefault(i => i.Id == );
-
-        if (user == null)
+        // Subscribe to the hub method here
+        hubConnection.On<string>("NewPostAvailable", async (PostId) =>
         {
-            Console.WriteLine("Has either not logged or not been authenticated yet.");
-            return;
+            Console.WriteLine("==????=");
+            await UpdateFeedWithNewPost(PostId);
+        });
+
+        hubConnection.On<string, bool>("PostLiked", (postId, liked) =>
+        {
+            // Handle the post like update here
+            // For example, updating the UI based on postId and liked status
+            UpdatePostLikeStatus(postId, liked);
+        });
+
+        hubConnection.On<string, bool>("PostReposted", (postId, repost) =>
+        {
+            // Handle the post like update here
+            // For example, updating the UI based on postId and liked status
+            UpdatePostRepostStatus(postId, repost);
+        });
+
+        hubConnection.On<string, bool>("NewFollower", (userId, follow) =>
+        {
+            // Handle the post like update here
+            // For example, updating the UI based on postId and liked status
+            UpdateNewFollowerStatus(userId, follow);
+        });
+
+        await hubConnection.StartAsync();
+
+        var authState = await authenticationState;
+        user = await UserService.GetUserAsync(authState.User.Identity.Name);
+        Username = user.Username;
+
+        if (user != null)
+        {
+            posts = await PostService.DisplayFeedAsync(user.Username);
+
+            Following = await UserService.GetUserFollowingAsync(user.Username);
+            
+   
+
+
+            // Join groups after the connection is established
+            var userCommunities = await UserService.GetUserCommunitiesAsync(authState.User.Identity.Name);
+            foreach (var community in userCommunities)
+            {
+                await hubConnection.InvokeAsync("JoinGroup", community);
+            }
+        }
+    }
+
+
+    private void OnPostLiked(string postId, bool liked)
+    {
+        var post = posts.FirstOrDefault(p => p.Post.Id == postId);
+        if (post != null)
+        {
+            if (liked && !post.LikedBy.Contains(Username))
+            {
+                post.LikedBy.Add(Username);
+            }
+            else if (!liked && post.LikedBy.Contains(Username))
+            {
+                post.LikedBy.Remove(Username);
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    public async Task OnToggledChanged(PostDetails post, bool toggled)
+    {
+        Console.WriteLine("OnToggledChanged called: " + toggled);
+        if (toggled)
+        {
+            if (!post.LikedBy.Contains(Username))
+            {
+                post.LikedBy.Add(Username);
+                await LikePost(post.Post.Id, true);
+            }
         }
         else
         {
-            Console.WriteLine("Retrieving feed.");
+            if (post.LikedBy.Contains(Username))
+            {
+                post.LikedBy.Remove(Username);
+                await LikePost(post.Post.Id, false);
+            }
         }
 
-        posts = await PostService.DisplayFeedAsync(user.Username);
+        StateHasChanged();
+    }
 
-        return;
+    public async Task OnRepostedChanged(PostDetails post, bool toggled)
+    {
+        Console.WriteLine("OnToggledChanged called: " + toggled);
+        if (toggled)
+        {
+            if (!post.RepostedBy.Contains(Username))
+            {
+                post.RepostedBy.Add(Username);
+                await RepostPost(post.Post.Id, true);
+            }
+        }
+        else
+        {
+            if (post.RepostedBy.Contains(Username))
+            {
+                post.RepostedBy.Remove(Username);
+                await RepostPost(post.Post.Id, false);
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    public async Task OnFollowChanged(string user, bool toggled)
+    {
+        
+        {
+            if (!Following.Contains(user))
+            {
+                Following.Add(user);
+                Follows = Following.Contains(user);
+                await FollowUser(user, true);
+            }
+            else
+            {
+                Following.Remove(user);
+                Follows = Following.Contains(user);
+                await FollowUser(user, false);
+            }
+
+            // Invoke state change to refresh the UI
+            InvokeAsync(StateHasChanged);
+        }
+
+        StateHasChanged();
+    }
+
+
+    private async Task LikePost(string postId, bool like)
+    {
+        Console.WriteLine($"Calling LikePost service: PostId = {postId}, Like = {like}");
+        var likeStatusChanged = await PostService.OnLikePost(Username, postId);
+        Console.WriteLine($"Like status changed: {likeStatusChanged}");
+
+        // Notify others via SignalR (this should be done on the server after confirming the like/unlike operation)
+        await hubConnection.SendAsync("NotifyPostLiked", postId, likeStatusChanged);
+    }
+
+    private async Task RepostPost(string postId, bool repost)
+    {
+        Console.WriteLine($"Calling LikePost service: PostId = {postId}, Repost = {repost}");
+        var repostStatusChanged = await PostService.OnSharePost(Username, postId);
+        Console.WriteLine($"Repost status changed: {repostStatusChanged}");
+
+        // Notify others via SignalR (this should be done on the server after confirming the like/unlike operation)
+        await hubConnection.SendAsync("NotifyPostReposted", postId, repostStatusChanged);
+    }
+
+    private async Task FollowUser(string userId, bool follow)
+    {
+        Console.WriteLine($"Calling LikePost service: UserId = {userId}, follow = {follow}");
+        var followStatusChanged = await UserService.FollowUserAsync(Username, userId);
+        Console.WriteLine($"Follow status changed: {followStatusChanged}");
+
+        // Notify others via SignalR (this should be done on the server after confirming the like/unlike operation)
+        await hubConnection.SendAsync("NotifyNewFollower", userId, follow);
+    }
+
+   
+
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+    private void UpdatePostLikeStatus(string postId, bool liked)
+    {
+        // Find the post in the posts list and update its like status
+        var post = posts.FirstOrDefault(p => p.Post.Id == postId);
+        if (post != null)
+        {
+            if (liked && !post.LikedBy.Contains(Username))
+                post.LikedBy.Add(Username);
+            else if (!liked)
+                post.LikedBy.Remove(Username);
+
+            // Invoke state change to refresh the UI
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void UpdatePostRepostStatus(string postId, bool repost)
+    {
+        // Find the post in the posts list and update its like status
+        var post = posts.FirstOrDefault(p => p.Post.Id == postId);
+        if (post != null)
+        {
+            if (repost && !post.RepostedBy.Contains(Username))
+                post.RepostedBy.Add(Username);
+            else if (!repost)
+                post.RepostedBy.Remove(Username);
+
+            // Invoke state change to refresh the UI
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+
+    private async Task UpdateFeedWithNewPost(string PostId)
+    {
+        Console.WriteLine("===" + PostId);
+        var newPost = await PostService.GetPostByIdAsync(PostId);
+        Console.WriteLine(newPost.PostCreatorUsername);
+        Console.WriteLine(newPost.Post.Content);
+        if (newPost != null)
+        {
+            posts.Insert(0, newPost);
+            Console.WriteLine(newPost.Post.Content);
+            InvokeAsync(StateHasChanged);
+            //StateHasChanged();
+        }
+    }
+
+    private async Task UpdateNewFollowerStatus(string userId, bool follow)
+    {
+        // Find the post in the posts list and update its like status
+        var user = userId;
+        if (user != null)
+        {
+            if (follow && !Following.Contains(userId))
+                Following.Add(userId);
+            else if (!follow)
+                Following.Remove(userId);
+
+            // Invoke state change to refresh the UI
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
     }
     
     private async Task GoToPost(string postId)
     {
         NavigationManager.NavigateTo($"/p/{postId}");
     }
+
+    private async Task GoToProfile(string username)
+    {
+        NavigationManager.NavigateTo($"/u/{username}");
+    }
+ 
     
 }

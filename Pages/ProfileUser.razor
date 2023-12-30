@@ -1,6 +1,14 @@
 @inject IUserService UserService
 @inject IPostService PostService
-@page "/{Username}"
+@page "/profile"
+
+
+<MudAppBar Elevation="0"  Square="true" Width="100%">
+    <MudPaper Width="100%" Class="flex-none" Elevation="0">
+        <MudContainer Height="100%" MaxWidth="MaxWidth.Small" Width="100%">
+        </MudContainer>
+    </MudPaper>
+</MudAppBar>
 
 <MudOverlay @bind-Visible="isVisible" DarkBackground="true" ZIndex="9999" AutoClose="true"/>
 <MudPaper Width="100%" Class="flex-none" Elevation="0">

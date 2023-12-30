@@ -5,31 +5,28 @@
 @inject NavigationManager NavigationManager
 
 
-    <div class="row"> 
-        <div class="item-1">
-            <div class ="mb-3 text-center">
-                <h3 class="modaltext">Login på nyt!</h3>
-            </div>
-            <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
-                        <DataAnnotationsValidator/>
-                        <MudGrid>
-                            <MudItem xs="12" sm="7">
-                                <MudCard>
-                                    <MudCardContent>
-                                        <MudTextField Label="First name" HelperText="Max. 8 characters"
-                                                    @bind-Value="model.UserName" For="@(() => model.UserName)"/>
-                                        <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
-                                                    @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
-                                    </MudCardContent>
-                                    <MudCardActions>
-                                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
-                                    </MudCardActions>
-                                </MudCard>
-                            </MudItem>
-                        </MudGrid>
-                        </EditForm>
-        </div>
-    </div>
+
+<MudPaper Elevation="0" Class="d-flex align-content-center justify-center flex-wrap flex-grow-1 gap-4" Height="900px" style="background-color:#F5001D;">
+    <EditForm Model="@model" >
+        <DataAnnotationsValidator/>
+        <MudGrid>
+            <MudItem xs="12" sm="7">
+                <MudCard Elevation="0" style="background-color:#F5001D;" >
+                    <MudCardContent >
+                        <MudTextField Color="Color.Secondary"  Label="Brugernavn"
+                                    @bind-Value="model.UserName" For="@(() => model.UserName)"/>
+                        <MudTextField Label="Adgangskode" Class="mt-3"
+                                    @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton DisableElevation="true"  MudBlazor.ButtonType="ButtonType.Submit" OnClick="OnValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    </EditForm>
+</MudPaper>
+
 
 @code
 {
@@ -46,12 +43,14 @@
     private async Task OnValidSubmit()
     {
         var userAccount = await UserService.GetUserAsync(model.UserName);
+        Console.WriteLine("hmm?");
         var isMatch = BCrypt.Net.BCrypt.EnhancedVerify(model.Password, userAccount.Password);
         if (userAccount == null)
         {
             await js.InvokeVoidAsync("alert", "Invalid Username or Password");
             return;
         }
+        
         else if (isMatch == false)
         {
             await js.InvokeVoidAsync("alert", "Invalid Username or Password");

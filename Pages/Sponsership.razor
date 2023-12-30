@@ -1,0 +1,301 @@
+@page "/reklame"
+
+<MudAppBar Elevation="0"  Square="true" Width="100%">
+    <MudPaper Width="100%" Class="flex-none" Elevation="0">
+        <MudContainer Height="100%" MaxWidth="MaxWidth.Small" Width="100%">
+        </MudContainer>
+    </MudPaper>
+</MudAppBar>
+
+<MudPaper Width="100%" Height="900px" Class="flex-none" Elevation="0">
+
+    <MudGrid Spacing="4" Justify="Justify.Center">
+
+        <MudItem xs="12" sm="6" md="4">
+
+            <MudExpansionPanels>
+
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" class="mr-3"></MudIcon>
+                            <MudText><strong>Demografi</strong></MudText>
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+
+                        <MudGrid>
+                            <MudItem xs="12" md="12">
+                                <MudText Typo="Typo.body2"><strong>Køn</strong></MudText>
+                                <MudRadioGroup T="string" Required="true" RequiredError="Account type is required!">
+                                    <MudRadio Option="@("All")">Alle</MudRadio>
+                                    <MudRadio Option="@("Women")">Kvinder</MudRadio>
+                                    <MudRadio Option="@("Men")">Mænd</MudRadio>
+                                </MudRadioGroup>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudText Typo="Typo.body2"><strong>Område</strong></MudText>
+                                <MudAutocomplete T="string" Label="US States" @bind-Value="value2" SearchFunc="@Search2"
+                                                ResetValueOnEmptyText="@resetValueOnEmptyText"
+                                                CoerceText="@coerceText" CoerceValue="@coerceValue"
+                                                AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                            </MudItem>
+
+                            <MudItem xs="12" md="12" class="flex-column">
+                                <MudText Typo="Typo.body2"><strong>Alder</strong></MudText>
+                                <MudRadioGroup T="string" Required="true" RequiredError="Account type is required!">
+                                    <MudRadio Option="@("All")">Alle</MudRadio>
+                                    <MudRadio Option="@("Interval")">Interval</MudRadio>
+                                </MudRadioGroup>
+                            </MudItem>
+                        </MudGrid>
+
+                    </ChildContent>
+                </MudExpansionPanel>
+                
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" class="mr-3"></MudIcon>
+                            <MudText><strong>Målretningsfunktioner</strong></MudText>
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+
+                        <MudGrid>
+
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudText Typo="Typo.body2"><strong>Nøgleord</strong></MudText>
+                                <MudAutocomplete T="string" Label="US States" @bind-Value="value2" SearchFunc="@Search2"
+                                                ResetValueOnEmptyText="@resetValueOnEmptyText"
+                                                CoerceText="@coerceText" CoerceValue="@coerceValue"
+                                                AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudText Typo="Typo.body2"><strong>Minder om</strong></MudText>
+                                <MudAutocomplete T="string" Label="US States" @bind-Value="value2" SearchFunc="@Search2"
+                                                ResetValueOnEmptyText="@resetValueOnEmptyText"
+                                                CoerceText="@coerceText" CoerceValue="@coerceValue"
+                                                AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                            </MudItem>
+
+                            <MudItem xs="12" md="12" class="flex-column">
+                                <MudText Typo="Typo.body2"><strong>Operativsystem</strong></MudText>
+                                <MudCheckBox T="bool" Required="false" Label="iOS"  />
+                                <MudCheckBox T="bool" Required="false" Label="Android"  />
+                                <MudCheckBox T="bool" Required="false" Label="Computer"  />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudText Typo="Typo.body2"><strong>Interesser</strong></MudText>
+                                <MudAutocomplete T="string" Label="US States" @bind-Value="value2" SearchFunc="@Search2"
+                                                ResetValueOnEmptyText="@resetValueOnEmptyText"
+                                                CoerceText="@coerceText" CoerceValue="@coerceValue"
+                                                AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                            </MudItem>
+
+                        </MudGrid>
+
+                    </ChildContent>
+                </MudExpansionPanel>
+
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" class="mr-3"></MudIcon>
+                            <MudText><strong>Planlægning</strong></MudText>
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+                        <MudNumericField @bind-Value="DecimalValue" Label="Budget" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" />  
+                        <MudDateRangePicker Label="Datointerval" @bind-DateRange="_dateRange" />
+                    </ChildContent>
+                </MudExpansionPanel>
+
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <div class="d-flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" class="mr-3"></MudIcon>
+                            <MudText><strong>Betalingsmetode</strong></MudText>
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+                        <MudGrid Class="justify-space-between" Style="max-width: 400px;">
+                            <MudItem xs="12">
+                                <MudTextField Mask="@mask" Label="Credit Card Number" 
+                                            @bind-Value="@cardNumber"  Variant="@Variant.Text" Clearable />
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudTextField Mask="@(new DateMask("MM/YY", 'Y', 'M'))" Label="Expires" 
+                                            @bind-Value="expiration"  Variant="@Variant.Text" />
+                            </MudItem>
+                            <MudItem xs="4"/>
+                            <MudItem xs="4">
+                                <MudTextField Mask="@(new PatternMask("000"))" Label="CVC" 
+                                            @bind-Value="cvc"  Variant="@Variant.Text" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                Credit Card Number: <b>@creditCard</b><br/>
+                                Expiration Date: <b>@expiration</b><br/>
+                                CVC: <b>@cvc</b>
+                            </MudItem>
+
+                            <MudElement HtmlTag="div" @ref="element" Style="max-width: 800px;" Class="mud-width-full">
+                                <MudGrid Class="justify-space-between">
+                                    <MudItem xs="12" sm="6">
+                                        <MudAlert Variant="@variants["American Express"]" NoIcon Dense Class="mb-2">
+                                            American Express: starts with 34/37<br/>
+                                            <pre>34&#183;&#183; &#183;&#183;&#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183;&#183;</pre>
+                                        </MudAlert>
+                                        <MudAlert Variant="@variants["Diners Club"]" NoIcon Dense Class="mb-2">
+                                            Diners Club: starts with 300-305/309<br/>
+                                            <pre>300&#183; &#183;&#183;&#183;&#183;&#183;&#183; &#183;&#183;&#183;</pre>
+                                        </MudAlert>
+                                        <MudAlert Variant="@variants["JCB"]" NoIcon Dense Class="mb-2">
+                                            JCB: starts with 35/2131/1800<br/>
+                                            <pre>35&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183;</pre>
+                                        </MudAlert>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudAlert Variant="@variants["VISA"]" NoIcon Dense Class="mb-2">
+                                            VISA: starts with 4<br/>
+                                            <pre>4&#183;&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183;</pre>
+                                        </MudAlert>
+                                        <MudAlert Variant="@variants["MasterCard"]" NoIcon Dense Class="mb-2">
+                                            MasterCard: starts with 51-55/22-27<br/>
+                                            <pre>51&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183;</pre>
+                                        </MudAlert>
+                                        <MudAlert Variant="@variants["Discover"]" NoIcon Dense Class="mb-2">
+                                            Discover: starts with 6011/65/644-649<br/>
+                                            <pre>6011 &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183;</pre>
+                                        </MudAlert>
+                                    </MudItem>
+                                </MudGrid>
+                                <MudText Class="mud-text-secondary" Typo="Typo.body2">Example inspired by Cleave.js</MudText>
+                            </MudElement>
+
+                        </MudGrid>
+                    </ChildContent>
+                </MudExpansionPanel>
+
+            </MudExpansionPanels>
+
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="4">
+                <MudStack>
+                    <MudCard Height="100%" Outlined="true">
+                        <MudCardContent>
+                            <MudText>Målgruppe</MudText>
+                            <MudDivider />
+                            <MudText Typo="Typo.body1">997,6 t - 1,1 mio.</MudText>
+                            <MudText Typo="Typo.body2">Potentiel rækkevidde</MudText>
+                            <MudExpansionPanels>
+                                <MudExpansionPanel Text="Demografi" MaxHeight="250">
+                                    <MudGrid Spacing="3" Justify="Justify.Center">
+                                        <MudItem>
+                                            <MudText Typo="Typo.body2"><strong>Køn</strong></MudText>
+                                            <MudText Typo="Typo.body2">Alle</MudText>
+                                        </MudItem>
+                                        <MudItem>
+                                            <MudText Typo="Typo.body2"><strong>Alder</strong></MudText>
+                                            <MudText Typo="Typo.body2">Alle</MudText>
+                                        </MudItem>
+                                        <MudItem>
+                                            <MudText Typo="Typo.body2"><strong>Område</strong></MudText>
+                                            <MudText Typo="Typo.body2">Alle</MudText>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudExpansionPanel>
+                            </MudExpansionPanels>
+                        </MudCardContent>
+                    </MudCard>
+                </MudStack>
+        </MudItem>
+        
+    </MudGrid>
+
+    
+</MudPaper>
+
+@code
+{
+    bool isOpen;
+    public bool Label_CheckBox1 { get; set; } = true;
+    public bool Label_CheckBox2 { get; set; } = false;
+    public bool Label_CheckBox3 { get; set; } = false;
+    public decimal DecimalValue { get; set; }
+    public string SelectedOption { get; set; }
+    private string creditCard;
+    private string expiration;
+    private string cvc;
+    private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
+    private bool resetValueOnEmptyText;
+    private bool coerceText;
+    private bool coerceValue;
+    private string value1, value2;
+    private string[] states =
+    {
+        "Alabama", "Alaska", "American Samoa", "Arizona",
+        "Arkansas", "California", "Colorado", "Connecticut",
+        "Delaware", "District of Columbia", "Federated States of Micronesia",
+        "Florida", "Georgia", "Guam", "Hawaii", "Idaho",
+        "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+        "Louisiana", "Maine", "Marshall Islands", "Maryland",
+        "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+        "Missouri", "Montana", "Nebraska", "Nevada",
+        "New Hampshire", "New Jersey", "New Mexico", "New York",
+        "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio",
+        "Oklahoma", "Oregon", "Palau", "Pennsylvania", "Puerto Rico",
+        "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
+        "Texas", "Utah", "Vermont", "Virgin Island", "Virginia",
+        "Washington", "West Virginia", "Wisconsin", "Wyoming",
+    };
+
+    private async Task<IEnumerable<string>> Search2(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, don't return values (drop-down will not open)
+        if (string.IsNullOrEmpty(value))
+            return new string[0];
+        return states.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    string cardNumber, cardType;
+
+    MultiMask mask = new MultiMask("0000 0000 0000 0000",
+        new MaskOption("American Express", "0000 000000 00000", @"^(34|37)"),
+        new MaskOption("Diners Club", "0000 000000 0000", @"^(30[0-59])"),
+        new MaskOption("JCB", "0000 0000 0000 0000", @"^(35|2131|1800)"),
+        new MaskOption("VISA", "0000 0000 0000 0000", @"^4"),
+        new MaskOption("MasterCard", "0000 0000 0000 0000", @"^(5[1-5]|2[2-7])"),
+        new MaskOption("Discover", "0000 0000 0000 0000", @"^(6011|65|64[4-9])")
+    );
+    MaskOption? option = null;
+    Dictionary<string, Variant> variants = new();
+    MudElement element;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        mask.OptionDetected += (o, input) =>
+        {
+            option = o;
+            cardType = o == null ? "Unknown" : o.Value.Id;
+            UpdateClasses();
+            // re-render only MudElement's children
+            element.Refresh();
+        };
+        UpdateClasses();
+    }
+
+    void UpdateClasses()
+    {
+        foreach (var type in new[] { "American Express", "Diners Club", "JCB", "VISA", "MasterCard", "Discover" })
+            variants[type] = type == cardType ? Variant.Filled : Variant.Outlined;
+    }
+}

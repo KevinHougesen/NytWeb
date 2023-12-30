@@ -4,6 +4,14 @@
     flex-direction: column;
 }
 
+.custom-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.88);
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0);
+}
+
 main {
     flex: 1;
 }

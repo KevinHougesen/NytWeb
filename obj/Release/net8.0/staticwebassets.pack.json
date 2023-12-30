@@ -1,0 +1,145 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/obj/Release/net8.0/scopedcss/projectbundle/NytWeb.bundle.scp.css",
+      "PackagePath": "staticwebassets/NytWeb.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/N!Logo.png",
+      "PackagePath": "staticwebassets/N!Logo.png"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo_clean.png",
+      "PackagePath": "staticwebassets/NLogo_clean.png"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo_outline.png",
+      "PackagePath": "staticwebassets/NLogo_outline.png"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/Lobster/Lobster-Regular.ttf",
+      "PackagePath": "staticwebassets/css/fonts/Lobster/Lobster-Regular.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/Lobster/OFL.txt",
+      "PackagePath": "staticwebassets/css/fonts/Lobster/OFL.txt"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/Lobster_Two/LobsterTwo-Bold.ttf",
+      "PackagePath": "staticwebassets/css/fonts/Lobster_Two/LobsterTwo-Bold.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/Lobster_Two/LobsterTwo-BoldItalic.ttf",
+      "PackagePath": "staticwebassets/css/fonts/Lobster_Two/LobsterTwo-BoldItalic.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/Lobster_Two/LobsterTwo-Italic.ttf",
+      "PackagePath": "staticwebassets/css/fonts/Lobster_Two/LobsterTwo-Italic.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/Lobster_Two/LobsterTwo-Regular.ttf",
+      "PackagePath": "staticwebassets/css/fonts/Lobster_Two/LobsterTwo-Regular.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/Lobster_Two/OFL.txt",
+      "PackagePath": "staticwebassets/css/fonts/Lobster_Two/OFL.txt"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/dr-publik-cdnfonts/DRPublikBlack.ttf",
+      "PackagePath": "staticwebassets/css/fonts/dr-publik-cdnfonts/DRPublikBlack.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/dr-publik-cdnfonts/DRPublikBold.ttf",
+      "PackagePath": "staticwebassets/css/fonts/dr-publik-cdnfonts/DRPublikBold.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/dr-publik-cdnfonts/DRPublikLight.ttf",
+      "PackagePath": "staticwebassets/css/fonts/dr-publik-cdnfonts/DRPublikLight.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/dr-publik-cdnfonts/DRPublikRegular.ttf",
+      "PackagePath": "staticwebassets/css/fonts/dr-publik-cdnfonts/DRPublikRegular.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/fonts/dr-publik-cdnfonts/DRPublikSemiBold.ttf",
+      "PackagePath": "staticwebassets/css/fonts/dr-publik-cdnfonts/DRPublikSemiBold.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/FONT-LICENSE",
+      "PackagePath": "staticwebassets/css/open-iconic"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/ICON-LICENSE",
+      "PackagePath": "staticwebassets/css/open-iconic"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/README.md",
+      "PackagePath": "staticwebassets/css/open-iconic/README.md"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets/css/open-iconic/font/css/open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.eot"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.otf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.svg"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.ttf"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.woff"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/images/Pain.png",
+      "PackagePath": "staticwebassets/images/Pain.png"
+    },
+    {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/images/drnyheder.jpg",
+      "PackagePath": "staticwebassets/images/drnyheder.jpg"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.NytWeb.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.build.NytWeb.props",
+      "PackagePath": "build\\NytWeb.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildMultiTargeting.NytWeb.props",
+      "PackagePath": "buildMultiTargeting\\NytWeb.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildTransitive.NytWeb.props",
+      "PackagePath": "buildTransitive\\NytWeb.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

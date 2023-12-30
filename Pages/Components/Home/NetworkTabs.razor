@@ -1,16 +1,4 @@
-<MudTabs Elevation="0" Rounded="true" Centered="true" Color="@Color.Primary" @ref="tabs">
-    
-    <MudTabPanel Text="Dit Nyt" Width="100%" @ref="panel01" ID="@("pn_one")" >
-        <UserPost/>
-        <LoadedInNetworkFeed />
-    </MudTabPanel>
 
-    <MudTabPanel Text="Lokalt Nyt" @ref="panel02" ID="@("pn_two")">
-        <UserPost/>
-        <LoadedOutNetworkFeed />
-    </MudTabPanel>
-
-</MudTabs>
 
 @code
 {

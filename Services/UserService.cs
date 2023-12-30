@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
 using NytWeb.Models;
@@ -57,6 +56,27 @@ namespace NytWeb.Services
             return result;
         }
 
+        public async Task<List<string>> GetUserCommunitiesAsync(string Username)
+        {
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserCommunitiesAsync" + Key;
+            string url = "http://localhost:7071/api/GetUserCommunitiesAsync";
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { Username });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<string>>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
         // Get All Users
         public async Task<List<string>> GetUserFollowersAsync(string Username)
         {
@@ -100,13 +120,14 @@ namespace NytWeb.Services
         }
 
         // Get All Users
-        public async Task<string> FollowUserAsync(string Username, string ToFollow)
+        public async Task<bool> FollowUserAsync(string Username, string ToFollow)
         {
             // CREATING URL STRING
             string apiURL = Context + "FollowUserAsync" + Key;
+            string url = "http://localhost:7071/api/FollowUserAsync";
 
             // CREATING PAYLOAD AND JSON CONTENT
-            var payload = JsonConvert.SerializeObject(new { Username });
+            var payload = JsonConvert.SerializeObject(new { Username, ToFollow });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
@@ -114,7 +135,7 @@ namespace NytWeb.Services
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<string>(jsonString);
+            var result = JsonConvert.DeserializeObject<bool>(jsonString);
 
             // RETURNING FINAL RESULT
             return result;

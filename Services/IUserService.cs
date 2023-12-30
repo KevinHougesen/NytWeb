@@ -12,7 +12,8 @@ namespace NytWeb.Services
 
         Task<List<string>> GetUserFollowingAsync(string Username);
 
-        Task<string> FollowUserAsync(string Username, string ToFollow);
+        Task<bool> FollowUserAsync(string Username, string ToFollow);
+        Task<List<string>> GetUserCommunitiesAsync(string Username);
 
     }
 }

@@ -1,14 +1,11 @@
-using Microsoft.Extensions.Configuration;
-
 namespace NytWeb
 {
     public static class Config
     {
-        private static readonly string Neo4jUri;
-        private static readonly string Neo4jUsername;
-        private static readonly string Neo4jPassword;
         private static readonly string Connection;
         private static readonly string Key;
+
+        private static readonly string BlobKey;
 
         private static readonly string JwtSecret;
 
@@ -16,26 +13,16 @@ namespace NytWeb
 
         static Config()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
 
-            var neo4j = config.GetSection("Neo4j");
-            Neo4jUri = neo4j["uri"];
-            Neo4jUsername = neo4j["username"];
-            Neo4jPassword = neo4j["password"];
 
-            JwtSecret = config.GetSection("Jwt")["secret"];
+            JwtSecret = Environment.GetEnvironmentVariable("JwtSecret");
 
-            Connection = config.GetSection("ConnectionStrings")["CONTEXT"];
-            Key = config.GetSection("ConnectionStrings")["CONTEXT_KEY"];
+            Connection = Environment.GetEnvironmentVariable("CONTEXT");
+            Key = Environment.GetEnvironmentVariable("CONTEXT_KEY");
 
-            SaltRounds = int.Parse(config.GetSection("Password")["rounds"]);
-        }
+            BlobKey = Environment.GetEnvironmentVariable("AzureBlobStorage");
 
-        public static (string Uri, string Username, string Password) UnpackNeo4jConfig()
-        {
-            return (Neo4jUri, Neo4jUsername, Neo4jPassword);
+            SaltRounds = int.Parse(Environment.GetEnvironmentVariable("PasswordRounds"));
         }
 
         public static string UnpackJwtConfig()
@@ -46,6 +33,11 @@ namespace NytWeb
         public static (string Connection, string Key) UnpackContextConfig()
         {
             return (Connection, Key);
+        }
+
+        public static string UnpackBlobConfig()
+        {
+            return BlobKey;
         }
 
         public static int UnpackPasswordConfig()

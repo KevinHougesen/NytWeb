@@ -4,24 +4,32 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
 @inject IUserService UserService
+@inject IDialogService DialogService
 
 
 
 
-    <MudPaper Height="40px" Elevation="0"/>
+    <MudPaper Color="Color.Transparent" Height="10px" Elevation="0"/>
     <h1 class="appbar">Nyt!</h1>
-    <MudPaper Height="40px" Elevation="0"/>
-    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Home" Size="Size.Large" Color="Color.Secondary" Label="Hjem" Width="124px" />
-    <MudPaper Height="40px" Elevation="0"/>
-    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Color="Color.Secondary" Label="Søg Nyt" Width="124px"/>
-    <MudPaper Height="40px" Elevation="0"/>
-    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.MailOutline" Size="Size.Large" Color="Color.Secondary" Label="Beskeder" />
-    <MudPaper Height="40px" Elevation="0"/>
-    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Bookmark"  Color="Color.Secondary" Label="Bogmærker" />
-    <MudPaper Height="40px" Elevation="0"/>
-    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Bookmark" Color="Color.Secondary" Label="Bookmark" />
-    <MudPaper Height="40px" Elevation="0"/>
-    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Filled.Bookmark" Color="Color.Secondary" Label="Bookmark" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => GoToHome())" MudBlazor.Size="Size.Large" Color="Color.Secondary" Rel="nofollow" Label="Hjem" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Søg Nyt" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Beskeder" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" Label="Lokaler" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Create" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Nyt Skaber" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Bookmarks"  Color="Color.Secondary" Label="Bogmærker" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Person" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Profil" />
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
+    <MudPaper Class="pa-3" Width="60%" Elevation="0">
+        <MudFab StartIcon="@Icons.Material.Filled.PostAdd" OnClick="@((e) => OpenPostCreator())" DisableElevation="true" Color="Color.Info" Label="Skab Nyt" />
+    </MudPaper>
+    <MudPaper Height="20px" Color="Color.Transparent" Elevation="0"/>
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -44,6 +52,16 @@
     {
         open = !open;
     } 
+
+    private async Task GoToHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    private async Task GoToProfile()
+    {
+        NavigationManager.NavigateTo("/profile");
+    }
     
     private async Task Logout()
     {
@@ -51,8 +69,12 @@
         await customAuthStateProvider.UpdateAuthenticationState(null);
         NavigationManager.NavigateTo("/", true);
     }
-}
 
-@code {
-    private MudTheme Theme = new MudTheme();
+    async Task OpenPostCreator()
+    {
+        var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = false };
+
+        var dialog = await DialogService.ShowAsync<UserPost>("", options);
+        var result = await dialog.Result;
+    }
 }

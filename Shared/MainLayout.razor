@@ -5,74 +5,172 @@
 @inject NavigationManager NavigationManager
 
 
-<PageTitle>NytWeb</PageTitle>
 
-<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme"/>
-<MudDialogProvider/>
+<PageTitle>Nyt!</PageTitle>
+
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" @ref="@_mudThemeProvider" Theme="_theme"/>
+@if (!dataLoaded)
+{
+    <Loading />
+}
+else
+{
+<MudDialogProvider
+    MaxWidth="MaxWidth.Medium"
+    FullWidth="true"
+    CloseButton="true"
+    NoHeader="true"
+    Position="DialogPosition.Center"
+    CloseOnEscapeKey="true"/>
+
 <MudSnackbarProvider/>
 
-        <MudLayout>
-            <AuthorizeView>
+    <MudLayout Color="Color.Secondary">
+        <AuthorizeView>
                 <Authorized>
-                    <MudDrawer @bind-Open="@open" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
-                        <MudPaper Height="100%" Style="margin-left: 1.75rem;" Elevation="0">
-                            <NavMenu/>
-                            <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Toggle Light/Dark Mode"/>
-                        </MudPaper>
-                    </MudDrawer>
-                    <MudMainContent>
-                        @Body
-                    </MudMainContent>
-                </Authorized>
-            </AuthorizeView>
+                    <MudPaper Color="Color.Secondary">
+                        <MudGrid Color="Color.Secondary" Spacing="4" Justify="Justify.Center">
 
-            <AuthorizeView>
-                <NotAuthorized>
+                                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                                    <MudDrawer @bind-Open="@open" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="100" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
+                                        
+                                        <NavMenu/>
+                                    
+                                        
+                                        <MudPaper Height="100%" Elevation="0">
+                                            <MudToggleIconButton @bind-Toggled="@_isDarkMode"
+                                                    Icon="@Icons.Material.Outlined.WbSunny" Color="@Color.Warning" Title="Off" 
+                                                    ToggledIcon="@Icons.Material.Outlined.DarkMode" ToggledColor="@Color.Primary" ToggledTitle="On" />
+                                        </MudPaper>
+                                    </MudDrawer>
+                                </MudHidden>
+
+
+
+
+                                    <MudMainContent Color="Color.Secondary">
+                                        @Body
+                                        
+                                    </MudMainContent>
+
+
+
+
+                                <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                                    <MudDrawer @bind-Open="@open" Anchor="Anchor.End" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="100" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
+                                        <MudStack Width="60%">
+                                            <MudPaper Width="50%" Height="70px" Elevation="0" Class="pa-3">Item 2</MudPaper>
+
+                                            <MudPaper Class="pa-3" Elevation="0">
+                                                <MudCard Elevation="0">
+                                                    <MudCardMedia Image="https://sunset-boulevard.dk/wp-content/uploads/sites/7/2021/02/J675_restaurant_side_image_Sunsetboulevard.dk_978x454px_Sunset_Club2.jpg" Height="200" />
+                                                    <MudCardContent>
+                                                        <MudText>Sunset Boulevard</MudText>
+                                                        <MudText Typo="Typo.body2">Bestil take away fra Sunset Boulevard og spring køen over når du henter din mad.</MudText>
+                                                        <MudText Typo="Typo.overline">SPONSORERET</MudText>
+                                                    </MudCardContent>
+                                                    <MudCardActions>
+                                                        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                                                    </MudCardActions>
+                                                </MudCard>
+                                            </MudPaper>
+
+                                            
+                                            <ToFollow />
+
+                                            
+
+                                        </MudStack>
+                                    </MudDrawer>
+                                </MudHidden>
+                            
+                        </MudGrid>
+                    </MudPaper>
+                    
+                    
+                </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView>
+            <NotAuthorized>
+            
+            
                 <div class="page">
-                    <main style="background-color:red;">
-                        <article class="content px-4" style="background-color:red;">
-                            @Body
+                    <main style="background-color:#F5001D;">
+                        <article class="content px-4" style="background-color:#F5001D;">
+                            <Login />
                             
                         </article>
                     </main>
                 </div>
-                </NotAuthorized>
-            </AuthorizeView>
-        </MudLayout>
+            
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudLayout>
+}
 
 @code
 {
     private MudTheme _theme = new MudTheme()
     {
+        Typography = new Typography()
+        {
+            Caption = new Caption()
+            {
+                FontFamily = new[] { "Roboto", "Helvetica", "Arial", "sans-serif" },
+                FontSize = "0.85rem",
+                FontWeight = 500,
+                LineHeight = 1.6,
+                LetterSpacing = ".0075em"
+            },
+            H1 = new H1()
+            {
+                FontFamily = new[] { "Lobster" },
+                FontSize = "10rem",
+                FontWeight = 500,
+                LineHeight = 1.6,
+                LetterSpacing = ".0075em",
+            },
+            H2 = new H2()
+            {
+                FontFamily = new[] { "DRPublikBold" },
+                FontSize = "3rem",
+                FontWeight = 500,
+                LineHeight = 1.6,
+                LetterSpacing = ".0075em",
+            }
+        },
+
         Palette = new PaletteLight()
         {
+            White = Colors.Shades.White,
             Primary = "#FF102C",
             Secondary = Colors.Shades.White,
+            Tertiary = "#0C0C0C",
             AppbarBackground = Colors.Shades.White,
             Background = Colors.Shades.White,
             Surface = Colors.Shades.White,
             DrawerBackground = Colors.Shades.White,
-            SecondaryContrastText = "#050505",
+            SecondaryContrastText = "#0C0C0C",
             TextSecondary = Colors.Shades.White,
             TableStriped = Colors.Shades.White,
+            PrimaryContrastText = "#0C0C0C",
+            BackgroundGrey = Colors.Shades.White,
             SecondaryDarken = "#FF102C",
         },
         PaletteDark = new PaletteDark()
         {
+            White = Colors.Shades.White,
             Primary = "#FF102C",
-            Surface = "#050505",
-            Secondary = "#050505",
-            AppbarBackground = "#050505",
-            Background = "#050505",
-            DrawerBackground = "#050505",
-            DarkLighten = Colors.Shades.White,
-            DarkContrastText = Colors.Shades.White,
-            PrimaryContrastText = Colors.Shades.White,
-            GrayDarker = Colors.Shades.White,
-            GrayDark = Colors.Shades.White,
-            GrayLighter = Colors.Shades.White,
-            GrayLight = Colors.Shades.White,
+            Surface = "#0C0C0C",
+            Secondary = "#0C0C0C",
+            Tertiary = Colors.Shades.White,
+            AppbarBackground = "#0C0C0C",
+            Background = "#0C0C0C",
+            DrawerBackground = "#0C0C0C",
+            BackgroundGrey = Colors.Shades.White,
             SecondaryContrastText = Colors.Shades.White,
+
             SecondaryDarken = "#FF102C",
             
         },
@@ -82,8 +180,31 @@
             DrawerWidthLeft = "200px",
         }
     };
+
+    
+
+    private MudThemeProvider _mudThemeProvider;
     
     private bool _isDarkMode;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Delay(1000);
+        dataLoaded = true;
+
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            StateHasChanged();
+        }
+    }
+    
+    private async Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        StateHasChanged();
+    }
 
     bool open = true;
 
@@ -91,6 +212,10 @@
     {
         open = !open;
     } 
+
+    
+
+    private bool dataLoaded = false;
 
 
 }

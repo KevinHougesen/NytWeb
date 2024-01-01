@@ -42,9 +42,15 @@
 
     private async Task OnValidSubmit()
     {
-        var userAccount = await UserService.GetUserAsync(model.UserName);
+        var username = model.UserName;
+        var userAccount = await UserService.GetUserAsync(username);
+        Console.WriteLine(userAccount.Username);
+ 
+        var isMatch = BCrypt.EnhancedVerify(model.Password, userAccount.Password);
         Console.WriteLine("hmm?");
-        var isMatch = BCrypt.Net.BCrypt.EnhancedVerify(model.Password, userAccount.Password);
+        Task.Delay(1000);
+
+        
         if (userAccount == null)
         {
             await js.InvokeVoidAsync("alert", "Invalid Username or Password");

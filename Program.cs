@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using NytWeb.Services;
 using Blazored.Modal;
+using NytWeb.Configuration;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using BlazorSignalRApp.Hubs;
@@ -16,7 +17,7 @@ internal class Program
     {
 
         var builder = WebApplication.CreateBuilder(args);
-        var BlobKey = NytWeb.Config.UnpackBlobConfig();
+        var BlobKey = builder.Configuration.GetValue<string>("AzureBlobStorage");
 
         builder.Services.AddAuthenticationCore();
         builder.Services.AddRazorPages();
@@ -26,6 +27,7 @@ internal class Program
         builder.Services.AddSingleton(client);
         builder.Services.AddScoped<ProtectedSessionStorage>();
         builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+        builder.Services.AddTransient<IConfig, Config>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IBlobService, BlobService>();
         builder.Services.AddScoped<IPostService, PostService>();

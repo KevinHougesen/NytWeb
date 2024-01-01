@@ -7,15 +7,10 @@ namespace NytWeb.Services
     public class BlobService : IBlobService
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly string Context;
-        private readonly string Key;
 
         public BlobService(BlobServiceClient blobServiceClient)
         {
             _blobServiceClient = blobServiceClient;
-            var (context, key) = Config.UnpackContextConfig();
-            Context = context;
-            Key = key;
         }
 
         // Get Singular User

@@ -1,5 +1,6 @@
 using System.Text;
 using Newtonsoft.Json;
+using NytWeb.Configuration;
 using NytWeb.Models;
 
 namespace NytWeb.Services
@@ -9,12 +10,14 @@ namespace NytWeb.Services
     {
         private readonly HttpClient _client;
         private readonly string Context;
+        private readonly IConfig _config;
         private readonly string Key;
 
-        public AuthService(HttpClient client)
+        public AuthService(HttpClient client, IConfig config)
         {
             _client = client;
-            var (context, key) = NytWeb.Config.UnpackContextConfig();
+            _config = config;
+            var (context, key) = _config.UnpackContextConfig();
             Context = context;
             Key = key;
         }

@@ -1,46 +1,56 @@
-namespace NytWeb
+using Microsoft.Extensions.Configuration;
+
+namespace NytWeb.Configuration
 {
-    public static class Config
+    public interface IConfig
     {
-        private static readonly string Connection;
-        private static readonly string Key;
+        string UnpackJwtConfig();
+        (string Connection, string Key) UnpackContextConfig();
+        string UnpackBlobConfig();
+        int UnpackPasswordConfig();
+    }
+    public class Config : IConfig
+    {
+        private readonly IConfiguration _configuration;
+        private readonly string Connection;
+        private readonly string Key;
 
-        private static readonly string BlobKey;
+        private readonly string BlobKey;
 
-        private static readonly string JwtSecret;
+        private readonly string JwtSecret;
 
-        private static readonly int SaltRounds;
+        private readonly int SaltRounds;
 
-        static Config()
+        public Config(IConfiguration configuration)
         {
+            _configuration = configuration;
 
+            JwtSecret = _configuration.GetValue<string>("JwtSecret");
 
-            JwtSecret = Environment.GetEnvironmentVariable("JwtSecret");
+            Connection = _configuration.GetValue<string>("CONTEXT");
+            Key = _configuration.GetValue<string>("CONTEXT_KEY");
 
-            Connection = Environment.GetEnvironmentVariable("CONTEXT");
-            Key = Environment.GetEnvironmentVariable("CONTEXT_KEY");
+            BlobKey = _configuration.GetValue<string>("AzureBlobStorage");
 
-            BlobKey = Environment.GetEnvironmentVariable("AzureBlobStorage");
-
-            SaltRounds = int.Parse(Environment.GetEnvironmentVariable("PasswordRounds"));
+            SaltRounds = 10;
         }
 
-        public static string UnpackJwtConfig()
+        public string UnpackJwtConfig()
         {
             return JwtSecret;
         }
 
-        public static (string Connection, string Key) UnpackContextConfig()
+        public (string Connection, string Key) UnpackContextConfig()
         {
             return (Connection, Key);
         }
 
-        public static string UnpackBlobConfig()
+        public string UnpackBlobConfig()
         {
             return BlobKey;
         }
 
-        public static int UnpackPasswordConfig()
+        public int UnpackPasswordConfig()
         {
             return SaltRounds;
         }

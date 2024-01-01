@@ -1,5 +1,6 @@
 using System.Text;
 using Newtonsoft.Json;
+using NytWeb.Configuration;
 using NytWeb.Models;
 
 namespace NytWeb.Services
@@ -7,13 +8,15 @@ namespace NytWeb.Services
     public class UserService : IUserService
     {
         private readonly HttpClient _client;
+        private readonly IConfig _config;
         private readonly string Context;
         private readonly string Key;
 
-        public UserService(HttpClient client)
+        public UserService(HttpClient client, IConfig config)
         {
             _client = client;
-            var (context, key) = NytWeb.Config.UnpackContextConfig();
+            _config = config;
+            var (context, key) = _config.UnpackContextConfig();
             Context = context;
             Key = key;
         }
@@ -37,6 +40,12 @@ namespace NytWeb.Services
 
             // RETURNING FINAL RESULT
             return result;
+        }
+
+        public bool VerifyPass(string Password, string userAccountPassword)
+        {
+            var isMatch = BCrypt.Net.BCrypt.EnhancedVerify(Password, userAccountPassword);
+            return isMatch;
         }
 
         // Get All Users

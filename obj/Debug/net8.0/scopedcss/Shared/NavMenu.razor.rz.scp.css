@@ -1,0 +1,98 @@
+@font-face {
+    font-family: "Lobster";
+    src: url('../wwwroot/css/fonts/Lobster/Lobster-Regular.ttf')
+}
+
+.navbar-toggler[b-xnhbrp2948] {
+    background-color: rgb(255, 255, 255);
+}
+
+.top-row[b-xnhbrp2948] {
+    height: 3.5rem;
+    background-color: rgb(255, 255, 255);
+}
+
+.navmenumargin[b-xnhbrp2948]{
+    margin-left: 15rem;
+    gap:2rem;
+}
+
+.navbar-brand[b-xnhbrp2948] {
+    font-size: 2rem;
+    font-family: 'Lobster';
+    align-self:center;
+    paint-order: stroke fill;
+    background-color: white;
+    -webkit-text-fill-color: #FF102C;
+    -webkit-text-stroke-width: .8rem;
+    -webkit-text-stroke-color: white;
+}
+
+
+
+.oi[b-xnhbrp2948] {
+    width: 2.2rem;
+    font-size: 2rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-border[b-xnhbrp2948] {
+    border-top-left-radius: 32px; 
+    border-top-right-radius: 32px; 
+    border-bottom-left-radius: 32px; 
+    border-bottom-right-radius: 32px;
+}
+
+.nav-item[b-xnhbrp2948] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+    border-top-left-radius: 32px; 
+    border-top-right-radius: 32px; 
+    border-bottom-left-radius: 32px; 
+    border-bottom-right-radius: 32px;
+}
+
+    .nav-item:first-of-type[b-xnhbrp2948] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-xnhbrp2948] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-xnhbrp2948]  a {
+        color: #2d2d2d;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-xnhbrp2948]  a.active {
+    background-color: rgba(108, 108, 108, 0.25);
+    color: rgb(30, 30, 30);
+}
+
+.nav-item[b-xnhbrp2948]  a:hover {
+    background-color: rgba(114, 114, 114, 0.1);
+    color: rgb(24, 24, 24);
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-xnhbrp2948] {
+        display: none;
+    }
+
+    .collapse[b-xnhbrp2948] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+    
+    .nav-scrollable[b-xnhbrp2948] {
+        /* Allow sidebar to scroll for tall menus */
+        height: calc(100vh - 3.5rem);
+        overflow-y: auto;
+    }
+}

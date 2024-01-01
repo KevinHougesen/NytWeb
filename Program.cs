@@ -61,6 +61,7 @@ internal class Program
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseWebSockets();
 
         app.MapBlazorHub();
         app.MapHub<ChatHub>("/chathub");

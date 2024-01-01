@@ -32,6 +32,12 @@ internal class Program
         builder.Services.AddScoped<IBlobService, BlobService>();
         builder.Services.AddScoped<IPostService, PostService>();
         builder.Services.AddSingleton(x => new BlobServiceClient(BlobKey));
+        builder.Services.AddRazorComponents().AddInteractiveServerComponents()
+            .AddHubOptions(options =>
+        {
+            options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+            options.HandshakeTimeout = TimeSpan.FromSeconds(30);
+        });
         builder.Services.AddResponseCompression(opts =>
         {
             opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(

@@ -29,7 +29,7 @@ else
         <AuthorizeView>
                 <Authorized>
                     <MudPaper Color="Color.Secondary">
-                        <MudGrid Color="Color.Secondary" Spacing="4" Justify="Justify.Center">
+
 
                                 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
                                     <MudDrawer @bind-Open="@open" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="100" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
@@ -59,7 +59,7 @@ else
                                 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
                                     <MudDrawer @bind-Open="@open" Anchor="Anchor.End" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="100" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
                                         <MudStack Width="60%">
-                                            <MudPaper Width="50%" Height="70px" Elevation="0" Class="pa-3">Item 2</MudPaper>
+                                            <MudPaper Width="50%" Height="70px" Elevation="0" Class="pa-3"></MudPaper>
 
                                             <MudPaper Class="pa-3" Elevation="0">
                                                 <MudCard Elevation="0">
@@ -84,7 +84,7 @@ else
                                     </MudDrawer>
                                 </MudHidden>
                             
-                        </MudGrid>
+
                     </MudPaper>
                     
                     
@@ -177,7 +177,8 @@ else
 
         LayoutProperties = new LayoutProperties()
         {
-            DrawerWidthLeft = "200px",
+            DrawerWidthLeft = "320px",
+            DrawerWidthRight = "500px",
         }
     };
 

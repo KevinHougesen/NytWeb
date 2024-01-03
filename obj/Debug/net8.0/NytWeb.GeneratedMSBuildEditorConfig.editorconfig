@@ -126,6 +126,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3BvbnNlcnNoaXAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/kevinhougesen/NytWeb/Shared/MobileNav.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01vYmlsZU5hdi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/kevinhougesen/NytWeb/Shared/SearchMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1NlYXJjaE1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

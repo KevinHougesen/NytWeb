@@ -13,7 +13,7 @@ namespace NytWeb.Services
             _blobServiceClient = blobServiceClient;
         }
 
-        // Get Singular User
+        // Upload Single Image To Blob
         public async Task<string> UploadBlobFilesAsync(Stream fileStream, string fileName, string contentType, string Username)
         {
             string containerName = "images";

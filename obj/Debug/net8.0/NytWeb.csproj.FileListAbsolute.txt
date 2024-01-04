@@ -297,3 +297,13 @@
 /Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Azure.Security.KeyVault.Secrets.dll
 /Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Microsoft.Azure.AppConfiguration.AspNetCore.dll
 /Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Microsoft.Extensions.Configuration.AzureAppConfiguration.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Azure.Identity.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Azure.Messaging.WebPubSub.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Azure.Messaging.WebPubSub.Client.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Microsoft.Azure.WebPubSub.AspNetCore.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Microsoft.Azure.WebPubSub.Common.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Microsoft.Extensions.Azure.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Microsoft.Identity.Client.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Microsoft.Identity.Client.Extensions.Msal.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/System.Reactive.dll
+/Users/kevinhougesen/NytWeb/bin/Debug/net8.0/Websocket.Client.dll

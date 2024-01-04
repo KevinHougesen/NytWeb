@@ -5,6 +5,8 @@
 @inject IPostService PostService
 @inject IUserService UserService
 @inject IBlobService BlobService
+@inject IAuthService AuthService
+@using Azure.Messaging.WebPubSub.Clients
 @inject IJSRuntime js
 @using Microsoft.AspNetCore.SignalR.Client
 @implements IAsyncDisposable
@@ -64,23 +66,27 @@
     private FileModelFluentValidator ValidationRules = new();
     private bool SuppressOnChangeWhenInvalid;
 
+    private string url = string.Empty;
+    private string errorMessage = string.Empty;
+    private string status = "Not connected.";
+    private string connectionId = string.Empty;
+    private string userId = string.Empty;
+    private string message = string.Empty;
+    private WebPubSubClient? client = null;
+    private List<GroupDataMessage> messages = new();
+
 
     private HubConnection? hubConnection;
-    private List<string> messages = new List<string>();
+    //private List<string> messages = new List<string>();
     private string? userInput;
     private string? messageInput;
 
     protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri("/posthub"))
-            .WithAutomaticReconnect()
-            .Build();
-        
-        await hubConnection.StartAsync();
-
         var authState = await authenticationState;
         Username = authState.User.Identity.Name;
+        Connect();
+        
     }
 
     private async Task Submit()
@@ -112,13 +118,118 @@
 
             // Now create the post with the blobUrl
             var createdPost = await PostService.CreatePostAsync(Username, model.Content, blobUrl);
-            if (createdPost != null && hubConnection.State == HubConnectionState.Connected)
+            if (createdPost != null)
             {
                 var PostId = createdPost;
                 Console.WriteLine(PostId);
-                await hubConnection.InvokeAsync("NotifyNewPost", PostId);
+                //await hubConnection.InvokeAsync("NotifyNewPost", PostId);
+                try
+                {
+                    await client.SendToGroupAsync("Sample_ChatApp", BinaryData.FromString(model.Content), WebPubSubDataType.Text);
+                    Console.WriteLine(PostId);
+                    StateHasChanged();
+                }
+                catch (SendMessageFailedException ex)
+                {
+                    errorMessage = ex.Message;
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message;
+                }
             }
         }
+    }
+
+    private async Task Connect()
+    {
+        if (client != null)
+        {
+            await client.DisposeAsync();
+            client = null;
+        }
+        errorMessage = string.Empty;
+        status = "Not connected.";
+        connectionId = string.Empty;
+        userId = string.Empty;
+        messages.Clear();
+        
+        var uri = await AuthService.ConnectToHub(Username);
+        
+        client = new WebPubSubClient(new Uri(uri));
+        client.Connected += args =>
+        {
+            status = "Connected.";
+            connectionId = args.ConnectionId;
+            userId = args.UserId;
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        client.GroupMessageReceived += args =>
+        {
+            messages.Add(args.Message);
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        client.Disconnected += args =>
+        {
+            status = "Not connected.";
+            connectionId = string.Empty;
+            userId = string.Empty;
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        status = "Connecting ...";
+        StateHasChanged();
+        try
+        {
+            await client.StartAsync();
+            try
+            {
+
+                await client.JoinGroupAsync("Sample_ChatApp");
+                Console.WriteLine("Joined ?");
+            }
+            catch (SendMessageFailedException ex)
+            {
+                errorMessage = ex.Message;
+                status = "Not connected.";
+                _ = client.StopAsync();
+                StateHasChanged();
+                throw;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            status = "Not connected.";
+        }
+    }
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrEmpty(message))
+        {
+            return;
+        }
+        if (client == null)
+        {
+            return;
+        }
+        try
+        {
+            await client.SendToGroupAsync("simplechat", BinaryData.FromString(message), WebPubSubDataType.Text);
+            message = string.Empty;
+        }
+        catch (SendMessageFailedException ex)
+        {
+            errorMessage = ex.Message;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        StateHasChanged();
     }
 
 

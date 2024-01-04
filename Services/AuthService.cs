@@ -66,6 +66,15 @@ namespace NytWeb.Services
             return result;
         }
 
+        public async Task<string> ConnectToHub(string Username)
+        {
+            // SENDING JSON CONTENT
+            var response = await _client.GetStringAsync($"http://localhost:5022/negotiate?id={Username}");
+
+            // RETURNING FINAL RESULT
+            return response;
+        }
+
         // Get Singular User
         public async Task<string> DeleteUserAsync(string Username)
         {

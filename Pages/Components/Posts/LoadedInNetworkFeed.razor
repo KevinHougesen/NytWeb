@@ -1,9 +1,13 @@
 @inject IUserService UserService
 @inject IPostService PostService
+@inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 @inject IModalService modal
 @inject IDialogService DialogService
 @using Microsoft.AspNetCore.SignalR.Client
+@using Azure.Messaging.WebPubSub
+@using Websocket.Client
+@using Azure.Messaging.WebPubSub.Clients
 
 
 @if (user == null)
@@ -28,6 +32,167 @@ else
     }
     else
     {
+
+        @if(messages.Count == 0)
+        {
+            <p>No message received yet.</p>
+        }
+        else
+        {
+            @foreach (var message in messages)
+            {
+
+                <MudPaper Width="100%" Class="flex-none" Elevation="0">
+            <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+            
+                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" >
+                    <MudCardHeader>
+
+                                <CardHeaderAvatar>
+
+                                        <MudTooltip Delay="200" Color="Color.Transparent">
+                                            <ChildContent>
+                                                <MudAvatar MudBlazor.Size="Size.Medium" Image="../../Images/pain.png" />
+
+                                            </ChildContent>
+                                            <TooltipContent>
+
+
+                                                    <MudAvatar Style="height:240px; width:240px;" Image="../../Images/pain.png" />
+
+                                            </TooltipContent>
+                                        </MudTooltip>
+
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+
+                                        
+
+                                                <MudTooltip Delay="200" Color="Color.Secondary" Arrow="true" MudBlazor.Placement="Placement.Right">
+                                                    <ChildContent>
+                                                        <MudIconButton Color="Color.Tertiary" Edge="Edge.False" Variant="Variant.Text" OnClick="@(async () => GoToProfile(message.FromUserId))">
+                                                            <MudStack Justify="Justify.Center" Spacing="0">
+                                                                <b>@message.FromUserId</b>
+                                                                &#64;@message.FromUserId
+                                                            </MudStack>
+                                                        </MudIconButton>
+
+                                                    </ChildContent>
+                                                    <TooltipContent>
+                                                        <MudCard Width="100%" Height="100%" Elevation="0" >
+                                                            <MudCardHeader>
+                                                                <CardHeaderAvatar>
+                                                                    <MudAvatar>
+                                                                        <MudImage Src="../../Images/pain.png"></MudImage>
+                                                                    </MudAvatar>
+                                                                </CardHeaderAvatar>
+                                                                <CardHeaderContent>
+                                                                    <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
+                                                                        <MudText Typo="Typo.body1">@message.FromUserId &nbsp;</MudText>
+                                                                    </MudBadge>
+                                                                    <MudText Typo="Typo.body2">&#64;@message.FromUserId</MudText>
+                                                                    <MudText Typo="Typo.body2">The moon reflects your explicit beauty🌒<br/>And if you die.. I want to die with you &#64;dead.pretty_222❤️‍🔥<br/>Creative Director &#64;a1media.dk </MudText>
+                                                                </CardHeaderContent>
+                                                            </MudCardHeader>
+                                                        </MudCard>
+                                                    </TooltipContent>
+                                                </MudTooltip>
+                                                <MudIcon Icon="@Icons.Material.Filled.Verified" MudBlazor.Size="Size.Small" Color="Color.Primary" Title="Verified User" /> 
+                                                &nbsp;
+
+                                        
+
+
+                                </CardHeaderContent>
+                        <CardHeaderActions>
+
+                                    
+                                <MudToggleIconButton 
+                                    Toggled="@Follows" 
+                                    ToggledChanged="@(toggled => OnFollowChanged(message.FromUserId, toggled))"
+                                    Icon="@Icons.Material.Filled.AddCircleOutline" 
+                                    Color="@Color.Secondary" 
+                                    Variant="Variant.Filled" 
+                                    Title="Følg" 
+                                    ToggledIcon="@Icons.Material.Filled.CheckCircle" 
+                                    ToggledColor="@Color.Primary" 
+                                    ToggledTitle="Følger" />
+                                
+                                    
+                            <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                        @if (!string.IsNullOrEmpty("post.Post.PicturePath"))
+                        {
+                            <MudCardMedia ObjectFit="ObjectFit.Contain" Image="cturePath" />
+                            @if (!string.IsNullOrEmpty(@message.Data.ToString()))
+                            {
+                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    <b>@message.FromUserId</b> 
+                                </MudText>
+                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    @message.Data.ToString()
+
+                                </MudText>
+
+                                
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.body2"></MudText>
+                            }
+                        }
+                        else
+                        {
+                            @if (!string.IsNullOrEmpty("post.Post.Content"))
+                            {
+                                <MudSpacer />
+                                @if (!string.IsNullOrEmpty("post.Post.Content"))
+                                {
+                                    <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    @message.Data.ToString()
+
+                                    </MudText>
+                                }
+                            }
+                        }
+  
+                    <MudCardActions>
+
+                        <MudText Typo="Typo.body2">4</MudText>
+                                <MudToggleIconButton 
+                                    Toggled="Liked" 
+
+                                    Icon="@Icons.Material.Filled.FavoriteBorder" 
+                                    Color="@Color.Primary" 
+                                    Title="Like" 
+                                    ToggledIcon="@Icons.Material.Outlined.Favorite" 
+                                    ToggledColor="@Color.Primary" 
+                                    ToggledTitle="Liked" /> &nbsp; &nbsp; &nbsp; &nbsp;
+
+                        <MudText Typo="Typo.body2">0</MudText>
+                        <MudToggleIconButton 
+                                    Toggled="Liked" 
+
+                                    Icon="@Icons.Material.Outlined.Repeat" 
+                                    Color="@Color.Default" 
+                                    Title="Like" 
+                                    ToggledIcon="@Icons.Material.Outlined.Repeat" 
+                                    ToggledColor="@Color.Warning" 
+                                    ToggledTitle="Reposted" /> &nbsp; &nbsp; &nbsp; &nbsp;
+
+                        <MudText Typo="Typo.body2">4</MudText>
+                        <MudIconButton Icon="@Icons.Material.Outlined.Comment" OnClick="@((e) => OpenPost(message.FromUserId))" Color="Color.Info" /> &nbsp; &nbsp; &nbsp; &nbsp;
+
+                    </MudCardActions>
+                </MudCard>
+            </MudContainer>
+            <MudDivider />
+        </MudPaper>
+        <MudSpacer />
+            }
+        }
+
         @foreach (var post in posts)
         {
 
@@ -260,6 +425,15 @@ else
 
     private HubConnection? hubConnection;
 
+    private string url = string.Empty;
+    private string errorMessage = string.Empty;
+    private string status = "Not connected.";
+    private string connectionId = string.Empty;
+    private string userId = string.Empty;
+    private string message = string.Empty;
+    private WebPubSubClient? client = null;
+    private List<GroupDataMessage> messages = new();
+
     
 
     
@@ -277,45 +451,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        // Initialize the HubConnection
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri("/posthub"))
-            .WithAutomaticReconnect()
-            .Build();
-
-        // Subscribe to the hub method here
-        hubConnection.On<string>("NewPostAvailable", async (PostId) =>
-        {
-            Console.WriteLine("==????=");
-            await UpdateFeedWithNewPost(PostId);
-        });
-
-        hubConnection.On<string, bool>("PostLiked", (postId, liked) =>
-        {
-            // Handle the post like update here
-            // For example, updating the UI based on postId and liked status
-            UpdatePostLikeStatus(postId, liked);
-        });
-
-        hubConnection.On<string, bool>("PostReposted", (postId, repost) =>
-        {
-            // Handle the post like update here
-            // For example, updating the UI based on postId and liked status
-            UpdatePostRepostStatus(postId, repost);
-        });
-
-        hubConnection.On<string, bool>("NewFollower", (userId, follow) =>
-        {
-            // Handle the post like update here
-            // For example, updating the UI based on postId and liked status
-            UpdateNewFollowerStatus(userId, follow);
-        });
-
-        await hubConnection.StartAsync();
-
         var authState = await authenticationState;
         user = await UserService.GetUserAsync(authState.User.Identity.Name);
         Username = user.Username;
+
+        await Connect();
+
+        
 
         if (user != null)
         {
@@ -330,8 +472,76 @@ else
             var userCommunities = await UserService.GetUserCommunitiesAsync(authState.User.Identity.Name);
             foreach (var community in userCommunities)
             {
-                await hubConnection.InvokeAsync("JoinGroup", community);
+                Console.WriteLine("Community: " + community);
             }
+        }
+    }
+
+    private async Task Connect()
+    {
+        if (client != null)
+        {
+            await client.DisposeAsync();
+            client = null;
+        }
+        errorMessage = string.Empty;
+        status = "Not connected.";
+        connectionId = string.Empty;
+        userId = string.Empty;
+        messages.Clear();
+        var uri = await AuthService.ConnectToHub(Username);
+
+        client = new WebPubSubClient(new Uri(uri));
+        client.Connected += args =>
+        {
+            status = "Connected.";
+            connectionId = args.ConnectionId;
+            userId = args.UserId;
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        client.GroupMessageReceived += args =>
+        {
+            Console.WriteLine($"Message received: {args.Message.ToString()} count = {messages.Count()}");
+            messages.Add(args.Message);
+            InvokeAsync(StateHasChanged);
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        client.Disconnected += args =>
+        {
+            status = "Not connected.";
+            connectionId = string.Empty;
+            userId = string.Empty;
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        status = "Connecting ...";
+        StateHasChanged();
+        try
+        {
+            await client.StartAsync();
+            try
+            {
+                await client.JoinGroupAsync("Sample_ChatApp");
+                Console.WriteLine("Joined Sample_ChatApp");
+                StateHasChanged();
+            }
+            catch (SendMessageFailedException ex)
+            {
+                errorMessage = ex.Message;
+                status = "Not connected.";
+                _ = client.StopAsync();
+                StateHasChanged();
+                throw;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            status = "Not connected.";
+            Console.WriteLine("failed");
+            Console.WriteLine(errorMessage);
         }
     }
 

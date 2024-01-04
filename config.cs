@@ -16,6 +16,7 @@ namespace NytWeb.Configuration
         private readonly string Key;
 
         private readonly string BlobKey;
+        private readonly string ChatKey;
 
         private readonly string JwtSecret;
 
@@ -31,6 +32,8 @@ namespace NytWeb.Configuration
             Key = _configuration.GetValue<string>("CONTEXT_KEY");
 
             BlobKey = _configuration.GetValue<string>("AzureBlobStorage");
+
+            ChatKey = _configuration.GetValue<string>("AzureWebPubSub");
 
             SaltRounds = 10;
         }
@@ -48,6 +51,11 @@ namespace NytWeb.Configuration
         public string UnpackBlobConfig()
         {
             return BlobKey;
+        }
+
+        public string UnpackHubConfig()
+        {
+            return ChatKey;
         }
 
         public int UnpackPasswordConfig()

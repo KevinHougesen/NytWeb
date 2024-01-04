@@ -10,5 +10,7 @@ namespace NytWeb.Services
 
         Task<string> DeleteUserAsync(string Username);
 
+        Task<string> ConnectToHub(string Username);
+
     }
 }

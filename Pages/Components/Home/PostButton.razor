@@ -143,61 +143,89 @@
 
     private async Task Connect()
     {
-        errorMessage = string.Empty;
-        status = "Not connected.";
-        connectionId = string.Empty;
-        userId = string.Empty;
-        messages.Clear();
-        
-        var uri = await AuthService.ConnectToHub(Username);
-        
-        client = new WebPubSubClient(new Uri(uri));
-        client.Connected += args =>
+        if (client != null)
         {
-            status = "Connected.";
-            connectionId = args.ConnectionId;
-            userId = args.UserId;
-            StateHasChanged();
-            return Task.CompletedTask;
-        };
-        client.GroupMessageReceived += args =>
+            client.Connected += args =>
+            {
+                status = "Connected.";
+                connectionId = args.ConnectionId;
+                userId = args.UserId;
+                StateHasChanged();
+                return Task.CompletedTask;
+            };
+            client.GroupMessageReceived += args =>
+            {
+                messages.Add(args.Message);
+                StateHasChanged();
+                return Task.CompletedTask;
+            };
+            client.Disconnected += args =>
+            {
+                status = "Not connected.";
+                connectionId = string.Empty;
+                userId = string.Empty;
+                StateHasChanged();
+                return Task.CompletedTask;
+            };
+        }
+        else
         {
-            messages.Add(args.Message);
-            StateHasChanged();
-            return Task.CompletedTask;
-        };
-        client.Disconnected += args =>
-        {
+            errorMessage = string.Empty;
             status = "Not connected.";
             connectionId = string.Empty;
             userId = string.Empty;
+            messages.Clear();
+            
+            var uri = await AuthService.ConnectToHub(Username);
+            
+            client = new WebPubSubClient(new Uri(uri));
+            client.Connected += args =>
+            {
+                status = "Connected.";
+                connectionId = args.ConnectionId;
+                userId = args.UserId;
+                StateHasChanged();
+                return Task.CompletedTask;
+            };
+            client.GroupMessageReceived += args =>
+            {
+                messages.Add(args.Message);
+                StateHasChanged();
+                return Task.CompletedTask;
+            };
+            client.Disconnected += args =>
+            {
+                status = "Not connected.";
+                connectionId = string.Empty;
+                userId = string.Empty;
+                StateHasChanged();
+                return Task.CompletedTask;
+            };
+            status = "Connecting ...";
             StateHasChanged();
-            return Task.CompletedTask;
-        };
-        status = "Connecting ...";
-        StateHasChanged();
-        try
-        {
-            await client.StartAsync();
             try
             {
+                await client.StartAsync();
+                try
+                {
 
-                await client.JoinGroupAsync("Sample_ChatApp");
-                Console.WriteLine("Joined ?");
+                    await client.JoinGroupAsync("Sample_ChatApp");
+                    Console.WriteLine("Joined ?");
+                }
+                catch (SendMessageFailedException ex)
+                {
+                    errorMessage = ex.Message;
+                    status = "Not connected.";
+                    _ = client.StopAsync();
+                    StateHasChanged();
+                    throw;
+                }
             }
-            catch (SendMessageFailedException ex)
+            catch (Exception ex)
             {
                 errorMessage = ex.Message;
                 status = "Not connected.";
-                _ = client.StopAsync();
-                StateHasChanged();
-                throw;
             }
-        }
-        catch (Exception ex)
-        {
-            errorMessage = ex.Message;
-            status = "Not connected.";
         }
     }
 

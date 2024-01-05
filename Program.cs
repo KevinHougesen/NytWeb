@@ -18,7 +18,7 @@ using Hubs;
 HttpClient client = new HttpClient();
 
 
-var builder = WebApplication.CreateBuilder(args).UseSetting(WebHostDefaults.DetailedErrorsKey, "true");
+var builder = WebApplication.CreateBuilder(args);
 var BlobKey = builder.Configuration.GetValue<string>("AzureBlobStorage");
 var WebPubSubKey = builder.Configuration.GetValue<string>("AzureWebPubSub");
 
@@ -28,7 +28,7 @@ builder.Services.AddWebPubSub(
 
 builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 builder.Services.AddBlazoredModal();
 builder.Services.AddMudServices();
 builder.Services.AddSingleton(client);

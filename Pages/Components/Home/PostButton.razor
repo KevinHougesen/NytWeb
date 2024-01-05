@@ -143,11 +143,6 @@
 
     private async Task Connect()
     {
-        if (client != null)
-        {
-            await client.DisposeAsync();
-            client = null;
-        }
         errorMessage = string.Empty;
         status = "Not connected.";
         connectionId = string.Empty;

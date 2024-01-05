@@ -9,7 +9,6 @@
 @using Azure.Messaging.WebPubSub.Clients
 @inject IJSRuntime js
 @using Microsoft.AspNetCore.SignalR.Client
-@implements IAsyncDisposable
 
 <MudCard Elevation="0" Width="100%">
     <MudForm Model="@model" @ref="@form" Validation="@(ValidationRules.ValidateValue)" ValidationDelay="0" Width="100%">

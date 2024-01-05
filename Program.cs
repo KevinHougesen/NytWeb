@@ -18,7 +18,7 @@ using Hubs;
 HttpClient client = new HttpClient();
 
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args).UseSetting(WebHostDefaults.DetailedErrorsKey, "true");
 var BlobKey = builder.Configuration.GetValue<string>("AzureBlobStorage");
 var WebPubSubKey = builder.Configuration.GetValue<string>("AzureWebPubSub");
 

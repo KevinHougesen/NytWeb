@@ -75,8 +75,6 @@
     private WebPubSubClient? client = null;
     private List<GroupDataMessage> messages = new();
 
-
-    private HubConnection? hubConnection;
     //private List<string> messages = new List<string>();
     private string? userInput;
     private string? messageInput;
@@ -257,13 +255,6 @@
 
 
 
-    public async ValueTask DisposeAsync()
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.DisposeAsync();
-        }
-    }
 
 
     private async Task UploadFiles(InputFileChangeEventArgs e)

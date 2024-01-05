@@ -8,7 +8,6 @@
 @inject IJSRuntime js
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.AspNetCore.SignalR.Client
-@implements IAsyncDisposable
 
 <MudCard Elevation="0" Width="100%">
     <MudForm Model="@model" @ref="@form" Validation="@(ValidationRules.ValidateValue)" ValidationDelay="0" Width="100%">
@@ -67,20 +66,12 @@
     private FileModelFluentValidator ValidationRules = new();
     private bool SuppressOnChangeWhenInvalid;
 
-
-    private HubConnection? hubConnection;
     private List<string> messages = new List<string>();
     private string? userInput;
     private string? messageInput;
 
     protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri("/posthub"))
-            .WithAutomaticReconnect()
-            .Build();
-        
-        await hubConnection.StartAsync();
 
         var authState = await authenticationState;
         Username = authState.User.Identity.Name;
@@ -124,13 +115,7 @@
 
 
 
-    public async ValueTask DisposeAsync()
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.DisposeAsync();
-        }
-    }
+   
 
 
     private async Task UploadFiles(InputFileChangeEventArgs e)

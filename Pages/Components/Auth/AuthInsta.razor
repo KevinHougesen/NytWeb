@@ -27,7 +27,10 @@
     {
         // Simulate retrieving access token and user ID, possibly from a user's input or stored credentials
         string accessToken = "AQAKc7q5sbbmksMD4jYQP4_80qksB303E2uGBhkwGnOeGeqIOcUdb_JfehgqOrPR2zw_bFprvXobmKpsFznOELXi9cJFMAjUiw2MIFmpjMDhpnU0fn2mOlbiCd40gZCmYX-s4IXDGDr1tM6GAFah44TvK2DcoE9tNMUgaYGx7mf_R3pIvaj0X98ylgnJmB_69hyMZbO4WfdIfUQekZx6EpinruXZs8_MKrdEUjtjvFnoKg#_";
-        string userId = "USER-ID";
+        var ig = new InstagramBasicDisplayApi(paramsDict);
+        
+        
+        string userId = await ig.FetchUserAccessTokenAsync(accessToken);
 
         // Initialize API with parameters
         var paramsDict = new Dictionary<string, string>
@@ -36,7 +39,6 @@
             {"user_id", userId}
         };
 
-        var ig = new InstagramBasicDisplayApi(paramsDict);
 
         // Check if user is authorized
         hasUserAccessToken = ig.HasUserAccessToken;

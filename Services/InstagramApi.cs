@@ -59,7 +59,7 @@ namespace InstagramApi
             }
             else if (paramsDict.ContainsKey("get_code")) // Try and get an access token
             {
-                var userAccessTokenResponse = await FetchUserAccessTokenAsync();
+                var userAccessTokenResponse = await FetchUserAccessTokenAsync(_userAccessToken);
                 _userAccessToken = userAccessTokenResponse.GetValueOrDefault("access_token");
                 HasUserAccessToken = true;
                 UserId = userAccessTokenResponse.GetValueOrDefault("user_id");
@@ -71,7 +71,7 @@ namespace InstagramApi
             }
         }
 
-        private async Task<Dictionary<string, string>> FetchUserAccessTokenAsync()
+        private async Task<Dictionary<string, string>> FetchUserAccessTokenAsync(string auth)
         {
             var paramsDict = new Dictionary<string, string>
     {
@@ -82,7 +82,7 @@ namespace InstagramApi
             {
                 {"app_id", _appId},
                 {"app_secret", _appSecret},
-                {"grant_type", "authorization_code"},
+                {"grant_type", auth},
                 {"redirect_uri", _redirectUrl},
                 {"code", _getCode}
             }.ToString()

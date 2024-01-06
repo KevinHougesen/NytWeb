@@ -29,6 +29,9 @@
 
     private bool collapseNavMenu = true;
 
+    [Parameter]
+    public string Code { get; set; }
+
     
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;

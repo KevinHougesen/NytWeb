@@ -36,7 +36,7 @@ else
                                 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
                                     <MudDrawer @bind-Open="@open" ClipMode="DrawerClipMode.Docked" Class="border-r border-solid mud-border-graydefault pa-4 z-10 ma-n2"  DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="10" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
                                         
-                                        <NavMenu/>
+                                        <NavMenu Code="@Code"/>
                                     
                                     </MudDrawer>
                                 </MudHidden>
@@ -153,6 +153,9 @@ else
             DrawerWidthRight = "560px",
         }
     };
+
+    [Parameter]
+    public string Code { get; set; }
 
     
 

@@ -13,6 +13,10 @@
 
 
 @code {
+
+    [Parameter]
+    public string Code { get; set; }
+
     private bool hasUserAccessToken = false;
     private string authorizationUrl = "";
     private dynamic user = null; // Using dynamic for simplicity, consider creating a model class
@@ -50,6 +54,6 @@
 
     private async Task AuthenticateInstagram()
     {
-        await JSRuntime.InvokeAsync<string>("open", "https://api.instagram.com/" + "oauth/authorize?" + "app_id=1320174152716541&" + "redirect_uri=https://www.ditnyt.dk/" + "scope=user_profile&" + "response_type=code" , "_self");
+        await JSRuntime.InvokeAsync<string>("open", "https://api.instagram.com/" + "oauth/authorize?" + "app_id=1320174152716541&" + "redirect_uri=https://www.ditnyt.dk/" + "scope=user_profile&" + "response_type=code" , "_parent");
     }
 }

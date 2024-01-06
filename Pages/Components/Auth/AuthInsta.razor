@@ -50,6 +50,6 @@
 
     private async Task AuthenticateInstagram()
     {
-        await JSRuntime.InvokeAsync<string>("open", "https://api.instagram.com/" + "oauth/authorize?" + "app_id=1320174152716541&" + "redirect_uri=https://ditnyt.dk/&" + "scope=user_profile&" + "response_type=code" , "_blank");
+        await JSRuntime.InvokeAsync<string>("open", "https://api.instagram.com/" + "oauth/authorize?" + "app_id=1320174152716541&" + "redirect_uri=https://ditnyt.dk/&" + "scope=user_profile&" + "response_type=code" , "_parent");
     }
 }

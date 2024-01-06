@@ -7,7 +7,7 @@
 @inject IAuthService AuthService
 @inject IDialogService DialogService
 <MudContainer Height="90%" Elevation="0" MaxWidth="MaxWidth.Small" Width="80%" >
-    <MudStack Spacing="5" Row="false" Width="75%">
+    <MudStack Spacing="4" Row="false" Width="75%">
         <h1 class="appbar">Nyt!</h1>
         <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => AuthenticateInstagram())" MudBlazor.Size="Size.Small" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
         <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="Søg Nyt" Width="75px"/>

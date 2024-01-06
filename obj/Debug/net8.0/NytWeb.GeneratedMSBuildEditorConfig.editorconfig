@@ -26,6 +26,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2hhdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/kevinhougesen/NytWeb/Pages/Components/Auth/AuthInsta.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9BdXRoL0F1dGhJbnN0YS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/kevinhougesen/NytWeb/Pages/Components/Auth/Loading.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9BdXRoL0xvYWRpbmcucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -128,6 +132,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/kevinhougesen/NytWeb/Shared/MobileNav.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01vYmlsZU5hdi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Shared/RecMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1JlY01lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/kevinhougesen/NytWeb/Shared/SearchMenu.razor]

@@ -1,46 +1,51 @@
 
     
 
-        
-    <MudCarousel AutoCycle="false" ShowArrows="false" Style="height:300px; width:480px;" TData="object">
-        <BulletTemplate Context="selected">
-            <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
-                <span class="mud-icon-button-label">
-                    <MudIcon Icon="@(selected ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Circle)" Color="@Color.Inherit" />
-                </span>
-            </div>
-        </BulletTemplate>
-        <ChildContent>
-            <MudCarouselItem Transition="Transition.Slide" >
-                <div class="d-flex" style="height:100%">
-                    <MudPaper Width="100%" Class="pa-16 ma-2" Elevation="0">
-                        <MudText Typo="Typo.h5">Du kender måske?</MudText>
-                        <MudDivider />
-                        <UserList />
-                        <UserList />
-                    </MudPaper>
-                </div>
-            </MudCarouselItem>
-            <MudCarouselItem Transition="Transition.Slide" >
-                <div class="d-flex" style="height:100%">
-                    <MudPaper Width="100%" Class="pa-16 ma-2" Elevation="0">
-                        <MudText Typo="Typo.h5">Du kender måske?</MudText>
-                        <MudDivider />
-                        <UserList />
-                        <UserList />
-                    </MudPaper>
-                </div>
-            </MudCarouselItem>
-            <MudCarouselItem Transition="Transition.Slide">
-                <div class="d-flex" style="height:100%">
-                    <MudPaper Width="100%" Class="pa-16 ma-2" Elevation="0">
-                        <MudText Typo="Typo.h5">Du kender måske?</MudText>
-                        <MudDivider />
-                        <UserList />
-                        <UserList />
-                    </MudPaper>
-                </div>
-            </MudCarouselItem>
-        </ChildContent>
-    </MudCarousel>
+<MudPaper Class="pa-3" Elevation="0">
+    <MudCard Elevation="0">
+        <MudCardContent>  
+            <MudCarousel AutoCycle="false" ShowArrows="false" Style="height:300px; width:480px;" TData="object">
+                <BulletTemplate Context="selected">
+                    <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                        <span class="mud-icon-button-label">
+                            <MudIcon Icon="@(selected ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Circle)" Color="@Color.Inherit" />
+                        </span>
+                    </div>
+                </BulletTemplate>
+                <ChildContent>
+                    <MudCarouselItem Transition="Transition.Slide" >
+                        <div class="d-flex" style="height:100%">
+                            <MudPaper Width="100%" Class="pa-16 ma-2" Elevation="0">
+                                <MudText Typo="Typo.subtitle2">Du kender måske?</MudText>
+                                <MudDivider />
+                                <UserList />
+                                <UserList />
+                            </MudPaper>
+                        </div>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide" >
+                        <div class="d-flex" style="height:100%">
+                            <MudPaper Width="100%" Class="pa-16 ma-2" Elevation="0">
+                                <MudText Typo="Typo.subtitle2">Du kender måske?</MudText>
+                                <MudDivider />
+                                <UserList />
+                                <UserList />
+                            </MudPaper>
+                        </div>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <div class="d-flex" style="height:100%">
+                            <MudPaper Width="100%" Class="pa-16 ma-2" Elevation="0">
+                                <MudText Typo="Typo.subtitle1">Du kender måske?</MudText>
+                                <MudDivider />
+                                <UserList />
+                                <UserList />
+                            </MudPaper>
+                        </div>
+                    </MudCarouselItem>
+                </ChildContent>
+            </MudCarousel>
+        </MudCardContent>
+    </MudCard>
+</MudPaper>
 

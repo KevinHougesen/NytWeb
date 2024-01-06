@@ -14,6 +14,7 @@ using Microsoft.Azure.WebPubSub.AspNetCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Azure.WebPubSub.Common;
 using Hubs;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 HttpClient client = new HttpClient();
 
@@ -27,6 +28,7 @@ builder.Services.AddWebPubSub(
     .AddWebPubSubServiceClient<Sample_ChatApp>();
 
 builder.Services.AddAuthenticationCore();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 builder.Services.AddBlazoredModal();

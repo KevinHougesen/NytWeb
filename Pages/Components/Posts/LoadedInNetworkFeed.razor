@@ -35,17 +35,24 @@ else
 
         @if(messages.Count == 0)
         {
-            <p>No message received yet.</p>
+            <MudPaper Width="100%">
+                <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+                    <MudPaper Width="100%" Elevation="0">
+                        <MudFab StartIcon="@Icons.Material.Filled.Refresh" DisableElevation="true" Color="Color.Primary" Label="Du har fået Nyt!" Width="240px"/>
+                    </MudPaper>
+                </MudContainer>
+            </MudPaper>
+            <MudDivider />
         }
         else
         {
             @foreach (var message in messages)
             {
 
-                <MudPaper Width="100%" Elevation="0" Class="border-x border-solid mud-border-primary pa-4"  Square="true">
-            <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+
+            <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.ExtraSmall" Width="100%" Class="border-x-4 border-solid mud-border-primary pa-4"  Square="true">
             
-                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" >
+                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" Class="border-x-1 border-solid mud-border-primary pa-4"  Square="true">
                     <MudCardHeader>
 
                                 <CardHeaderAvatar>
@@ -188,7 +195,6 @@ else
                 </MudCard>
             </MudContainer>
             <MudDivider />
-        </MudPaper>
         <MudSpacer />
             }
         }
@@ -196,8 +202,8 @@ else
         @foreach (var post in posts)
         {
 
-            <MudPaper Width="100%" Class="flex-none" Elevation="0">
-            <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+            <MudPaper Width="100%" Elevation="0">
+
             
                 <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" >
                     <MudCardHeader>
@@ -281,22 +287,24 @@ else
                             <MudCardMedia ObjectFit="ObjectFit.Contain" Height="640" Image="@post.Post.PicturePath" />
                             @if (!string.IsNullOrEmpty(post.Post.Content))
                             {
-                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                    <b>@post.PostCreatorUsername</b> 
-                                </MudText>
-                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                    @{
-                                        var displayContent = showFullContent || post.Post.Content.Length <= 200
-                                            ? post.Post.Content
-                                            : post.Post.Content.Substring(0, 200) + "... ";
-                                        @displayContent
-                                    }
+                                <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="90%" >
+                                    <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                        <b>@post.PostCreatorUsername</b> 
+                                    </MudText>
+                                    <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                        @{
+                                            var displayContent = showFullContent || post.Post.Content.Length <= 200
+                                                ? post.Post.Content
+                                                : post.Post.Content.Substring(0, 200) + "... ";
+                                            @displayContent
+                                        }
 
-                                    @if (post.Post.Content.Length > 200)
-                                    {
-                                        <span @onclick="ToggleContent">@GetReadMoreText()</span>
-                                    }
-                                </MudText>
+                                        @if (post.Post.Content.Length > 200)
+                                        {
+                                            <span @onclick="ToggleContent">@GetReadMoreText()</span>
+                                        }
+                                    </MudText>
+                                </MudContainer>
 
                                 
                             }
@@ -312,54 +320,58 @@ else
                                 <MudSpacer />
                                 @if (!string.IsNullOrEmpty(post.Post.Content))
                                 {
-                                    <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                    @{
-                                        var displayContent = showFullContent || post.Post.Content.Length <= 200 
-                                            ? post.Post.Content 
-                                            : post.Post.Content.Substring(0, 200) + "... ";
+                                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+                                        <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                        @{
+                                            var displayContent = showFullContent || post.Post.Content.Length <= 200 
+                                                ? post.Post.Content 
+                                                : post.Post.Content.Substring(0, 200) + "... ";
 
-                                        @displayContent
-                                    }
-                                    @if (post.Post.Content.Length > 200)
-                                    {
-                                        <span @onclick="ToggleContent">@GetReadMoreText()</span> 
-                                    }
+                                            @displayContent
+                                        }
+                                        @if (post.Post.Content.Length > 200)
+                                        {
+                                            <span @onclick="ToggleContent">@GetReadMoreText()</span> 
+                                        }
 
-                                    </MudText>
+                                        </MudText>
+                                    </MudContainer>
                                 }
                             }
                         }
   
-                    <MudCardActions>
+                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+                        <MudCardActions>
 
-                        <MudText Typo="Typo.body2">@post.LikedBy.Count()</MudText>
-                                <MudToggleIconButton 
-                                    Toggled="@post.LikedBy.Contains(Username)" 
-                                    ToggledChanged="@(toggled => OnToggledChanged(post, toggled))"
-                                    Icon="@Icons.Material.Filled.FavoriteBorder" 
-                                    Color="@Color.Primary" 
-                                    Title="Like" 
-                                    ToggledIcon="@Icons.Material.Outlined.Favorite" 
-                                    ToggledColor="@Color.Primary" 
-                                    ToggledTitle="Liked" /> &nbsp; &nbsp; &nbsp; &nbsp;
+                            <MudText Typo="Typo.body2">@post.LikedBy.Count()</MudText>
+                                    <MudToggleIconButton 
+                                        Toggled="@post.LikedBy.Contains(Username)" 
+                                        ToggledChanged="@(toggled => OnToggledChanged(post, toggled))"
+                                        Icon="@Icons.Material.Filled.FavoriteBorder" 
+                                        Color="@Color.Primary" 
+                                        Title="Like" 
+                                        ToggledIcon="@Icons.Material.Outlined.Favorite" 
+                                        ToggledColor="@Color.Primary" 
+                                        ToggledTitle="Liked" /> &nbsp; &nbsp; &nbsp; &nbsp;
 
-                        <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
-                        <MudToggleIconButton 
-                                    Toggled="@post.RepostedBy.Contains(Username)" 
-                                    ToggledChanged="@(toggled => OnRepostedChanged(post, toggled))"
-                                    Icon="@Icons.Material.Outlined.Repeat" 
-                                    Color="@Color.Default" 
-                                    Title="Like" 
-                                    ToggledIcon="@Icons.Material.Outlined.Repeat" 
-                                    ToggledColor="@Color.Warning" 
-                                    ToggledTitle="Reposted" /> &nbsp; &nbsp; &nbsp; &nbsp;
+                            <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
+                            <MudToggleIconButton 
+                                        Toggled="@post.RepostedBy.Contains(Username)" 
+                                        ToggledChanged="@(toggled => OnRepostedChanged(post, toggled))"
+                                        Icon="@Icons.Material.Outlined.Repeat" 
+                                        Color="@Color.Default" 
+                                        Title="Like" 
+                                        ToggledIcon="@Icons.Material.Outlined.Repeat" 
+                                        ToggledColor="@Color.Warning" 
+                                        ToggledTitle="Reposted" /> &nbsp; &nbsp; &nbsp; &nbsp;
 
-                        <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
-                        <MudIconButton Icon="@Icons.Material.Outlined.Comment" OnClick="@((e) => OpenPost(post.Post.Id))" Color="Color.Info" /> &nbsp; &nbsp; &nbsp; &nbsp;
+                            <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
+                            <MudIconButton Icon="@Icons.Material.Outlined.Comment" OnClick="@((e) => OpenPost(post.Post.Id))" Color="Color.Info" /> &nbsp; &nbsp; &nbsp; &nbsp;
 
-                    </MudCardActions>
+                        </MudCardActions>
+                    </MudContainer>
                 </MudCard>
-            </MudContainer>
+
             <MudDivider />
         </MudPaper>
         <MudSpacer />

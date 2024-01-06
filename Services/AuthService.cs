@@ -12,12 +12,18 @@ namespace NytWeb.Services
         private readonly string Context;
         private readonly IConfig _config;
         private readonly string Key;
+        private readonly string INSTAGRAM_APP_ID;
+        private readonly string INSTAGRAM_APP_SECRET;
+        private readonly string INSTAGRAM_REDIRECT_URI;
 
         public AuthService(HttpClient client, IConfig config)
         {
             _client = client;
             _config = config;
             var (context, key) = _config.UnpackContextConfig();
+            INSTAGRAM_APP_ID = "1320174152716541";
+            INSTAGRAM_APP_SECRET = "d92d0eedd459439af59da6876f164aa6";
+            INSTAGRAM_REDIRECT_URI = "https://www.ditnyt.dk/";
             Context = context;
             Key = key;
         }
@@ -39,6 +45,26 @@ namespace NytWeb.Services
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<UserModel>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
+        public async Task<string> AuthInsta()
+        {
+            // CREATING URL STRING
+            string apiURL = "https://api.instagram.com/" + "oauth/authorize?";
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { app_id = INSTAGRAM_APP_ID, redirect_url = INSTAGRAM_REDIRECT_URI, scope = "user_profile,user_media", response_type = "code" });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = apiURL + jsonContent;
+
+            // RETURNING REQUEST AND CONVERTING TO STRING
+            var result = response;
+            Console.WriteLine(result);
 
             // RETURNING FINAL RESULT
             return result;

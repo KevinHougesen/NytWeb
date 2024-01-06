@@ -34,16 +34,10 @@ else
 
 
                                 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
-                                    <MudDrawer @bind-Open="@open" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="100" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
+                                    <MudDrawer @bind-Open="@open" ClipMode="DrawerClipMode.Docked" Class="border-r border-solid mud-border-graydefault pa-4 z-10 ma-n2"  DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="10" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
                                         
                                         <NavMenu/>
                                     
-                                        
-                                        <MudPaper Height="100%" Elevation="0">
-                                            <MudToggleIconButton @bind-Toggled="@_isDarkMode"
-                                                    Icon="@Icons.Material.Outlined.WbSunny" Color="@Color.Warning" Title="Off" 
-                                                    ToggledIcon="@Icons.Material.Outlined.DarkMode" ToggledColor="@Color.Primary" ToggledTitle="On" />
-                                        </MudPaper>
                                     </MudDrawer>
                                 </MudHidden>
 
@@ -52,52 +46,15 @@ else
 
 
 
-                                    <MudMainContent Color="Color.Secondary">
+                                    <MudMainContent Color="Color.Secondary" Class="z-30 ma-n2">
                                         @Body
                                         
                                     </MudMainContent>
 
-                                    <MudHidden Breakpoint="Breakpoint.MdAndUp" >
-                                        <MudDrawer @bind-Open="@open" Anchor="Anchor.Bottom" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="100" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">    
-                                            <MobileNav/>
-                                        
-                                            
-                                            <MudPaper Height="100%" Elevation="0">
-                                                <MudToggleIconButton @bind-Toggled="@_isDarkMode"
-                                                        Icon="@Icons.Material.Outlined.WbSunny" Color="@Color.Warning" Title="Off" 
-                                                        ToggledIcon="@Icons.Material.Outlined.DarkMode" ToggledColor="@Color.Primary" ToggledTitle="On" />
-                                            </MudPaper>
-                                        </MudDrawer>
-                                    </MudHidden>
-
-
-
 
                                 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
-                                    <MudDrawer @bind-Open="@open" Anchor="Anchor.End" ClipMode="DrawerClipMode.Docked" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="100" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
-                                        <MudStack Width="60%">
-                                            <MudPaper Width="50%" Height="70px" Elevation="0" Class="pa-3"></MudPaper>
-
-                                            <MudPaper Class="pa-3" Elevation="0">
-                                                <MudCard Elevation="0">
-                                                    <MudCardMedia Image="https://sunset-boulevard.dk/wp-content/uploads/sites/7/2021/02/J675_restaurant_side_image_Sunsetboulevard.dk_978x454px_Sunset_Club2.jpg" Height="200" />
-                                                    <MudCardContent>
-                                                        <MudText>Sunset Boulevard</MudText>
-                                                        <MudText Typo="Typo.body2">Bestil take away fra Sunset Boulevard og spring køen over når du henter din mad.</MudText>
-                                                        <MudText Typo="Typo.overline">SPONSORERET</MudText>
-                                                    </MudCardContent>
-                                                    <MudCardActions>
-                                                        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
-                                                    </MudCardActions>
-                                                </MudCard>
-                                            </MudPaper>
-
-                                            
-                                            <ToFollow />
-
-                                            
-
-                                        </MudStack>
+                                    <MudDrawer @bind-Open="@open" Anchor="Anchor.End" ClipMode="DrawerClipMode.Docked" Class="border-l border-solid pa-4 z-10 ma-n2" DisableOverlay="true" Breakpoint="Breakpoint.Md" Color="Color.Secondary" ZIndex="10" PreserveOpenState="true" Variant="@DrawerVariant.Temporary" Elevation="0">
+                                        <RecMenu />
                                     </MudDrawer>
                                 </MudHidden>
                     </MudPaper>
@@ -192,8 +149,8 @@ else
 
         LayoutProperties = new LayoutProperties()
         {
-            DrawerWidthLeft = "320px",
-            DrawerWidthRight = "500px",
+            DrawerWidthLeft = "560px",
+            DrawerWidthRight = "560px",
         }
     };
 

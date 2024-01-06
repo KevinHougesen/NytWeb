@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "YZwpH6euZo2lhxmebFMRnnaW8Eil2S15OGn4ppC9pHc=",
+  "Hash": "fMFQQVPsVQgHlf5Qq1ICYSGo2gkieaw+GwIA60lnAR8=",
   "Source": "NytWeb",
   "BasePath": "_content/NytWeb",
   "Mode": "Default",
@@ -1404,25 +1404,6 @@
       "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "/Users/kevinhougesen/NytWeb/wwwroot/favicon.png",
-      "SourceId": "NytWeb",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/kevinhougesen/NytWeb/wwwroot/",
-      "BasePath": "_content/NytWeb",
-      "RelativePath": "favicon.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/favicon.png"
-    },
-    {
       "Identity": "/Users/kevinhougesen/NytWeb/wwwroot/images/drnyheder.jpg",
       "SourceId": "NytWeb",
       "SourceType": "Discovered",
@@ -1461,12 +1442,12 @@
       "OriginalItemSpec": "wwwroot/images/Pain.png"
     },
     {
-      "Identity": "/Users/kevinhougesen/NytWeb/wwwroot/N!Logo.png",
+      "Identity": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo.png",
       "SourceId": "NytWeb",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/kevinhougesen/NytWeb/wwwroot/",
       "BasePath": "_content/NytWeb",
-      "RelativePath": "N!Logo.png",
+      "RelativePath": "NLogo.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1477,45 +1458,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/N!Logo.png"
-    },
-    {
-      "Identity": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo_clean.png",
-      "SourceId": "NytWeb",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/kevinhougesen/NytWeb/wwwroot/",
-      "BasePath": "_content/NytWeb",
-      "RelativePath": "NLogo_clean.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/NLogo_clean.png"
-    },
-    {
-      "Identity": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo_outline.png",
-      "SourceId": "NytWeb",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/kevinhougesen/NytWeb/wwwroot/",
-      "BasePath": "_content/NytWeb",
-      "RelativePath": "NLogo_outline.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/NLogo_outline.png"
+      "OriginalItemSpec": "wwwroot/NLogo.png"
     }
   ]
 }

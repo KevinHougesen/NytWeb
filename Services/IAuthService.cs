@@ -12,5 +12,7 @@ namespace NytWeb.Services
 
         Task<string> ConnectToHub(string Username);
 
+        Task<string> AuthInsta();
+
     }
 }

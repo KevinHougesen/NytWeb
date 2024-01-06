@@ -5,16 +5,8 @@
       "PackagePath": "staticwebassets/NytWeb.bundle.scp.css"
     },
     {
-      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/N!Logo.png",
-      "PackagePath": "staticwebassets/N!Logo.png"
-    },
-    {
-      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo_clean.png",
-      "PackagePath": "staticwebassets/NLogo_clean.png"
-    },
-    {
-      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo_outline.png",
-      "PackagePath": "staticwebassets/NLogo_outline.png"
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/NLogo.png",
+      "PackagePath": "staticwebassets/NLogo.png"
     },
     {
       "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/bootstrap/bootstrap.min.css",
@@ -111,10 +103,6 @@
     {
       "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
-    },
-    {
-      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/favicon.png",
-      "PackagePath": "staticwebassets/favicon.png"
     },
     {
       "Id": "/Users/kevinhougesen/NytWeb/wwwroot/images/Pain.png",

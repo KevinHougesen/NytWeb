@@ -59,7 +59,7 @@
     private async Task AuthenticateInstagram()
     {
         var parameters = new DialogParameters<AuthInsta>();
-        parameters.Add(x => x.Code, Code)
+        parameters.Add(x => x.Code, Code);
 
         var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = false };
 

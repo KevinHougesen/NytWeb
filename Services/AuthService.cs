@@ -50,20 +50,20 @@ namespace NytWeb.Services
             return result;
         }
 
-        public async Task<string> AuthInsta()
+        public async Task<string> AuthInsta(string key)
         {
             // CREATING URL STRING
-            string apiURL = "https://api.instagram.com/" + "oauth/authorize?";
+            string apiURL = "https://api.instagram.com/" + "oauth/access_token";
 
             // CREATING PAYLOAD AND JSON CONTENT
-            var payload = JsonConvert.SerializeObject(new { app_id = INSTAGRAM_APP_ID, redirect_url = INSTAGRAM_REDIRECT_URI, scope = "user_profile,user_media", response_type = "code" });
+            var payload = JsonConvert.SerializeObject(new { app_id = INSTAGRAM_APP_ID, app_secret = INSTAGRAM_APP_SECRET, grant_type = "authorization_code", redirect_uri = INSTAGRAM_REDIRECT_URI, code = key });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
-            var response = apiURL + jsonContent;
+            var response = await _client.PostAsync(apiURL, jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO STRING
-            var result = response;
+            var result = await response.Content.ReadAsStringAsync();
             Console.WriteLine(result);
 
             // RETURNING FINAL RESULT

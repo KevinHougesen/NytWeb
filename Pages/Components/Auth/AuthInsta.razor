@@ -7,21 +7,9 @@
 <h1>Instagram Basic Display API</h1>
 <hr />
 
-@if (user != null && hasUserAccessToken)
-{
-    <h4>IG Info</h4>
-    <hr />
-    <pre>@userDetails</pre>
-    <h1>Username: @user?.username</h1>
-    <h2>IG ID: @user?.id</h2>
-    <hr />
-    @* Display Posts and Media as needed *@
-}
-else
-{
+
     <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => AuthenticateInstagram())" MudBlazor.Size="Size.Small" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
-}
-        
+
 
 
 @code {

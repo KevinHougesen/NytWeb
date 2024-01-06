@@ -59,7 +59,7 @@ namespace InstagramApi
             }
             else if (paramsDict.ContainsKey("get_code")) // Try and get an access token
             {
-                var userAccessTokenResponse = await FetchUserAccessTokenAsync(_userAccessToken);
+                var userAccessTokenResponse = await FetchUserAccessTokenAsync(_getCode);
                 _userAccessToken = userAccessTokenResponse.GetValueOrDefault("access_token");
                 HasUserAccessToken = true;
                 UserId = userAccessTokenResponse.GetValueOrDefault("user_id");
@@ -82,9 +82,9 @@ namespace InstagramApi
             {
                 {"app_id", _appId},
                 {"app_secret", _appSecret},
-                {"grant_type", auth},
+                {"grant_type", "authorization_code"},
                 {"redirect_uri", _redirectUrl},
-                {"code", _getCode}
+                {"code", auth}
             }.ToString()
         }
     };

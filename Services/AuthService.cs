@@ -56,7 +56,7 @@ namespace NytWeb.Services
             string apiURL = "https://api.instagram.com/" + "oauth/access_token";
 
             // CREATING PAYLOAD AND JSON CONTENT
-            var payload = JsonConvert.SerializeObject(new { app_id = INSTAGRAM_APP_ID, app_secret = INSTAGRAM_APP_SECRET, grant_type = "authorization_code", redirect_uri = INSTAGRAM_REDIRECT_URI, code = key });
+            var payload = JsonConvert.SerializeObject(new { client_id = INSTAGRAM_APP_ID, client_secret = INSTAGRAM_APP_SECRET, grant_type = "authorization_code", redirect_uri = INSTAGRAM_REDIRECT_URI, code = key });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
@@ -92,10 +92,10 @@ namespace NytWeb.Services
             return result;
         }
 
-        public async Task<string> ConnectToHub(string Username)
+        public async Task<string> ConnectToHub(string Username, List<string> groupName)
         {
             // SENDING JSON CONTENT
-            var response = await _client.GetStringAsync($"http://nytwebapp.azurewebsites.net/negotiate?id={Username}");
+            var response = await _client.GetStringAsync($"http://localhost:5022/negotiate?id={Username}&firstGroup={groupName[0]}&secondGroup={groupName[1]}&thirdGroup={groupName[2]}");
 
             // RETURNING FINAL RESULT
             return response;

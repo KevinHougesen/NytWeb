@@ -26,7 +26,7 @@ namespace InstagramApi
         {
             _getCode = paramsDict.GetValueOrDefault("get_code");
 
-            SetUserInstagramAccessToken(paramsDict);
+
             SetAuthorizationUrl();
         }
 

@@ -6,22 +6,25 @@
 @inject IUserService UserService
 @inject IAuthService AuthService
 @inject IDialogService DialogService
-<MudContainer Height="90%" Elevation="0" MaxWidth="MaxWidth.Small" Width="80%" >
-    <MudStack Spacing="4" Row="false" Width="75%">
-        <h1 class="appbar">Nyt!</h1>
-        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => AuthenticateInstagram())" MudBlazor.Size="Size.Small" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
-        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="Søg Nyt" Width="75px"/>
-        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="Beskeder" Width="75%"/>
-        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" Label="Lokaler" Width="75%"/>
-        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Create" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Nyt Skaber" Width="75%"/>
-        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Bookmarks"  Color="Color.Secondary" Label="Bogmærker" Width="75%"/>
-        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Person" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Profil" Width="75%"/>
-        <MudFab StartIcon="@Icons.Material.Filled.PostAdd" OnClick="@((e) => OpenPostCreator())" DisableElevation="true" Color="Color.Info" Label="Skab Nyt" Width="75%"/>
-        <MudToggleIconButton @bind-Toggled="@_isDarkMode"
-                                Icon="@Icons.Material.Outlined.WbSunny" Color="@Color.Warning" Title="Off" 
-                                ToggledIcon="@Icons.Material.Outlined.DarkMode" ToggledColor="@Color.Primary" ToggledTitle="On" />
-    </MudStack>
-</MudContainer>
+<MudPaper Height="100%">
+    <MudNavMenu Height="100%" Class="mud-width-full mud-height-full">
+    
+        <MudStack AlignItems="AlignItems.Center" Justify="Justify.SpaceEvenly">
+            <h1 class="appbar">Nyt!</h1>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => AuthenticateInstagram())" MudBlazor.Size="Size.Small" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="Søg Nyt" Width="75px"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="Beskeder" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" Label="Lokaler" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Create" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Nyt Skaber" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Bookmarks"  Color="Color.Secondary" Label="Bogmærker" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Person" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Profil" Width="75%"/>
+            <MudFab StartIcon="@Icons.Material.Filled.PostAdd" OnClick="@((e) => OpenPostCreator())" DisableElevation="true" Color="Color.Info" Label="Skab Nyt" Width="75%"/>
+            <MudToggleIconButton @bind-Toggled="@_isDarkMode"
+                                    Icon="@Icons.Material.Outlined.WbSunny" Color="@Color.Warning" Title="Off" 
+                                    ToggledIcon="@Icons.Material.Outlined.DarkMode" ToggledColor="@Color.Primary" ToggledTitle="On" />
+        </MudStack>
+    </MudNavMenu>
+</MudPaper>
 
 @code {
     [CascadingParameter]

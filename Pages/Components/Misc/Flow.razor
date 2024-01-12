@@ -1,0 +1,188 @@
+@page "/diagrams"
+@using Blazor.Diagrams
+@using Blazor.Diagrams.Core
+@using Blazor.Diagrams.Core.Geometry
+@using Blazor.Diagrams.Core.Models
+
+<!-- required to resolve DiagramCanvas component -->
+@using Blazor.Diagrams.Components
+@using Blazor.Diagrams.Core.Options
+@using Blazor.Diagrams.Options
+
+@using CustomNodesLinks.Models
+@using NytWeb.Widgets
+
+@inject IUserService UserService
+
+
+<!--
+Parent of DiagramCanvas has to have a fixed width/height
+or it will not be rendered.
+
+100vw = 100% viewport width
+100vh = 100% viewport height
+-->
+
+
+
+
+
+<MudContainer Fixed="true">
+    <MudStack>
+        <MudPaper Class="pa-16 ma-2" Outlined="true" Square="true" Width="100%" Height="600px" >
+            <h5>Grafværktøj</h5>
+            <MudDivider />
+
+            <MudContainer MaxWidth="MaxWidth.Small">
+                <MudAutocomplete T="string" Label="Prøv 'kevinsamuel'" @bind-Value="value2" SearchFunc="@Search2"
+                    ResetValueOnEmptyText="@resetValueOnEmptyText"
+                    CoerceText="@coerceText" CoerceValue="@coerceValue"
+                    AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                <MudDivider />
+
+                <MudChipSet @bind-SelectedChips="selected" MultiSelection="true" Filter="true">
+                    <MudChip Text="grey" Variant="Variant.Text" Color="Color.Default">Default</MudChip>
+                    <MudChip Text="purple" Variant="Variant.Text" Color="Color.Primary">Primary</MudChip>
+                    <MudChip Text="blue" Variant="Variant.Text" Color="Color.Info">Info</MudChip>
+                    <MudChip Text="green" Variant="Variant.Text" Color="Color.Success">Success</MudChip>
+                    <MudChip Text="orange" Variant="Variant.Text" Color="Color.Warning">Warning</MudChip>
+                    <MudChip Text="red" Variant="Variant.Text" Color="Color.Error">Error</MudChip>
+                    <MudChip Text="black" Variant="Variant.Text" Color="Color.Dark">Dark</MudChip>
+                </MudChipSet>
+                <div class="d-flex justify-center">
+                    @if (selected != null && selected.Length>0)
+                    {
+                        <MudText>You selected @string.Join(", ", selected.Select(chip=>chip.Text)).</MudText>
+                    }
+                    else
+                    {
+                        <MudText>Nothing selected.</MudText>
+                    }
+                </div>
+            <MudDivider />
+
+            </MudContainer>
+
+            <CascadingValue Value="BlazorDiagram" IsFixed="true">
+                <DiagramCanvas>
+                    <Widgets>
+                        <GridWidget Size="30" Mode="GridMode.Line" BackgroundColor="white" />
+                    </Widgets>
+                </DiagramCanvas>
+            </CascadingValue>
+        </MudPaper>
+        <MudPaper Class="pa-16 ma-2" Width="100%" Height="300px" />
+    </MudStack>
+</MudContainer>
+
+@code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private BlazorDiagram BlazorDiagram { get; set; }
+
+    MudChip[] selected;
+    
+    private List<string> Followers;
+
+    private string Username;
+
+    private bool coerceText;
+    private bool coerceValue;
+    private string value1, value2;
+    private bool resetValueOnEmptyText;
+    private string[] states =
+    {
+        "Alabama", "Alaska", "American Samoa", "kevinsamuel",
+        "Arkansas", "California", "Colorado", "Connecticut",
+        "Delaware", "District of Columbia", "Federated States of Micronesia",
+        "Florida", "Georgia", "Guam", "Hawaii", "Idaho",
+        "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+        "Louisiana", "Maine", "Marshall Islands", "Maryland",
+        "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+        "Missouri", "Montana", "Nebraska", "Nevada",
+        "New Hampshire", "New Jersey", "New Mexico", "New York",
+        "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio",
+        "Oklahoma", "Oregon", "Palau", "Pennsylvania", "Puerto Rico",
+        "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
+        "Texas", "Utah", "Vermont", "Virgin Island", "Virginia",
+        "Washington", "West Virginia", "Wisconsin", "Wyoming",
+    };
+
+    
+
+    protected override async Task OnInitializedAsync()
+  {
+    var authState = await authenticationState;
+    Username = authState.User.Identity.Name;
+
+    base.OnInitialized();
+
+    var options = new BlazorDiagramOptions
+    {
+      AllowMultiSelection = true, // Whether to allow multi selection using CTRL
+      Links =
+      {
+      },
+      Zoom =
+      {
+        Minimum = 0.5, // Minimum zoom value
+        Inverse = false, // Whether to inverse the direction of the zoom when using the wheel
+      }
+    };
+    BlazorDiagram = new BlazorDiagram(options);
+
+    Followers = await UserService.GetUserSeenPostAsync("kevinsamuel");
+
+  // connect node/link to renderer
+    BlazorDiagram.RegisterComponent<DiagramNode, DiagramNodeWidget>();
+    BlazorDiagram.RegisterComponent<DiagramLinkLabel, DiagramLinkLabelWidget>();
+
+    Setup();
+  }
+
+  private void Setup()
+  {
+    var node1 = new DiagramNode("kevinsamuel", new Point(50, 50));
+    BlazorDiagram.Nodes.Add(node1);
+    List<DiagramNode> posts = new();
+    List<DiagramLink> links = new();
+
+    foreach(var follower in Followers)
+    {
+        var followsUser = new DiagramNode(follower, new Point(300, 300));
+        var link = new DiagramLink($"har set", node1, followsUser);
+        link.SourceMarker = LinkMarker.Square;
+        link.TargetMarker = LinkMarker.Arrow;
+        posts.Add(followsUser);
+        links.Add(link);
+    }
+    foreach(var link in links)
+    {
+        BlazorDiagram.Links.Add(link);
+    }
+
+    foreach(var post in posts)
+    {
+        BlazorDiagram.Nodes.Add(post);
+    }
+
+
+
+  // use portless links so connection points move around when we move node
+  }
+
+  private async Task<IEnumerable<string>> Search2(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, don't return values (drop-down will not open)
+        if (string.IsNullOrEmpty(value))
+            return new string[0];
+        return states.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+
+}

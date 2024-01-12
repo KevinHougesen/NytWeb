@@ -1,0 +1,14 @@
+@using CustomNodesLinks.Models
+
+<MudAvatar Color="Color.Primary" Style="height:120px; width:120px; font-size:1rem;">
+  <div class="graphml-node @(Node.Selected ? " graphml-selected" : "")">
+    @Node.Name
+  </div>
+</MudAvatar>
+
+@code {
+
+  [Parameter]
+  public DiagramNode Node { get; set; }
+
+}

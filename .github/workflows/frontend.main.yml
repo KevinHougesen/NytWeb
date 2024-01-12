@@ -4,9 +4,9 @@ name: deploy_frontend
 on: [push]
 
 env:
-  AZURE_WEBAPP_NAME: NytWebApp # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: "8.0" # set this to the dot net version to use
+  AZURE_WEBAPP_NAME: NytWebApp 
+  AZURE_WEBAPP_PACKAGE_PATH: "."
+  DOTNET_VERSION: "8.0" 
 
 jobs:
   build:
@@ -15,11 +15,13 @@ jobs:
       - name: "Checkout Github Action"
         uses: actions/checkout@main
 
+      # Login to Azure via Azure CLI
       - name: "Login via Azure CLI"
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Building dependensies
       - name: Setup DotNet ${{ env.DOTNET_VERSION  }} Environment
         uses: actions/setup-dotnet@v3
         with:

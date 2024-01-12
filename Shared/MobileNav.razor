@@ -1,12 +1,27 @@
+@inject NavigationManager NavigationManager
 
-    <MudNavMenu Class="mud-width-full">
-        <MudStack Row="true">
-            <MudNavLink Href="/dashboard" Icon="fas fa-chart-line">Dashboard</MudNavLink>
-            <MudNavLink Href="/servers" Icon="fas fa-server">Servers</MudNavLink>
-            <MudNavLink Href="/billing" Icon="fas fa-receipt" Disabled="true">Billing</MudNavLink>
-            <MudNavGroup Title="Settings" Icon="fas fa-cogs" Expanded="true">
-                <MudNavLink Href="/users" Icon="fas fa-users" IconColor="Color.Success">Users</MudNavLink>
-                <MudNavLink Href="/security" Icon="fas fa-user-shield" IconColor="Color.Info">Security</MudNavLink>
-            </MudNavGroup>
-        </MudStack>
-    </MudNavMenu>
+<MudNavMenu Class="mud-width-full">
+    <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceEvenly">
+        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => GoToHome())" MudBlazor.Size="Size.Small" Color="Color.Secondary" Rel="nofollow" Label="" Width="75%"/>
+        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="" Width="75px"/>
+        
+        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" Label="" Width="75%"/>
+        
+        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Person" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="" Width="75%"/>
+        <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="" Width="75%"/>
+    </MudStack>
+</MudNavMenu>
+
+@code
+{
+    private async Task GoToHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+
+    private async Task GoToProfile()
+    {
+        NavigationManager.NavigateTo("/profile");
+    }
+}

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
+using Azure.Messaging.WebPubSub;
+using Websocket.Client;
 
 namespace BlazorSignalRApp.Hubs;
 

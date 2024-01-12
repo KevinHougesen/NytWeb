@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 @inject IModalService modal
 @inject IDialogService DialogService
+@inject IJSRuntime JSRuntime
 @using Microsoft.AspNetCore.SignalR.Client
 @using Azure.Messaging.WebPubSub
 @using Websocket.Client
@@ -32,13 +33,22 @@ else
     }
     else
     {
+        <MudStack Row="true">
+            <AvatarHead />
+            <AvatarHead />
+            <AvatarHead />
+        </MudStack>
 
         @if(messages.Count == 0)
         {
             <MudPaper Width="100%">
                 <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
                     <MudPaper Width="100%" Elevation="0">
-                        <MudFab StartIcon="@Icons.Material.Filled.Refresh" DisableElevation="true" Color="Color.Primary" Label="Du har fået Nyt!" Width="240px"/>
+                        <MudStack Row="true">
+                            <AvatarHead />
+                            <AvatarHead />
+                            <AvatarHead />
+                        </MudStack>
                     </MudPaper>
                 </MudContainer>
             </MudPaper>
@@ -205,7 +215,7 @@ else
             <MudPaper Width="100%" Elevation="0">
 
             
-                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" >
+                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" id="@post.Post.Id" >
                     <MudCardHeader>
 
                                 <CardHeaderAvatar>
@@ -389,6 +399,13 @@ else
     [CascadingParameter] 
     IModalService Modal { get; set; } = default!;
 
+    private DotNetObjectReference<InFeed> objRef;
+
+    protected override void OnInitialized()
+    {
+        objRef = DotNetObjectReference.Create(this);
+    }
+
     async Task OpenPost(string postId)
     {
         var parameters = new DialogParameters<SinglePost> { { SinglePost => SinglePost.PostId, postId } };
@@ -452,6 +469,7 @@ else
     private List<PostDetails> posts;
 
     private List<string> Following;
+    private List<string> userCommunities;
 
     private string Username;
     public bool Liked { get; set; }
@@ -466,26 +484,15 @@ else
         var authState = await authenticationState;
         user = await UserService.GetUserAsync(authState.User.Identity.Name);
         Username = user.Username;
-
+        userCommunities = await UserService.GetUserCommunitiesAsync(Username);
         await Connect();
 
         
 
         if (user != null)
         {
-            posts = await PostService.DisplayFeedAsync(user.Username);
-
+            posts = await PostService.DisplayFeedAsync(user.Username);    
             Following = await UserService.GetUserFollowingAsync(user.Username);
-            
-   
-
-
-            // Join groups after the connection is established
-            var userCommunities = await UserService.GetUserCommunitiesAsync(authState.User.Identity.Name);
-            foreach (var community in userCommunities)
-            {
-                Console.WriteLine("Community: " + community);
-            }
         }
     }
 
@@ -501,7 +508,7 @@ else
         connectionId = string.Empty;
         userId = string.Empty;
         messages.Clear();
-        var uri = await AuthService.ConnectToHub(Username);
+        var uri = await AuthService.ConnectToHub(Username, userCommunities);
 
         client = new WebPubSubClient(new Uri(uri));
         client.Connected += args =>
@@ -535,8 +542,20 @@ else
             await client.StartAsync();
             try
             {
-                await client.JoinGroupAsync("Sample_ChatApp");
-                Console.WriteLine("Joined Sample_ChatApp");
+                foreach (var community in userCommunities)
+                {
+                    Console.WriteLine("Community: " + community);
+                }
+
+                await client.JoinGroupAsync(userCommunities[0]);
+                Console.WriteLine($"Joined {userCommunities[0]}");
+
+                await client.JoinGroupAsync(userCommunities[1]);
+                Console.WriteLine($"Joined {userCommunities[1]}");
+
+                await client.JoinGroupAsync(userCommunities[2]);
+                Console.WriteLine($"Joined {userCommunities[2]}");
+                
                 StateHasChanged();
             }
             catch (SendMessageFailedException ex)
@@ -556,6 +575,17 @@ else
             Console.WriteLine(errorMessage);
         }
     }
+
+
+    [JSInvokable]
+    public async Task OnPostViewed(string postId, int viewTimeInSeconds)
+    {
+        var userId = Username;
+        var viewCounter = await PostService.UpdatePostViewAsync(userId, postId, viewTimeInSeconds);
+        Console.WriteLine("Seconds viewed post: " + viewCounter);
+    }
+
+
 
 
     private void OnPostLiked(string postId, bool liked)
@@ -745,6 +775,19 @@ else
             InvokeAsync(StateHasChanged);
         }
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(10000); // Adjust the delay as needed
+            foreach (var post in posts)
+            {
+                await JSRuntime.InvokeVoidAsync("initializePostViewDetection", objRef, post.Post.Id, 3000);
+            }
+        }
+    }
+
 
 
 

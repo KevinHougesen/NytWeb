@@ -76,7 +76,7 @@ namespace NytWeb.Services
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
-            var response = await _client.PostAsync(apiURL, jsonContent);
+            var response = await _client.PostAsync(url, jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
@@ -98,6 +98,27 @@ namespace NytWeb.Services
 
             // SENDING JSON CONTENT
             var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<string>>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
+        public async Task<List<string>> GetUserSeenPostAsync(string Username)
+        {
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserFollowersAsync" + Key;
+            string url = "http://localhost:7071/api/GetUserSeenPostAsync";
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { Username });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(url, jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();

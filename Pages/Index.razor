@@ -4,7 +4,7 @@
 @inject IUserService UserService
 @inject IModalService modal
 @inject IDialogService DialogService
-@attribute [Authorize(Roles = "Administrator, User")]
+@attribute [Authorize(Roles = "admin, User")]
 
 
 
@@ -35,7 +35,7 @@
                                     
                         <MudTabPanel Text="" @ref="panel01" Height="100%" ID="@("pn_one")" >
 
-                            <LoadedInNetworkFeed />
+                            <InFeed />
                         </MudTabPanel>
                         <MudTabPanel Color="@Color.Primary" ApplyEffectsToContainer="true" Text="" @ref="panel02" ID="@("pn_two")">
                             <LoadedOutNetworkFeed />

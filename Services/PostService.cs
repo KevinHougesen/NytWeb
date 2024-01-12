@@ -42,6 +42,27 @@ namespace NytWeb.Services
             return result;
         }
 
+        public async Task<int> UpdatePostViewAsync(string userId, string postId, int viewTimeInSeconds)
+        {
+            // CREATING URL STRING
+            string apiURL = Context + "DisplayUsersFeed" + Key;
+            string url = "http://localhost:7071/api/UpdatePostViewAsync";
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { userId, postId, viewTimeInSeconds });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(url, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<int>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
         public async Task<List<string>> GetGroupsForPostNotification(string PostId)
         {
             string apiURL = Context + "GetGroupsForPostNotification" + Key;

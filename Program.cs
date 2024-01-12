@@ -14,7 +14,7 @@ using Microsoft.Azure.WebPubSub.AspNetCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Azure.WebPubSub.Common;
 using Hubs;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Syncfusion.Blazor;
 
 HttpClient client = new HttpClient();
 
@@ -33,6 +33,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 builder.Services.AddBlazoredModal();
 builder.Services.AddMudServices();
+builder.Services.AddSyncfusionBlazor();
 builder.Services.AddSingleton(client);
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
@@ -77,13 +78,28 @@ app.UseEndpoints(endpoints =>
     endpoints.MapGet("/negotiate", async (WebPubSubServiceClient<Sample_ChatApp> serviceClient, HttpContext context) =>
     {
         var id = context.Request.Query["id"];
+        var firstGroup = context.Request.Query["firstGroup"];
+        var secondGroup = context.Request.Query["secondGroup"];
+        var thirdGroup = context.Request.Query["thirdGroup"];
         if (id.Count != 1)
         {
+            
             context.Response.StatusCode = 400;
             await context.Response.WriteAsync("missing user id");
             return;
         }
-        await context.Response.WriteAsync(serviceClient.GetClientAccessUri(userId: id, roles: new string[] { "webpubsub.sendToGroup.Sample_ChatApp", "webpubsub.joinLeaveGroup.Sample_ChatApp" }).AbsoluteUri);
+        Console.WriteLine("User: " + id);
+        await context.Response.WriteAsync(serviceClient.GetClientAccessUri(userId: id, 
+        roles: [
+            $"webpubsub.sendToGroup.{firstGroup}",
+            $"webpubsub.joinLeaveGroup.{firstGroup}",
+
+            $"webpubsub.sendToGroup.{secondGroup}",
+            $"webpubsub.joinLeaveGroup.{secondGroup}",
+            
+            $"webpubsub.sendToGroup.{thirdGroup}",
+            $"webpubsub.joinLeaveGroup.{thirdGroup}"
+            ]).AbsoluteUri);
     });
 
     endpoints.MapWebPubSubHub<Sample_ChatApp>("/eventhandler/{*path}");

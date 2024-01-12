@@ -33,11 +33,14 @@
     <PackageReference Include="Neo4jClient" Version="5.1.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Radzen.Blazor" Version="4.21.3" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="24.1.44" />
+    <PackageReference Include="Syncfusion.Blazor.Diagram" Version="24.1.44" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
     <PackageReference Include="Websocket.Client" Version="5.0.0" />
+    <PackageReference Include="Z.Blazor.Diagrams" Version="3.0.1" />
   </ItemGroup>
 
 </Project>

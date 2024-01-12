@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets/NLogo.png"
     },
     {
+      "Id": "/Users/kevinhougesen/NytWeb/wwwroot/Scripts/scrollDetection.js",
+      "PackagePath": "staticwebassets/Scripts/scrollDetection.js"
+    },
+    {
       "Id": "/Users/kevinhougesen/NytWeb/wwwroot/css/bootstrap/bootstrap.min.css",
       "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css"
     },

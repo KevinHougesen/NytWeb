@@ -19,7 +19,7 @@ public interface IPostService
     Task<bool> OnLikePost(string Username, string PostId);
 
     Task<bool> OnSharePost(string Username, string PostId);
-
+    Task<int> UpdatePostViewAsync(string userId, string postId, int viewTimeInSeconds);
     Task<int> GetLikesCount(string Username);
 
     Task<int> GetSharesCount(string Username);

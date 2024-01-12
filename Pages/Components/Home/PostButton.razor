@@ -64,7 +64,7 @@
     private FileModel model = new();
     private FileModelFluentValidator ValidationRules = new();
     private bool SuppressOnChangeWhenInvalid;
-
+    private List<string> userCommunities;
     private string url = string.Empty;
     private string errorMessage = string.Empty;
     private string status = "Not connected.";
@@ -82,6 +82,7 @@
     {
         var authState = await authenticationState;
         Username = authState.User.Identity.Name;
+        userCommunities = await UserService.GetUserCommunitiesAsync(Username);
         Connect();
         
     }
@@ -173,7 +174,7 @@
             userId = string.Empty;
             messages.Clear();
             
-            var uri = await AuthService.ConnectToHub(Username);
+            var uri = await AuthService.ConnectToHub(Username, userCommunities);
             
             client = new WebPubSubClient(new Uri(uri));
             client.Connected += args =>

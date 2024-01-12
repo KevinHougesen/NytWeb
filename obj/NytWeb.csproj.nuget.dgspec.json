@@ -137,6 +137,14 @@
               "target": "Package",
               "version": "[4.21.3, )"
             },
+            "Syncfusion.Blazor.Core": {
+              "target": "Package",
+              "version": "[24.1.44, )"
+            },
+            "Syncfusion.Blazor.Diagram": {
+              "target": "Package",
+              "version": "[24.1.44, )"
+            },
             "System.ComponentModel.Annotations": {
               "target": "Package",
               "version": "[5.0.0, )"
@@ -156,6 +164,10 @@
             "Websocket.Client": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "Z.Blazor.Diagrams": {
+              "target": "Package",
+              "version": "[3.0.1, )"
             }
           },
           "imports": [

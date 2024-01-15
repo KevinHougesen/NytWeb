@@ -95,7 +95,7 @@ namespace NytWeb.Services
         public async Task<string> ConnectToHub(string Username, List<string> groupName)
         {
             // SENDING JSON CONTENT
-            var response = await _client.GetStringAsync($"http://localhost:5022/negotiate?id={Username}&firstGroup={groupName[0]}&secondGroup={groupName[1]}&thirdGroup={groupName[2]}");
+            var response = await _client.GetStringAsync($"https://nytwebapp.azurewebsites.net/negotiate?id={Username}&firstGroup={groupName[0]}&secondGroup={groupName[1]}&thirdGroup={groupName[2]}");
 
             // RETURNING FINAL RESULT
             return response;

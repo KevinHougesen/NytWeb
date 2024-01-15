@@ -110,7 +110,7 @@ namespace NytWeb.Services
         public async Task<List<string>> GetUserSeenPostAsync(string Username)
         {
             // CREATING URL STRING
-            string apiURL = Context + "GetUserFollowersAsync" + Key;
+            string apiURL = Context + "GetUserSeenPostAsync" + Key;
             string url = "http://localhost:7071/api/GetUserSeenPostAsync";
 
             // CREATING PAYLOAD AND JSON CONTENT
@@ -118,7 +118,7 @@ namespace NytWeb.Services
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
-            var response = await _client.PostAsync(url, jsonContent);
+            var response = await _client.PostAsync(apiURL, jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();

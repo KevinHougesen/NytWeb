@@ -26,7 +26,7 @@ else
 <MudSnackbarProvider/>
 
     <MudLayout Color="Color.Secondary">
-        <AuthorizeView Roles="User">
+        <AuthorizeView Roles="User, admin">
                 <Authorized>
                     
 
@@ -69,7 +69,7 @@ else
                 </Authorized>
         </AuthorizeView>
 
-        <AuthorizeView Roles="admin">
+        <AuthorizeView Roles="User">
                 <Authorized>
                     
 

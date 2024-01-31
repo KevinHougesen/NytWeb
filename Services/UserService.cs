@@ -43,6 +43,65 @@ namespace NytWeb.Services
             return result;
         }
 
+        public async Task<InstagramAuthResponse> GetUserInstaTokenAsync(string code)
+        {
+            // CREATING URL STRING
+            string apiURL = Context + "GetUserAsync" + Key;
+            string url = "https://api.instagram.com/oauth/access_token";
+
+            // CREATING PAYLOAD AND JSON CONTENT
+            var payload = JsonConvert.SerializeObject(new { client_id = 1320174152716541, client_secret = "d92d0eedd459439af59da6876f164aa6", grant_type = "authorization_code", redirect_uri = "https://nytwebapp.azurewebsites.net/", code });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<InstagramAuthResponse>(jsonString);
+
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
+        public async Task<IgLongToken> GetUserInstaLongTokenAsync(string token)
+        {
+
+            // SENDING JSON CONTENT
+            var response = await _client.GetAsync($"https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=d92d0eedd459439af59da6876f164aa6&access_token={token}");
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IgLongToken>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
+        public async Task<InstagramMediaResponse> GetUserInstaMediaAsync(string token)
+        {
+
+            // SENDING JSON CONTENT
+            var response = await _client.GetAsync($"https://graph.instagram.com/me/media?fields=id,caption&access_token={token}");
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<InstagramMediaResponse>(jsonString);
+
+            foreach (var media in result.Data)
+            {
+                Console.WriteLine($"ID: {media.Id}, Caption: {media.Caption}");
+            }
+
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
         public bool VerifyPass(string Password, string userAccountPassword)
         {
             var isMatch = BCrypt.Net.BCrypt.EnhancedVerify(Password, userAccountPassword);

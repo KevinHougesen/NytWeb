@@ -1,5 +1,6 @@
 @page "/"
 @using NytWeb.Models
+@inject NavigationManager NavigationManager
 @inject IJSRuntime js
 @inject IUserService UserService
 @inject IModalService modal
@@ -84,6 +85,30 @@
 {
 
     private bool dataLoaded = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var rawCode = query.Get("code");
+
+        if (!string.IsNullOrEmpty(rawCode))
+        {
+            // Code found, now you can store it or use it
+            var code = rawCode.Split(new[] { "#_" }, StringSplitOptions.None)[0];
+            Console.WriteLine($"Instagram code: {code}");
+
+            var token = await UserService.GetUserInstaTokenAsync(code);
+            var Token = token.AccessToken;
+            var longToken = await UserService.GetUserInstaTokenAsync(Token);
+            var LongToken = longToken.AccessToken;
+            var MediaContent = UserService.GetUserInstaMediaAsync(LongToken);
+            
+
+        }
+
+        await base.OnInitializedAsync();
+    }
 
 
     [CascadingParameter] IModalService Modal { get; set; } = default!;

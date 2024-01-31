@@ -16,6 +16,10 @@ namespace NytWeb.Services
         Task<bool> FollowUserAsync(string Username, string ToFollow);
         Task<List<string>> GetUserCommunitiesAsync(string Username);
 
+        Task<InstagramAuthResponse> GetUserInstaTokenAsync(string code);
+        Task<IgLongToken> GetUserInstaLongTokenAsync(string token);
+        Task<InstagramMediaResponse> GetUserInstaMediaAsync(string token);
+
         Task<List<string>> GetUserSeenPostAsync(string Username);
 
     }

@@ -100,9 +100,10 @@
 
             var token = await UserService.GetUserInstaTokenAsync(code);
             var Token = token.AccessToken;
+            Console.WriteLine("Short Token: " + Token);
 
-            //var longToken = await UserService.GetUserInstaLongTokenAsync(Token);
-            //var LongToken = longToken.AccessToken;
+            var longToken = await UserService.GetUserInstaLongTokenAsync(Token);
+            var LongToken = longToken.AccessToken;
 
             var MediaContent = await UserService.GetUserInstaMediaAsync(Token);
             

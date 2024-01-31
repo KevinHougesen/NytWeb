@@ -74,8 +74,8 @@ namespace NytWeb.Services
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(jsonString);
             var igLongToken = JsonConvert.DeserializeObject<IgLongToken>(jsonString);
-
 
             // RETURNING FINAL RESULT
             return igLongToken;

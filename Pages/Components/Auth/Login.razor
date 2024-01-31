@@ -3,6 +3,7 @@
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager NavigationManager
+@inject IDialogService DialogService
 
 
 
@@ -25,6 +26,7 @@
             </MudItem>
         </MudGrid>
     </EditForm>
+    <MudIconButton Icon="@Icons.Material.Outlined.Comment" OnClick="@((e) => OpenRegister())" Color="Color.Info" />
 </MudPaper>
 
 
@@ -39,6 +41,12 @@
     bool success;
     
     private Model model = new Model();
+
+    async Task OpenRegister()
+    {
+        var dialog = await DialogService.ShowAsync<Register>("");
+        var result = await dialog.Result;
+    }
 
     private async Task OnValidSubmit()
     {

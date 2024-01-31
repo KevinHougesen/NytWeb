@@ -106,6 +106,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qcm9maWxlL1Bvc3RzR3JpZC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/kevinhougesen/NytWeb/Pages/Components/Profile/ProfilePicture.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qcm9maWxlL1Byb2ZpbGVQaWN0dXJlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kevinhougesen/NytWeb/Pages/Components/Profile/ProfileUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qcm9maWxlL1Byb2ZpbGVVc2VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/kevinhougesen/NytWeb/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -124,10 +132,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/kevinhougesen/NytWeb/Pages/Like.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlrZS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/kevinhougesen/NytWeb/Pages/ProfileUser.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZmlsZVVzZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/kevinhougesen/NytWeb/Pages/ProfileView.razor]

@@ -6,19 +6,19 @@
 @inject IUserService UserService
 @inject IAuthService AuthService
 @inject IDialogService DialogService
-<MudPaper Height="100%">
+<MudPaper Height="100%" Style="position: fixed;">
     <MudNavMenu Height="100%" Class="mud-width-full mud-height-full">
     
-        <MudStack AlignItems="AlignItems.Center" Justify="Justify.SpaceEvenly">
-            <h1 class="appbar">Nyt!</h1>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => AuthenticateInstagram())" MudBlazor.Size="Size.Small" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="Søg Nyt" Width="75px"/>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Small" Color="Color.Secondary" Label="Beskeder" Width="75%"/>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" Label="Lokaler" Width="75%"/>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Create" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Nyt Skaber" Width="75%"/>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Bookmarks"  Color="Color.Secondary" Label="Bogmærker" Width="75%"/>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Person" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Profil" Width="75%"/>
-            <MudFab StartIcon="@Icons.Material.Filled.PostAdd" OnClick="@((e) => OpenPostCreator())" DisableElevation="true" Color="Color.Info" Label="Skab Nyt" Width="75%"/>
+        <MudStack AlignItems="AlignItems.Center" Spacing="4" Justify="Justify.SpaceEvenly">
+            <MudPaper Height="35px" />
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => AuthenticateInstagram())" MudBlazor.Size="Size.Large" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Søg Nyt" />
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Beskeder" />
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" MudBlazor.Size="Size.Large" Label="Lokaler" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Create" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" MudBlazor.Size="Size.Large" Label="Nyt Skaber" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Bookmarks"  Color="Color.Secondary" Label="Bogmærker" Width="75%" MudBlazor.Size="Size.Large"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Person" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Profil" Width="75%" MudBlazor.Size="Size.Large"/>
+            <MudFab StartIcon="@Icons.Material.Filled.PostAdd" OnClick="@((e) => OpenPostCreator())" DisableElevation="true" Color="Color.Info" Label="Skab Nyt" Width="75%"MudBlazor.Size="Size.Large"/>
             <MudToggleIconButton @bind-Toggled="@_isDarkMode"
                                     Icon="@Icons.Material.Outlined.WbSunny" Color="@Color.Warning" Title="Off" 
                                     ToggledIcon="@Icons.Material.Outlined.DarkMode" ToggledColor="@Color.Primary" ToggledTitle="On" />
@@ -61,13 +61,7 @@
 
     private async Task AuthenticateInstagram()
     {
-        var parameters = new DialogParameters<AuthInsta>();
-        parameters.Add(x => x.Code, Code);
-
-        var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = false };
-
-        var dialog = await DialogService.ShowAsync<AuthInsta>("", parameters, options);
-        var result = await dialog.Result;
+        await js.InvokeAsync<string>("open", "https://api.instagram.com/" + "oauth/authorize?" + "app_id=1320174152716541&" + "redirect_uri=http://localhost:5022/" + "scope=user_profile&" + "response_type=code" , "_parent");
         
     }
 

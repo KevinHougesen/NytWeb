@@ -26,13 +26,14 @@ namespace NytWeb.Services
         {
             // CREATING URL STRING
             string apiURL = Context + "GetUserAsync" + Key;
+            string url = "http://localhost:7071/api/GetUserAsync";
 
             // CREATING PAYLOAD AND JSON CONTENT
             var payload = JsonConvert.SerializeObject(new { Username });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
-            var response = await _client.PostAsync(apiURL, jsonContent);
+            var response = await _client.PostAsync(url, jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();

@@ -87,12 +87,12 @@ else
 
                                                 <MudTooltip Delay="200" Color="Color.Secondary" Arrow="true" MudBlazor.Placement="Placement.Right">
                                                     <ChildContent>
-                                                        <MudIconButton Color="Color.Tertiary" Edge="Edge.False" Variant="Variant.Text" OnClick="@(async () => GoToProfile(message.FromUserId))">
+                                                        <MudLink Typo="Typo.caption" Color="Color.Tertiary" Underline="Underline.None" OnClick="@(async () => GoToProfile(message.FromUserId))">
                                                             <MudStack Justify="Justify.Center" Spacing="0">
-                                                                <b>@message.FromUserId</b>
-                                                                &#64;@message.FromUserId
+                                                                <MudLink Color="Color.Tertiary" Underline="Underline.None" Typo="Typo.caption" ><b>@message.FromUserId</b></MudLink> 
+                                                                <MudLink Color="Color.Tertiary" Underline="Underline.None" Typo="Typo.caption"><b>&#64;@message.FromUserId</b></MudLink> 
                                                             </MudStack>
-                                                        </MudIconButton>
+                                                        </MudLink>
 
                                                     </ChildContent>
                                                     <TooltipContent>
@@ -144,9 +144,9 @@ else
                             <MudCardMedia ObjectFit="ObjectFit.Contain" Image="cturePath" />
                             @if (!string.IsNullOrEmpty(@message.Data.ToString()))
                             {
-                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                    <b>@message.FromUserId</b> 
-                                </MudText>
+                                <MudLink Color="Color.Tertiary" Underline="Underline.None" ><MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    <b>@message.FromUserId</b>
+                                </MudText></MudLink> 
                                 <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
                                     @message.Data.ToString()
 
@@ -240,12 +240,12 @@ else
 
                                                 <MudTooltip Delay="200" Color="Color.Secondary" Arrow="true" MudBlazor.Placement="Placement.Right">
                                                     <ChildContent>
-                                                        <MudIconButton Color="Color.Tertiary" Edge="Edge.False" Variant="Variant.Text" OnClick="@(async () => GoToProfile(post.PostCreatorUsername))">
+                                                        <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" OnClick="@(async () => GoToProfile(post.PostCreatorUsername))">
                                                             <MudStack Justify="Justify.Center" Spacing="0">
-                                                                <b>@post.PostCreatorDisplayName</b>
-                                                                &#64;@post.PostCreatorUsername
+                                                                <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>@post.PostCreatorDisplayName</b></MudLink> 
+                                                                <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>&#64;@post.PostCreatorUsername</b></MudLink> 
                                                             </MudStack>
-                                                        </MudIconButton>
+                                                        </MudLink>
 
                                                     </ChildContent>
                                                     <TooltipContent>
@@ -299,7 +299,7 @@ else
                             {
                                 <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="90%" >
                                     <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                        <b>@post.PostCreatorUsername</b> 
+                                        <MudLink Color="Color.Tertiary" Underline="Underline.None" OnClick="@(async () => GoToProfile(post.PostCreatorUsername))" Typo="Typo.caption"><b>@post.PostCreatorUsername</b></MudLink> 
                                     </MudText>
                                     <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
                                         @{
@@ -463,13 +463,13 @@ else
     private WebPubSubClient? client = null;
     private List<GroupDataMessage> messages = new();
 
+    private List<string> userCommunities;
     
 
     
     private List<PostDetails> posts;
 
     private List<string> Following;
-    private List<string> userCommunities;
 
     private string Username;
     public bool Liked { get; set; }
@@ -806,7 +806,7 @@ else
 
     private async Task GoToProfile(string username)
     {
-        NavigationManager.NavigateTo($"/u/{username}");
+        NavigationManager.NavigateTo($"/u/{username}", true);
     }
  
     

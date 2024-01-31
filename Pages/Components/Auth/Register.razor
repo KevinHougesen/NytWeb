@@ -1,47 +1,145 @@
-@page "/register"
 @inject IUserService UserService
 @inject IAuthService AuthService
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager NavigationManager
 
-<div class="row"> 
-    <div class="item-1">
-        <div class ="mb-3 text-center">
-            <h3 class="modaltext">Opret en ny konto</h3>
-        </div>
+<MudPaper Elevation="0" Class="d-flex align-content-center justify-center flex-wrap flex-grow-1 gap-4" Height="560px">
+    @if (_processing)
+    {
+        <MudProgressCircular Class="ms-n1" Size="Size.Large" Color="Color.Primary" Indeterminate="true"/>
+    }
+    else
+    {
+        <MudText Color="Color.Tertiary" Typo="Typo.h5">Trin @step ud af 4</MudText>
         <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator/>
         <MudGrid>
-            <MudItem xs="12" sm="7">
-                <MudCard>
-                    <MudCardContent>
-                        <MudTextField Label="Display name" HelperText="Max. 8 characters"
-                                    @bind-Value="model.DisplayName" For="@(() => model.DisplayName)"/>
-                        <MudTextField Label="User name" HelperText="Max. 8 characters"
-                                    @bind-Value="model.Username" For="@(() => model.Username)"/>
-                        <MudTextField Label="Email" Class="mt-3"
-                                    @bind-Value="model.Email" For="@(() => model.Email)"/>
-                        <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
-                                    @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
-                    </MudCardContent>
-                    <MudCardActions>
-                        <MudButton MudBlazor.ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
-                    </MudCardActions>
-                </MudCard>
+            <MudItem xs="10">
+            
+                <MudText Color="Color.Tertiary" Typo="Typo.h3">Opret din konto</MudText>
+                
+                    
+                    <MudSpacer />
+                    <MudCard Elevation="0">
+                        <MudSpacer />
+
+                        <MudCardContent>
+                        @if (!emailLoaded)
+                        {
+                            <MudTextField Label="Email" Color="Color.Tertiary" HelperText="Please provide your correct email" Variant="Variant.Outlined"
+                                        @bind-Value="model.Email" For="@(() => model.Email)"/>
+                    
+                            <MudTextField Label="Display name" Color="Color.Tertiary" HelperText="Max. 8 characters" Variant="Variant.Outlined"
+                                        @bind-Value="model.DisplayName" For="@(() => model.DisplayName)"/>
+                        }
+                        @if (!userLoaded && emailLoaded)
+                        {
+                            <MudTextField Label="User name" Color="Color.Tertiary" HelperText="Max. 8 characters" Variant="Variant.Outlined"
+                                        @bind-Value="model.Username" For="@(() => model.Username)"/>
+                        
+                            <MudTextField Label="Password" Color="Color.Tertiary" HelperText="Choose a strong password" Variant="Variant.Outlined"
+                                        @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
+
+                            <MudTextField Label="Repeat Password" Color="Color.Tertiary" HelperText="Please repeat your password" Variant="Variant.Outlined"
+                                        @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
+
+                            <MudStack Row="true">
+                                <MudSelect Dense="true" T="string" Label="Måned" Variant="Variant.Outlined">
+                                    <MudSelectItem Value="@("Januar")" />
+                                    <MudSelectItem Value="@("Februar")" />
+                                    <MudSelectItem Value="@("Marts")" />
+                                    <MudSelectItem Value="@("April")" />
+                                    <MudSelectItem Value="@("Maj")" />
+                                    <MudSelectItem Value="@("Juni")" />
+                                    <MudSelectItem Value="@("Juli")" />
+                                    <MudSelectItem Value="@("August")" />
+                                    <MudSelectItem Value="@("September")" />
+                                    <MudSelectItem Value="@("Oktober")" />
+                                    <MudSelectItem Value="@("November")" />
+                                    <MudSelectItem Value="@("December")" />
+                                </MudSelect>
+
+                                <MudSelect Dense="true" T="int" Label="Dag" Variant="Variant.Outlined">
+                                    @foreach (var day in days)
+                                    {
+                                    <MudSelectItem Value="@day" />
+                                    }
+                                </MudSelect>
+
+                                <MudSelect Dense="true" T="int" Label="År" Variant="Variant.Outlined">
+                                    @for (int i = 0; i < 12; i++)
+                                    {
+                                        years.Add(currentYear);
+                                        currentYear -= 1;
+                                    }
+
+                                    @foreach (var year in years)
+                                    {
+                                        <MudSelectItem Value="@year" />
+                                    }
+                                
+                                </MudSelect>
+                            </MudStack>
+                        }
+                        </MudCardContent>
+                        <MudCardActions>
+                            @if (registerLoaded)
+                            {
+                                <MudButton MudBlazor.ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                            }
+                            else
+                            {
+                                <MudButton OnClick="ProcessSomething" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Fortsæt</MudButton>
+                            }
+                        </MudCardActions>
+                    </MudCard>
             </MudItem>
         </MudGrid>
         </EditForm>
-    </div>
-</div>
+    }
+</MudPaper>
 
 @code 
 {
     
 
     bool success;
+
+    private bool _processing = false;
+    private bool emailLoaded = false;
+    private bool userLoaded = false;
+    private bool registerLoaded = false;
+    private int[] days = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
+
+    int step = 1;
+    int currentYear = DateTime.Now.Year;
+    private List<int> years = new();
     
     private UserModel model = new();
+    
+    async Task ProcessSomething()
+    {
+        if (model.Email != null && model.DisplayName != null)
+        {
+            emailLoaded = true;
+            step += 1;
+        }
+        if (model.Username != null && model.Password != null)
+        {
+            userLoaded = true;
+            step += 1;
+        }
+        if (emailLoaded && userLoaded)
+        {
+            registerLoaded = true;
+        }
+        
+        _processing = true;
+        await Task.Delay(2000);
+        _processing = false;
+    }
+    
     private async Task OnValidSubmit()
     {
         var userAccount = await UserService.GetUserAsync(model.Username);
@@ -51,7 +149,6 @@
             return;
         }
         
-
         await AuthService.RegisterAsync(model);
         success = true;
         StateHasChanged();

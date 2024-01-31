@@ -2,8 +2,13 @@
 @inject IPostService PostService
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.SignalR.Client
+@using Azure.Messaging.WebPubSub
+@using Websocket.Client
+@using Azure.Messaging.WebPubSub.Clients
 @page "/p/{PostId}"
 
 <MudDialog>
@@ -145,6 +150,9 @@
     [Parameter] 
     public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     private async Task Close() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
@@ -168,42 +176,13 @@
     {
         post = await PostService.GetPostByIdAsync(PostId);
 
+        var authState = await authenticationState;
+        Username = authState.User.Identity.Name;
+        userCommunities = await UserService.GetUserCommunitiesAsync(Username);
+
         
-        // Initialize the HubConnection
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri("/posthub"))
-            .WithAutomaticReconnect()
-            .Build();
 
-        // Subscribe to the hub method here
-        hubConnection.On<string>("NewPostAvailable", async (PostId) =>
-        {
-            Console.WriteLine("==????=");
-            await UpdateFeedWithNewPost(PostId);
-        });
-
-        hubConnection.On<string, bool>("PostLiked", (postId, liked) =>
-        {
-            // Handle the post like update here
-            // For example, updating the UI based on postId and liked status
-            UpdatePostLikeStatus(postId, liked);
-        });
-
-        hubConnection.On<string, bool>("PostReposted", (postId, repost) =>
-        {
-            // Handle the post like update here
-            // For example, updating the UI based on postId and liked status
-            UpdatePostRepostStatus(postId, repost);
-        });
-
-        hubConnection.On<string, bool>("NewFollower", (userId, follow) =>
-        {
-            // Handle the post like update here
-            // For example, updating the UI based on postId and liked status
-            UpdateNewFollowerStatus(userId, follow);
-        });
-
-        await hubConnection.StartAsync();
+        await Connect();
 
         if (post.PostType != "root")
         {
@@ -221,6 +200,8 @@
         return;
     } 
 
+    
+
     private async Task ScrollToAddSection() {
         await JsRuntime.InvokeVoidAsync("ScrollElementIntoView", MainPostSection);
     }
@@ -233,6 +214,16 @@
         }
     }
 
+    private string url = string.Empty;
+    private string errorMessage = string.Empty;
+    private string status = "Not connected.";
+    private string connectionId = string.Empty;
+    private string userId = string.Empty;
+    private string message = string.Empty;
+    private WebPubSubClient? client = null;
+    private List<GroupDataMessage> messages = new();
+
+    private List<string> userCommunities;
 
     private string Username;
     public bool Liked { get; set; }
@@ -240,6 +231,86 @@
 
     private int Likes;
     private int Shares;
+
+    private async Task Connect()
+    {
+        if (client != null)
+        {
+            await client.DisposeAsync();
+            client = null;
+        }
+        errorMessage = string.Empty;
+        status = "Not connected.";
+        connectionId = string.Empty;
+        userId = string.Empty;
+        messages.Clear();
+        var uri = await AuthService.ConnectToHub(Username, userCommunities);
+
+        client = new WebPubSubClient(new Uri(uri));
+        client.Connected += args =>
+        {
+            status = "Connected.";
+            connectionId = args.ConnectionId;
+            userId = args.UserId;
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        client.GroupMessageReceived += args =>
+        {
+            Console.WriteLine($"Message received: {args.Message.ToString()} count = {messages.Count()}");
+            messages.Add(args.Message);
+            InvokeAsync(StateHasChanged);
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        client.Disconnected += args =>
+        {
+            status = "Not connected.";
+            connectionId = string.Empty;
+            userId = string.Empty;
+            StateHasChanged();
+            return Task.CompletedTask;
+        };
+        status = "Connecting ...";
+        StateHasChanged();
+        try
+        {
+            await client.StartAsync();
+            try
+            {
+                foreach (var community in userCommunities)
+                {
+                    Console.WriteLine("Community: " + community);
+                }
+
+                await client.JoinGroupAsync(userCommunities[0]);
+                Console.WriteLine($"Joined {userCommunities[0]}");
+
+                await client.JoinGroupAsync(userCommunities[1]);
+                Console.WriteLine($"Joined {userCommunities[1]}");
+
+                await client.JoinGroupAsync(userCommunities[2]);
+                Console.WriteLine($"Joined {userCommunities[2]}");
+                
+                StateHasChanged();
+            }
+            catch (SendMessageFailedException ex)
+            {
+                errorMessage = ex.Message;
+                status = "Not connected.";
+                _ = client.StopAsync();
+                StateHasChanged();
+                throw;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            status = "Not connected.";
+            Console.WriteLine("failed");
+            Console.WriteLine(errorMessage);
+        }
+    }
 
 
     private void OnPostLiked(string postId, bool liked)

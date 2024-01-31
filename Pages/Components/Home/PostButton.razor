@@ -90,6 +90,7 @@
     private async Task Submit()
     {
         await form.Validate();
+        Console.WriteLine("Form Validation");
 
         if (form.IsValid)
         {
@@ -112,9 +113,11 @@
             if (string.IsNullOrEmpty(blobUrl))
             {
                 blobUrl = "";
+                Console.WriteLine("No Image Attached.");
             }
 
             // Now create the post with the blobUrl
+            Console.WriteLine("Creating Post");
             var createdPost = await PostService.CreatePostAsync(Username, model.Content, blobUrl);
             if (createdPost != null)
             {
@@ -123,7 +126,7 @@
                 //await hubConnection.InvokeAsync("NotifyNewPost", PostId);
                 try
                 {
-                    await client.SendToGroupAsync("Sample_ChatApp", BinaryData.FromString(model.Content), WebPubSubDataType.Text);
+                    await client.SendToGroupAsync(userCommunities[0], BinaryData.FromString(model.Content), WebPubSubDataType.Text);
                     Console.WriteLine(PostId);
                     StateHasChanged();
                 }

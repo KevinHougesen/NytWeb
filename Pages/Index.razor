@@ -16,15 +16,18 @@
 <AuthorizeView>
     <Authorized>
 
-        <MudAppBar Elevation="0"  Square="true" Width="100%">
+        <MudAppBar Elevation="0"  Square="true" Width="100%" WrapContent="true" >
             <MudPaper Width="100%" Class="flex-none" Elevation="0">
                 <MudContainer Height="100%" MaxWidth="MaxWidth.Small" Width="100%">
-                    <MudTabs Elevation="0"  Rounded="true" Centered="true" Width="100%">
-                        <MudTabPanel Color="Color.Primary" Typo="Typo.subtitle2" Text="Dit Nyt" OnClick='() => Activate("pn_one")'>
-                        </MudTabPanel>
-                        <MudTabPanel Text="Lokalt Nyt" Color="@Color.Primary" OnClick='() => Activate("pn_two")'>
-                        </MudTabPanel>
-                    </MudTabs>
+                    <MudStack Row="true" Spacing="8">
+                        <h1 class="appbar">Nyt!</h1>
+                        <MudTabs Elevation="0"  Rounded="true" Centered="true" Width="100%">
+                            <MudTabPanel Color="Color.Primary" Typo="Typo.subtitle2" Text="Dit Nyt" OnClick='() => Activate("pn_one")'>
+                            </MudTabPanel>
+                            <MudTabPanel Text="Lokalt Nyt" Color="@Color.Primary" OnClick='() => Activate("pn_two")'>
+                            </MudTabPanel>
+                        </MudTabs>
+                    </MudStack>
                 </MudContainer>
             </MudPaper>
         </MudAppBar>
@@ -133,6 +136,8 @@
             Console.WriteLine("Modal was closed");
         }
     }
+
+    
 
     MudTabs tabs;
     MudTabPanel panel01;

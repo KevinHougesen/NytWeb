@@ -53,15 +53,25 @@ namespace NytWeb.Services
             var payload = JsonConvert.SerializeObject(new { client_id = "1320174152716541", client_secret = "d92d0eedd459439af59da6876f164aa6", grant_type = "authorization_code", redirect_uri = "http://nytwebapp.azurewebsites.net/", code });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            var fields = new Dictionary<string, string>
-            {
-                {"client_id", "1320174152716541"},
-                {"client_secret", "d92d0eedd459439af59da6876f164aa6"},
-                {"grant_type", "authorization_code"},
-                {"redirect_uri", "http://nytwebapp.azurewebsites.net/"},
-                {"code", code}
-            };
-            var content = new FormUrlEncodedContent(fields);
+            var postValues = new List<KeyValuePair<string, string>>
+                             {
+                                 new KeyValuePair<string, string>
+                                     ("client_id",
+                                      "1320174152716541"),
+                                 new KeyValuePair<string, string>
+                                     ("client_secret",
+                                      "d92d0eedd459439af59da6876f164aa6"),
+                                 new KeyValuePair<string, string>
+                                     ("grant_type",
+                                      "authorization_code"),
+                                 new KeyValuePair<string, string>
+                                     ("redirect_uri",
+                                      "http://nytwebapp.azurewebsites.net/"),
+                                 new KeyValuePair<string, string>("code", code)
+                             };
+
+            // now encode the values
+            var content = new FormUrlEncodedContent(postValues);
 
             // SENDING JSON CONTENT
             var response = await _client.PostAsync(url, content);
@@ -88,6 +98,8 @@ namespace NytWeb.Services
             var jsonString = await response.Content.ReadAsStringAsync();
             Console.WriteLine(jsonString);
             var igLongToken = JsonConvert.DeserializeObject<IgLongToken>(jsonString);
+
+
 
             // RETURNING FINAL RESULT
             return igLongToken;

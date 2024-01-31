@@ -33,7 +33,7 @@ namespace NytWeb.Services
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
-            var response = await _client.PostAsync(url, jsonContent);
+            var response = await _client.PostAsync(apiURL, jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();

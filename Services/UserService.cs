@@ -53,8 +53,18 @@ namespace NytWeb.Services
             var payload = JsonConvert.SerializeObject(new { client_id = "1320174152716541", client_secret = "d92d0eedd459439af59da6876f164aa6", grant_type = "authorization_code", redirect_uri = "http://nytwebapp.azurewebsites.net/", code });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/x-www-form-urlencoded");
 
+            var fields = new Dictionary<string, string>
+            {
+                {"client_id", "1320174152716541"},
+                {"client_secret", "d92d0eedd459439af59da6876f164aa6"},
+                {"grant_type", "authorization_code"},
+                {"redirect_uri", "http://nytwebapp.azurewebsites.net/"},
+                {"code", code}
+            };
+            var content = new FormUrlEncodedContent(fields);
+
             // SENDING JSON CONTENT
-            var response = await _client.PostAsync(url, jsonContent);
+            var response = await _client.PostAsync(url, content);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();

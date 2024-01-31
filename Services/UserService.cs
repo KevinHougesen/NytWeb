@@ -50,8 +50,8 @@ namespace NytWeb.Services
             string url = "https://api.instagram.com/oauth/access_token";
 
             // CREATING PAYLOAD AND JSON CONTENT
-            var payload = JsonConvert.SerializeObject(new { client_id = "1320174152716541", client_secret = "d92d0eedd459439af59da6876f164aa6", grant_type = "authorization_code", redirect_uri = "http://localhost:5022/", code });
-            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+            var payload = JsonConvert.SerializeObject(new { client_id = "1320174152716541", client_secret = "d92d0eedd459439af59da6876f164aa6", grant_type = "authorization_code", redirect_uri = "http://nytwebapp.azurewebsites.net/", code });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/x-www-form-urlencoded");
 
             // SENDING JSON CONTENT
             var response = await _client.PostAsync(url, jsonContent);
@@ -60,7 +60,7 @@ namespace NytWeb.Services
             var jsonString = await response.Content.ReadAsStringAsync();
             Console.WriteLine(jsonString);
 
-            InstagramAuthResponse result = JsonConvert.DeserializeObject<InstagramAuthResponse>(jsonString);
+            var result = JsonConvert.DeserializeObject<InstagramAuthResponse>(jsonString);
             Console.WriteLine(result.AccessToken);
 
 

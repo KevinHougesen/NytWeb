@@ -73,10 +73,12 @@ namespace NytWeb.Services
             var response = await _client.GetAsync($"https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=d92d0eedd459439af59da6876f164aa6&access_token={token}");
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
-            var jsonString = await response.Content.ReadFromJsonAsync<IgLongToken>();
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var igLongToken = JsonConvert.DeserializeObject<IgLongToken>(jsonString);
+
 
             // RETURNING FINAL RESULT
-            return jsonString;
+            return igLongToken;
         }
 
         public async Task<InstagramMediaResponse> GetUserInstaMediaAsync(string token)

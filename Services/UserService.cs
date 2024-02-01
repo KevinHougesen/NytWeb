@@ -79,7 +79,7 @@ namespace NytWeb.Services
                 {"redirect_uri", "http://nytwebapp.azurewebsites.net/"},
                 {"code", code}
             };
-            var content = new FormUrlEncodedContent(postValues);
+            var content = new FormUrlEncodedContent(fields);
 
             // SENDING JSON CONTENT
             var response = await _client.PostAsync(authLinkUri, content);

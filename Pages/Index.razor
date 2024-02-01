@@ -90,12 +90,12 @@
     {
         var uri = new Uri(NavigationManager.Uri);
         var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        var rawCode = query.Get("code");
+        var code = query.Get("code");
 
-        if (!string.IsNullOrEmpty(rawCode))
+        if (!string.IsNullOrEmpty(code))
         {
             // Code found, now you can store it or use it
-            var code = rawCode.Split(new[] { "#_" }, StringSplitOptions.None)[0];
+
             Console.WriteLine($"Instagram code: {code}");
 
             var token = await UserService.GetUserInstaTokenAsync(code);

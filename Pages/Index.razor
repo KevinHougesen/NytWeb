@@ -86,32 +86,7 @@
 
     private bool dataLoaded = false;
 
-    protected override async Task OnInitializedAsync()
-    {
-        var uri = new Uri(NavigationManager.Uri);
-        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        var code = query.Get("code");
-
-        if (!string.IsNullOrEmpty(code))
-        {
-            // Code found, now you can store it or use it
-
-            Console.WriteLine($"Instagram code: {code}");
-
-            var token = await UserService.GetUserInstaTokenAsync(code);
-            var Token = token.AccessToken;
-            Console.WriteLine("Short Token: " + Token);
-
-            var longToken = await UserService.GetUserInstaLongTokenAsync(Token);
-            var LongToken = longToken.AccessToken;
-
-            var MediaContent = await UserService.GetUserInstaMediaAsync(Token);
-            
-
-        }
-
-        await base.OnInitializedAsync();
-    }
+    
 
 
     [CascadingParameter] IModalService Modal { get; set; } = default!;

@@ -83,20 +83,20 @@ app.UseEndpoints(endpoints =>
         var thirdGroup = context.Request.Query["thirdGroup"];
         if (id.Count != 1)
         {
-            
+
             context.Response.StatusCode = 400;
             await context.Response.WriteAsync("missing user id");
             return;
         }
         Console.WriteLine("User: " + id);
-        await context.Response.WriteAsync(serviceClient.GetClientAccessUri(userId: id, 
+        await context.Response.WriteAsync(serviceClient.GetClientAccessUri(userId: id,
         roles: [
             $"webpubsub.sendToGroup.{firstGroup}",
             $"webpubsub.joinLeaveGroup.{firstGroup}",
 
             $"webpubsub.sendToGroup.{secondGroup}",
             $"webpubsub.joinLeaveGroup.{secondGroup}",
-            
+
             $"webpubsub.sendToGroup.{thirdGroup}",
             $"webpubsub.joinLeaveGroup.{thirdGroup}"
             ]).AbsoluteUri);

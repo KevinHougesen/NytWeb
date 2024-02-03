@@ -11,7 +11,7 @@
     
         <MudStack AlignItems="AlignItems.Center" Spacing="4" Justify="Justify.SpaceEvenly">
             <MudPaper Height="35px" />
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" OnClick="@(async () => AuthenticateInstagram())" MudBlazor.Size="Size.Large" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" MudBlazor.Size="Size.Large" OnClick="@(async () => GoToHome())" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Søg Nyt" />
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Beskeder" />
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" MudBlazor.Size="Size.Large" Label="Lokaler" Width="75%"/>
@@ -54,20 +54,14 @@
         open = !open;
     } 
 
-    private async Task GoToHome()
-    {
-        NavigationManager.NavigateTo("/");
-    }
-
-    private async Task AuthenticateInstagram()
-    {
-        await js.InvokeAsync<string>("open", "https://api.instagram.com/oauth/authorize?app_id=1320174152716541&redirect_uri=https://nytwebapp.azurewebsites.net/&scope=user_profile,user_media&response_type=code" , "_parent");
-        
-    }
-
     private async Task GoToProfile()
     {
         NavigationManager.NavigateTo("/profile");
+    }
+
+    private async Task GoToHome()
+    {
+        NavigationManager.NavigateTo("/");
     }
     
     private async Task Logout()

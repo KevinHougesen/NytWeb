@@ -114,6 +114,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qcm9maWxlL1Byb2ZpbGVVc2VyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/kevinhougesen/NytWeb/Pages/Components/Profile/ProfileView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qcm9maWxlL1Byb2ZpbGVWaWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/kevinhougesen/NytWeb/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -132,10 +136,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/kevinhougesen/NytWeb/Pages/Like.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlrZS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/kevinhougesen/NytWeb/Pages/ProfileView.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZmlsZVZpZXcucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/kevinhougesen/NytWeb/Pages/Sponsership.razor]

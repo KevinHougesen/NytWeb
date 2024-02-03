@@ -21,7 +21,7 @@ public interface IPostService
     Task<bool> OnSharePost(string Username, string PostId);
     Task<int> UpdatePostViewAsync(string userId, string postId, int viewTimeInSeconds);
     Task<int> GetLikesCount(string Username);
-
+    Task<List<PostDetails>> GetUserPostsAsync(string userId);
     Task<int> GetSharesCount(string Username);
 
     Task<float> UpdateUserEmbedding(string Username, string TargetId);

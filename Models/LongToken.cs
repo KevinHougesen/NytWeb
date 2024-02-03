@@ -1,14 +1,14 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace NytWeb.Models;
 public class IgLongToken
 {
-    [JsonPropertyName("access_token")]
+    [JsonProperty("access_token")]
     public string AccessToken { get; set; }
 
-    [JsonPropertyName("token_type")]
+    [JsonProperty("token_type")]
     public string TokenType { get; set; }
 
-    [JsonPropertyName("expires_in")]
-    public int ExpiresIn { get; set; }
+    [JsonProperty("expires_in")]
+    public long ExpiresIn { get; set; }
 }

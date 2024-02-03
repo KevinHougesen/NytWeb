@@ -41,6 +41,8 @@ public class UserModel
 
     public int? ViewedProfile { get; set; }
 
+    public string? InstaToken { get; set; }
+
     // public int Impressions { get; set; }
 
     public UserModel() { }

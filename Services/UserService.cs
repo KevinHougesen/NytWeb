@@ -51,7 +51,7 @@ namespace NytWeb.Services
             var authLinkUri = new Uri(@"https://api.instagram.com/oauth/access_token");
 
             // CREATING PAYLOAD AND JSON CONTENT
-            var payload = JsonConvert.SerializeObject(new { client_id = "1320174152716541", client_secret = "d92d0eedd459439af59da6876f164aa6", grant_type = "authorization_code", redirect_uri = "http://nytwebapp.azurewebsites.net/", code });
+            var payload = JsonConvert.SerializeObject(new { client_id = "1320174152716541", client_secret = "d92d0eedd459439af59da6876f164aa6", grant_type = "authorization_code", redirect_uri = "https://localhost:7174/profile/", code });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/x-www-form-urlencoded");
 
             var postValues = new List<KeyValuePair<string, string>>
@@ -67,7 +67,7 @@ namespace NytWeb.Services
                                       "authorization_code"),
                                  new KeyValuePair<string, string>
                                      ("redirect_uri",
-                                      "http://nytwebapp.azurewebsites.net/"),
+                                      "https://localhost:7174/profile/"),
                                  new KeyValuePair<string, string>("code", code)
                              };
 
@@ -76,7 +76,7 @@ namespace NytWeb.Services
                 {"client_id", "1320174152716541"},
                 {"client_secret", "d92d0eedd459439af59da6876f164aa6"},
                 {"grant_type", "authorization_code"},
-                {"redirect_uri", "http://nytwebapp.azurewebsites.net/"},
+                {"redirect_uri", "https://localhost:7174/profile/"},
                 {"code", code}
             };
             var content = new FormUrlEncodedContent(fields);
@@ -86,10 +86,8 @@ namespace NytWeb.Services
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Short Token: " + jsonString);
 
             var result = JsonConvert.DeserializeObject<InstagramAuthResponse>(jsonString);
-            Console.WriteLine(result.AccessToken);
 
 
             // RETURNING FINAL RESULT
@@ -104,10 +102,10 @@ namespace NytWeb.Services
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("================================LONGTOKEN================================");
             Console.WriteLine(jsonString);
+            Console.WriteLine("================================LONGTOKEN================================");
             var igLongToken = JsonConvert.DeserializeObject<IgLongToken>(jsonString);
-
-            
 
             // RETURNING FINAL RESULT
             return igLongToken;
@@ -124,10 +122,41 @@ namespace NytWeb.Services
 
             var result = JsonConvert.DeserializeObject<InstagramMediaResponse>(jsonString);
 
-            foreach (var media in result.Data)
-            {
-                Console.WriteLine($"ID: {media.Id}, Caption: {media.Caption}");
-            }
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
+        public async Task<InstagramMediaData> GetUserInstaMediaDataAsync(string id, string token)
+        {
+
+            // SENDING JSON CONTENT
+            var response = await _client.GetAsync($"https://graph.instagram.com/{id}?fields=id,media_type,media_url,permalink,username,timestamp&access_token={token}");
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("================================MEDIA DATA================================");
+            Console.WriteLine(jsonString);
+            Console.WriteLine("================================MEDIA DATA================================");
+
+            var result = JsonConvert.DeserializeObject<InstagramMediaData>(jsonString);
+
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
+        public async Task<InstagramMediaResponse> GetUserInstaMediaAlbumChildrenAsync(string id, string token)
+        {
+            // SENDING JSON CONTENT
+            var response = await _client.GetAsync($"https://graph.instagram.com/{id}/children?&access_token={token}");
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var jsonString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("================================ALBUM DATA================================");
+            Console.WriteLine(jsonString);
+            Console.WriteLine("================================ALBUM DATA================================");
+
+            var result = JsonConvert.DeserializeObject<InstagramMediaResponse>(jsonString);
 
 
             // RETURNING FINAL RESULT
@@ -144,7 +173,7 @@ namespace NytWeb.Services
         public async Task<List<UserModel>> GetUsersAsync()
         {
             // CREATING URL STRING
-            string apiURL = Context + "GetUserAsync" + Key;
+            string apiURL = Context + "GetUsersAsync" + Key;
 
             // SENDING JSON CONTENT
             var response = await _client.GetAsync(apiURL);
@@ -152,6 +181,25 @@ namespace NytWeb.Services
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<List<UserModel>>(jsonString);
+
+            // RETURNING FINAL RESULT
+            return result;
+        }
+
+        public async Task<string> UpdateInstaTokenAsync(string Username, string Token)
+        {
+            // CREATING URL STRING
+            string apiURL = Context + "UpdateInstaTokenAsync" + Key;
+            string url = $"http://localhost:7071/api/UpdateInstaTokenAsync";
+
+            var payload = JsonConvert.SerializeObject(new { Username, Token });
+            var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            // SENDING JSON CONTENT
+            var response = await _client.PostAsync(apiURL, jsonContent);
+
+            // RETURNING REQUEST AND CONVERTING TO OBJECT
+            var result = await response.Content.ReadAsStringAsync();
 
             // RETURNING FINAL RESULT
             return result;

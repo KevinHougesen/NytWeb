@@ -26,9 +26,7 @@
                         <MudText Typo="Typo.subtitle2"><b>&#64;@Username</b></MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Default" />
-                        <MudIconButton Icon="@Icons.Material.Outlined.Archive" Color="Color.Default" />
-                        <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Default" />
+                        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" />
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardActions>
@@ -68,6 +66,8 @@
                 <MudSpacer />
                 <MudTabs Elevation="0" Rounded="true" PanelClass="pa-6">
                     <MudTabPanel Text="Opslag">
+                    @if (posts == null)
+                    {
                         <MudGrid Spacing="4">
                             <MudItem>
                                 <MudPaper Height="120px" Width="120px"/>
@@ -94,8 +94,74 @@
                                 <MudPaper Height="120px" Width="120px" />
                             </MudItem>
                         </MudGrid>
+                    }
+                    else
+                    {
+                        <MudGrid Spacing="4">
+                        @foreach (var post in posts)
+                        {
+           
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px">@post.Post.Content</MudPaper>
+                            </MudItem>
+
+                        };
+                        </MudGrid>
+                    };
                     </MudTabPanel>
-                    <MudTabPanel Text="Gemt">
+                    <MudTabPanel Text="Medier">
+                        <MudGrid Spacing="4">
+                        @if (!string.IsNullOrEmpty(LongToken))
+                        {
+                            foreach ( var instaPic in mediaUrl )
+                            {
+                                <MudItem>
+                                    <MudPaper Height="120px" Width="120px"><MudImage Width="120" Height="120" ObjectFit="ObjectFit.Contain" Src="@instaPic" Elevation="0" Class="rounded-lg"/></MudPaper>
+                                </MudItem>
+                            }
+                        }
+                        @if (posts == null)
+                        {
+                        <MudGrid Spacing="4">
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px"/>
+                            </MudItem>
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px"/>
+                            </MudItem>
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px" />
+                            </MudItem>
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px" />
+                            </MudItem>
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px" />
+                            </MudItem>
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px" />
+                            </MudItem>
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px" />
+                            </MudItem>
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px" />
+                            </MudItem>
+                        </MudGrid>
+                        }
+                        else
+                        {
+                            @foreach (var post in posts)
+                            {
+                                if(post.Post.PicturePath != "")
+                                {
+                                    <MudItem>
+                                        <MudPaper Height="120px" Width="120px"><MudImage Width="120" Height="120" ObjectFit="ObjectFit.Contain" Src="@post.Post.PicturePath" Elevation="0" Class="rounded-lg"/></MudPaper>
+                                    </MudItem>
+                                }
+                            }
+                        }
+                        </MudGrid>
                     </MudTabPanel>
                     <MudTabPanel Text="Nævnt">
                     </MudTabPanel>
@@ -114,12 +180,71 @@
     List<string> Followers;
     List<string> Following;
 
+    List<PostDetails> posts;
+    List<InstagramMediaData> medias { get; set; } = new();
+    List<InstagramMediaData> albumMedias { get; set; } = new();
+    List<string> mediaUrl { get; set; } = new();
+    string LongToken;
+
     protected override async Task OnInitializedAsync()
     {
 
         Followers = await UserService.GetUserFollowersAsync(Username);
         Following = await UserService.GetUserFollowingAsync(Username);
+        posts = await PostService.GetUserPostsAsync(Username);    
 
-        return;
+        UserModel user = await UserService.GetUserAsync(Username);
+
+        if (!string.IsNullOrEmpty(user.InstaToken))
+        {
+            LongToken = user.InstaToken;
+            Console.WriteLine($"User Token: {LongToken}");
+        };
+
+        await GetMediaAsync();
+    }
+
+    private async Task GetMediaAsync()
+    {
+        if (!string.IsNullOrEmpty(LongToken))
+        {
+            var MediaContent = await UserService.GetUserInstaMediaAsync(LongToken);
+            foreach (var media in MediaContent.Data)
+            {
+                Console.WriteLine($"ID: {media.Id}, Caption: {media.Caption}");
+                var Medias = await UserService.GetUserInstaMediaDataAsync(media.Id, LongToken);
+                medias.Add(Medias);
+                
+            };
+            await GetMediaContent();
+        };
+    }
+
+    private async Task GetMediaContent()
+    {
+        foreach ( var file in medias )
+        {
+            if (file.MediaType == "CAROUSEL_ALBUM")
+            {
+                var albumContent = await UserService.GetUserInstaMediaAlbumChildrenAsync(file.Id, LongToken);
+                foreach (var albumImg in albumContent.Data)
+                {
+                    var AlbumMedias = await UserService.GetUserInstaMediaDataAsync(albumImg.Id, LongToken);
+                    albumMedias.Add(AlbumMedias);
+                };
+                foreach ( var photo in albumMedias )
+                {
+                    string fixedUrl = photo.MediaUrl.Replace("\\/", "/");
+                    mediaUrl.Add(fixedUrl);
+                    Console.WriteLine("Link:" + fixedUrl);
+                };
+            };
+
+            if (file.MediaType == "IMAGE")
+            {
+                mediaUrl.Add(file.MediaUrl);
+            };
+        };
+        
     }
 }

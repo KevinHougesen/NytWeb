@@ -32,32 +32,32 @@ else
 
                     <MudPaper Class="d-flex justify-space-around" Width="100%">
 
-                        <MudStack Row="true" Justify="Justify.SpaceAround">
+                        <MudStack Row="true" Justify="Justify.SpaceEvenly">
 
                                 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
-                                    <MudPaper Square="true" Class="d-flex justify-space-around" Width="32%">
+                                    <MudPaper Square="true" Class="d-flex justify-space-around" Width="25%">
                                         
                                         <NavMenu Code="@Code"/>
                                     
                                     </MudPaper>
+                                    <MudDivider Vertical="true" FlexItem="true" />
                                 </MudHidden>
 
                                 
-                                <MudDivider Vertical="true" FlexItem="true" />
+                                
 
+                                
 
+                                    <MudMainContent Class="z-30 ma-n2">
+                                            @Body
+                                    </MudMainContent>
+                                
 
-                                <MudMainContent Class="z-30 ma-n2">
-                                    
-                                        @Body
-                                    
-                                </MudMainContent>
-
-                                <MudDivider Vertical="true" FlexItem="true" />
-
+                            
 
                                 <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert="true">
-                                    <MudPaper Square="true" Class="d-flex justify-space-around" Width="32%">
+                                    <MudDivider Vertical="true" FlexItem="true" />
+                                    <MudPaper Square="true" Class="d-flex justify-space-around" Width="25%">
                                         <RecMenu />
                                     </MudPaper>
                                 </MudHidden>

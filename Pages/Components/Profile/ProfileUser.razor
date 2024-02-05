@@ -6,6 +6,36 @@
 @page "/profile"
 
 
+<MudAppBar Elevation="0"  Square="true" Width="100%" WrapContent="true" >
+    <MudPaper Width="100%" Class="flex-none" Elevation="0">
+        <MudStack Row="true" Justify="Justify.SpaceEvenly">
+
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
+                    
+                    <h1 class="appbar">Nyt!</h1>
+                
+                </MudCard>
+            </MudHidden>
+            
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
+                    
+                    <h1 class="appbar">Nyt!</h1>
+                
+                </MudCard>
+            </MudHidden>
+
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
+                    
+                    <SearchBar />
+                
+                </MudCard>
+            </MudHidden>
+        </MudStack>
+    </MudPaper>
+</MudAppBar>
 
 <MudPaper Width="100%" Color="Color.Secondary" Class="flex-none" Elevation="0">
     <MudPaper Width="100%" Elevation="0">

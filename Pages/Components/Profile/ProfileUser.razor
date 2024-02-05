@@ -8,6 +8,7 @@
 
 
 <MudPaper Width="100%" Color="Color.Secondary" Class="flex-none" Elevation="0">
+    <MudPaper Width="100%" Elevation="0">
     <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" >
         <MudCardHeader>
             <CardHeaderAvatar >
@@ -81,7 +82,7 @@
         <MudText Typo="Typo.subtitle2"><b>Nyt Moment?</b></MudText>
         <MudSpacer />
     </MudCard>
-
+    </MudPaper>
     <MudTabs Rounded="true" Elevation="0" Centered="true" Color="@Color.Secondary">
             <MudTabPanel Text="Opslag">
                 @if (posts != null && posts.Any())

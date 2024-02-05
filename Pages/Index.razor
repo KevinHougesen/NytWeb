@@ -19,17 +19,35 @@
 
         <MudAppBar Elevation="0"  Square="true" Width="100%" WrapContent="true" >
             <MudPaper Width="100%" Class="flex-none" Elevation="0">
-                <MudContainer Height="100%" MaxWidth="MaxWidth.Small" Width="100%">
-                    <MudStack Row="true" Spacing="8">
-                        <h1 class="appbar">Nyt!</h1>
-                        <MudTabs Elevation="0"  Rounded="true" Centered="true" Width="100%">
-                            <MudTabPanel Color="Color.Primary" Typo="Typo.subtitle2" Text="Dit Nyt" OnClick='() => Activate("pn_one")'>
-                            </MudTabPanel>
-                            <MudTabPanel Text="Lokalt Nyt" Color="@Color.Primary" OnClick='() => Activate("pn_two")'>
-                            </MudTabPanel>
-                        </MudTabs>
-                    </MudStack>
-                </MudContainer>
+                <MudStack Row="true" Justify="Justify.SpaceEvenly">
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                        <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
+                            
+                            <h1 class="appbar">Nyt!</h1>
+                        
+                        </MudCard>
+                    </MudHidden>
+
+
+                    
+                    <MudTabs Elevation="0"  Rounded="true" Centered="true" Width="100%">
+                        <MudTabPanel Color="Color.Primary" Typo="Typo.subtitle2" Text="Dit Nyt" OnClick='() => Activate("pn_one")'>
+                        </MudTabPanel>
+                        <MudTabPanel Text="Lokalt Nyt" Color="@Color.Primary" OnClick='() => Activate("pn_two")'>
+                        </MudTabPanel>
+                    </MudTabs>
+
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                        <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
+                            
+                            <SearchBar />
+                        
+                        </MudCard>
+
+                    </MudHidden>
+                </MudStack>
+
+
             </MudPaper>
         </MudAppBar>
 

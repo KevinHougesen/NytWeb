@@ -7,10 +7,10 @@
 @inject IAuthService AuthService
 @inject IDialogService DialogService
 <MudPaper Height="100%" Style="position: fixed;">
-    <MudNavMenu Height="100%" Class="mud-width-full mud-height-full">
+    <MudNavMenu Height="100%">
     
         <MudStack AlignItems="AlignItems.Center" Spacing="4" Justify="Justify.SpaceEvenly">
-            <MudPaper Height="35px" />
+            <MudPaper Height="50px" />
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Home" MudBlazor.Size="Size.Large" OnClick="@(async () => GoToHome())" Color="Color.Secondary" Rel="nofollow" Label="Hjem" Width="75%"/>
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Søg Nyt" />
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Beskeder" />

@@ -14,8 +14,8 @@
             <MudItem xs="12" sm="7">
                 <MudCard Elevation="0" style="background-color:#F5001D;" >
                     <MudCardContent >
-                        <MudTextField Color="Color.Secondary" id="txtUsername" Id="txtUsername" Label="Brugernavn"
-                                    @bind-Value="model.UserName" id="txtPassword" For="@(() => model.UserName)"/>
+                        <MudTextField Color="Color.Secondary" name="txtUsername" Id="txtUsername" Label="Brugernavn"
+                                    @bind-Value="model.UserName" name="txtPassword" For="@(() => model.UserName)"/>
                         <MudTextField Label="Adgangskode" Class="mt-3"
                                     @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
                     </MudCardContent>

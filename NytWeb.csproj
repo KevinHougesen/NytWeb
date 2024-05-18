@@ -14,7 +14,7 @@
     <PackageReference Include="Blazored.Modal" Version="7.1.0" />
     <PackageReference Include="FluentValidation" Version="11.8.1" />
     <PackageReference Include="InstagramApiSharp" Version="1.7.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
     <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="7.0.0" />
@@ -27,7 +27,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Azure" Version="1.7.1" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
-    <PackageReference Include="MudBlazor" Version="6.11.1" />
+    <PackageReference Include="MudBlazor" Version="6.15.0" />
     <PackageReference Include="Neo4j.Driver" Version="5.15.0" />
     <PackageReference Include="Neo4j.Driver.Simple" Version="5.15.0" />
     <PackageReference Include="Neo4jClient" Version="5.1.11" />

@@ -1,0 +1,123 @@
+<!--
+<MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.ExtraSmall" Width="100%" Class="border-x-4 border-solid mud-border-primary pa-4"  Square="true">
+            
+                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" Class="border-x-1 border-solid mud-border-primary pa-4"  Square="true">
+                    <MudCardHeader>
+
+                                <CardHeaderAvatar>
+
+                                        <MudTooltip Delay="200" Color="Color.Transparent">
+                                            <ChildContent>
+                                                <MudAvatar MudBlazor.Size="Size.Medium" Image="../../Images/pain.png" />
+
+                                            </ChildContent>
+                                            <TooltipContent>
+
+
+                                                    <MudAvatar Style="height:240px; width:240px;" Image="../../Images/pain.png" />
+
+                                            </TooltipContent>
+                                        </MudTooltip>
+
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+
+                                        
+
+                                                <MudTooltip Delay="200" Color="Color.Secondary" Arrow="true" MudBlazor.Placement="Placement.Right">
+                                                    <ChildContent>
+                                                        <MudLink Typo="Typo.caption" Color="Color.Tertiary" Underline="Underline.None" OnClick="@(async () => GoToProfile(message.FromUserId))">
+                                                            <MudStack Justify="Justify.Center" Spacing="0">
+                                                                <MudLink Color="Color.Tertiary" Underline="Underline.None" Typo="Typo.caption" ><b>@message.FromUserId</b></MudLink> 
+                                                                <MudLink Color="Color.Tertiary" Underline="Underline.None" Typo="Typo.caption"><b>&#64;@message.FromUserId</b></MudLink> 
+                                                            </MudStack>
+                                                        </MudLink>
+
+                                                    </ChildContent>
+                                                    <TooltipContent>
+                                                        <MudCard Width="100%" Height="100%" Elevation="0" >
+                                                            <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
+                                                            <MudCardHeader>
+                                                                <CardHeaderAvatar>
+                                                                    <MudAvatar>
+                                                                        <MudImage Src="../../Images/pain.png"></MudImage>
+                                                                    </MudAvatar>
+                                                                </CardHeaderAvatar>
+                                                                    <CardHeaderContent>
+                                                                        <MudText Typo="Typo.body1">@message.FromUserId &nbsp;</MudText>
+                                                                        <MudText Typo="Typo.body2">&#64;@message.FromUserId</MudText>
+                                                                        <MudText Typo="Typo.body2">The moon reflects your explicit beauty🌒<br/>And if you die.. I want to die with you &#64;dead.pretty_222❤️‍🔥<br/>Creative Director &#64;a1media.dk </MudText>
+                                                                    </CardHeaderContent>
+                                                            </MudCardHeader>
+                                                            </MudBadge>
+                                                        </MudCard>
+                                                    </TooltipContent>
+                                                </MudTooltip>
+                                                <MudIcon Icon="@Icons.Material.Filled.Verified" MudBlazor.Size="Size.Small" Color="Color.Primary" Title="Verified User" /> 
+                                                &nbsp;
+
+                                        
+
+
+                                </CardHeaderContent>
+                        <CardHeaderActions>
+
+                                    
+                                <MudToggleIconButton 
+                                    Toggled="@Follows" 
+                                    ToggledChanged="@(toggled => OnFollowChanged(message.FromUserId, toggled))"
+                                    Icon="@Icons.Material.Filled.AddCircleOutline" 
+                                    Color="@Color.Secondary" 
+                                    Variant="Variant.Filled" 
+                                    Title="Følg" 
+                                    ToggledIcon="@Icons.Material.Filled.CheckCircle" 
+                                    ToggledColor="@Color.Primary" 
+                                    ToggledTitle="Følger" />
+                                
+                                    
+                            <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                        @if (!string.IsNullOrEmpty("post.Post.PicturePath"))
+                        {
+                            <MudCardMedia ObjectFit="ObjectFit.Contain" Image="cturePath" />
+                            @if (!string.IsNullOrEmpty(@message.Data.ToString()))
+                            {
+                                <MudLink Color="Color.Tertiary" Underline="Underline.None" ><MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    <b>@message.FromUserId</b>
+                                </MudText></MudLink> 
+                                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    @message.Data.ToString()
+
+                                </MudText>
+
+                                
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.body2"></MudText>
+                            }
+                        }
+                        else
+                        {
+                            @if (!string.IsNullOrEmpty("post.Post.Content"))
+                            {
+                                <MudSpacer />
+                                @if (!string.IsNullOrEmpty("post.Post.Content"))
+                                {
+                                    <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                                    @message.Data.ToString()
+
+                                    </MudText>
+                                }
+                            }
+                        }
+  
+                    <MudCardActions>
+
+                        
+
+                    </MudCardActions>
+                </MudCard>
+            </MudContainer>
+-->

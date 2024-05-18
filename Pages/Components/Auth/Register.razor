@@ -86,7 +86,7 @@
                         <MudCardActions>
                             @if (registerLoaded)
                             {
-                                <MudButton MudBlazor.ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                                <MudButton MudBlazor.ButtonType="ButtonType.Submit" OnClick="OnValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
                             }
                             else
                             {
@@ -142,6 +142,7 @@
     
     private async Task OnValidSubmit()
     {
+        Console.WriteLine("Click");
         var userAccount = await UserService.GetUserAsync(model.Username);
         if (userAccount != null)
         {

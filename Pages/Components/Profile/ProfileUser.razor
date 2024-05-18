@@ -1,361 +1,92 @@
+@page "/profile"
 @inject IUserService UserService
 @inject IPostService PostService
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
-@page "/profile"
 
-
-<MudAppBar Elevation="0"  Square="true" Width="100%" WrapContent="true" >
-    <MudPaper Width="100%" Class="flex-none" Elevation="0">
-        <MudStack Row="true" Justify="Justify.SpaceEvenly">
-
-            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
-                <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
-                    
-                    <h1 class="appbar">Nyt!</h1>
-                
-                </MudCard>
-            </MudHidden>
-            
-            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
-                <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
-                    
-                    <h1 class="appbar">Nyt!</h1>
-                
-                </MudCard>
-            </MudHidden>
-
-            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
-                <MudCard Square="true" Class="d-flex justify-space-around" Width="32%">
-                    
-                    <SearchBar />
-                
-                </MudCard>
-            </MudHidden>
-        </MudStack>
-    </MudPaper>
-</MudAppBar>
+<ProfileAppBar />
 
 <MudPaper Width="100%" Color="Color.Secondary" Class="flex-none" Elevation="0">
     <MudPaper Width="100%" Elevation="0">
-    <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" >
-        <MudCardHeader>
-            <CardHeaderAvatar >
-                <MudTooltip Delay="200" Color="Color.Transparent">
-                    <ChildContent>
-                        <MudAvatar MudBlazor.Size="Size.Medium" Image="../../Images/pain.png"  OnClick="@(async () => OpenProfilePicture())" />
-                    </ChildContent>
-                    <TooltipContent>
-                            <MudText>Skift profilbillede</MudText>
-                    </TooltipContent>
-                </MudTooltip>
-            </CardHeaderAvatar>
-            <CardHeaderContent>
-                <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
-                    <MudText Typo="Typo.subtitle1"><b>Navn Efternavn &nbsp;</b></MudText>
-                </MudBadge>
-                <MudText Typo="Typo.subtitle2"><b>&#64;@Username</b></MudText>
-            </CardHeaderContent>
-            <CardHeaderActions>
-                @if (user == null)
-                {
-                    <MudFab StartIcon="@Icons.Custom.Brands.Instagram" Disabled="true" Label="" />
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(user.InstaToken))
-                    {
-                        <MudFab StartIcon="@Icons.Custom.Brands.Instagram" OnClick="@(async () => AuthenticateInstagram())" Label="" />
-                    }
-                    else
-                    {
-                        <MudFab StartIcon="@Icons.Custom.Brands.Instagram" Disabled="true" Label="" />
-                    }
-                }
-                <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Default" OnClick="@((e) => OpenProfilePicture())"/>
-            </CardHeaderActions>
-        </MudCardHeader>
-        <MudCardActions>
-            <MudSpacer />
-                @if (@posts == null)
-                {   <MudText Typo="Typo.subtitle1"><b> tæller </b> </MudText> } 
-                else 
-                {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b> @posts.Count() opslag </b> </MudText> } 
-                
-            <MudSpacer />
-                @if (@Followers == null)
-                {   <MudText Typo="Typo.subtitle1"><b> tæller </b> </MudText> } 
-                else 
-                {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b> @Followers.Count() følgere </b> </MudText> } 
-            <MudSpacer />
-                @if (@Following == null)
-                {   <MudText Typo="Typo.subtitle1"><b> tæller </b> </MudText> } 
-                else 
-                {   <MudText OnClick="OpenOverlay" Typo="Typo.subtitle1"><b> @Following.Count() fulgte </b> </MudText> } 
-            <MudSpacer />
-        </MudCardActions>
-        <MudCardContent>
-            <MudText Typo="Typo.body2"><b>Forretningstype &nbsp;</b></MudText>
-            <MudText Typo="Typo.body2">The moon reflects your explicit beauty🌒<br/>And if you die.. I want to die with you &#64;dead.pretty_222❤️‍🔥<br/>Creative Director &#64;a1media.dk </MudText>
-        </MudCardContent>
-        <MudCardActions>
-            <ButtonTemplate>
-                <MudFab    HtmlTag="label"
-                        Elevation="0"
-                        Variant="Variant.Filled"
-                        Color="Color.Primary"
-                        StartIcon="@Icons.Material.Filled.Add">
-                </MudFab>
-            </ButtonTemplate>
-        </MudCardActions>
-        <MudText Typo="Typo.subtitle2"><b>Nyt Moment?</b></MudText>
-        <MudSpacer />
-    </MudCard>
+        <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0">
+            <ProfileHeader Username="@Username" />
+            <ProfileActions Username="@Username" />
+            <ProfileBioContent />
+            <ProfileBioContentActions />
+        </MudCard>
     </MudPaper>
+
     <MudTabs Rounded="true" Elevation="0" Centered="true" Color="@Color.Secondary">
-            <MudTabPanel Text="Opslag">
-                @if (posts != null && posts.Any())
+        <MudTabPanel Text="Opslag">
+            @if (posts == null)
+            {
+                <MudText>Der er ingen opslag at vise.</MudText>
+            }
+            else
+            {
+                @foreach (var post in posts)
                 {
-
-                        
-                        int startPost = currentPage * pageSize;
-                        int endPost = Math.Min(startPost + pageSize, posts.Count);
-                        for (int i = startPost; i < endPost; i++)
+                    <MudPaper Width="100%" Elevation="0">
+                        <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" id="@post.Post.Id">
+                            <PostHeader post="@post" />
+                            <PostContent post="@post" />
+                            <PostFooter post="@post" /> &nbsp; &nbsp; &nbsp; &nbsp;
+                        </MudCard>
+                        <MudDivider />
+                    </MudPaper>
+                }
+            }
+        </MudTabPanel>
+        <MudTabPanel Text="Medier">
+            <MudGrid Spacing="4">
+                @if (!string.IsNullOrEmpty(LongToken))
+                {
+                    @foreach (var instaPic in mediaUrl)
+                    {
+                        <MudItem>
+                            <MudLink Href="#" Underline="Underline.None">
+                                <MudPaper Height="120px" Width="120px">
+                                    <MudImage Width="120" Height="120" ObjectFit="ObjectFit.Cover" Src="@instaPic" Elevation="0" Class="rounded-lg" />
+                                </MudPaper>
+                            </MudLink>
+                        </MudItem>
+                    }
+                }
+                @if (posts == null)
+                {
+                    <MudGrid Spacing="4">
+                        @for (int i = 0; i < 8; i++)
                         {
-                            var post = posts[i];
-
-                            <MudPaper Width="100%" Elevation="0">
-                                <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" id="@post.Post.Id" >
-                                    <MudCardHeader>
-
-                                        <CardHeaderAvatar>
-
-                                        <MudTooltip Delay="200" Color="Color.Transparent">
-                                            <ChildContent>
-                                                <MudAvatar MudBlazor.Size="Size.Medium" Image="../../Images/pain.png" />
-
-                                            </ChildContent>
-                                            <TooltipContent>
-
-
-                                                    <MudAvatar Style="height:240px; width:240px;" Image="../../Images/pain.png" />
-
-                                            </TooltipContent>
-                                        </MudTooltip>
-
-                                        </CardHeaderAvatar>
-                                            <CardHeaderContent>
-
-                                        
-
-                                                <MudTooltip Delay="200" Color="Color.Secondary" Arrow="true" MudBlazor.Placement="Placement.Right">
-                                                    <ChildContent>
-                                                        <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None">
-                                                            <MudStack Justify="Justify.Center" Spacing="0">
-                                                                <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>@Username</b></MudLink> 
-                                                            </MudStack>
-                                                        </MudLink>
-
-                                                    </ChildContent>
-                                                    <TooltipContent>
-                                                        <MudCard Width="100%" Height="100%" Elevation="0" >
-                                                            <MudCardHeader>
-                                                                <CardHeaderAvatar>
-                                                                    <MudAvatar>
-                                                                        <MudImage Src="../../Images/pain.png"></MudImage>
-                                                                    </MudAvatar>
-                                                                </CardHeaderAvatar>
-                                                                <CardHeaderContent>
-                                                                    <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
-                                                                        <MudText Typo="Typo.body1">@Username &nbsp;</MudText>
-                                                                    </MudBadge>
-                                                                    <MudText Typo="Typo.body2">&#64;@Username</MudText>
-                                                                    <MudText Typo="Typo.body2">The moon reflects your explicit beauty🌒<br/>And if you die.. I want to die with you &#64;dead.pretty_222❤️‍🔥<br/>Creative Director &#64;a1media.dk </MudText>
-                                                                </CardHeaderContent>
-                                                            </MudCardHeader>
-                                                        </MudCard>
-                                                    </TooltipContent>
-                                                </MudTooltip>
-                                                <MudIcon Icon="@Icons.Material.Filled.Verified" MudBlazor.Size="Size.Small" Color="Color.Primary" Title="Verified User" /> 
-                                                &nbsp;
-                                            </CardHeaderContent>
-                                            <CardHeaderActions>
-                                                <MudToggleIconButton 
-                                                        Icon="@Icons.Material.Filled.AddCircleOutline" 
-                                                        Color="@Color.Secondary" 
-                                                        Variant="Variant.Filled" 
-                                                        Title="Følg" 
-                                                        Elevation="0"
-                                                        ToggledIcon="@Icons.Material.Filled.CheckCircle" 
-                                                        ToggledColor="@Color.Primary" 
-                                                        ToggledTitle="Følger" />
-                                                    
-                                                        
-                                                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" />
-                                            </CardHeaderActions>
-                                        </MudCardHeader>
-                                            @if (!string.IsNullOrEmpty(post.Post.PicturePath))
-                                            {
-                                                <MudCardMedia ObjectFit="ObjectFit.Contain" Height="640" Image="@post.Post.PicturePath" />
-                                                @if (!string.IsNullOrEmpty(post.Post.Content))
-                                                {
-                                                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="90%" >
-                                                        <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                                            <MudLink Color="Color.Tertiary" Underline="Underline.None" Typo="Typo.caption"><b>@Username</b></MudLink> 
-                                                        </MudText>
-                                                        <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                                            @{
-                                                                var displayContent = showFullContent || post.Post.Content.Length <= 200
-                                                                    ? post.Post.Content
-                                                                    : post.Post.Content.Substring(0, 200) + "... ";
-                                                                @displayContent
-                                                            }
-
-                                                            @if (post.Post.Content.Length > 200)
-                                                            {
-                                                                <span @onclick="ToggleContent">@GetReadMoreText()</span>
-                                                            }
-                                                        </MudText>
-                                                    </MudContainer>
-
-                                                    
-                                                }
-                                                else
-                                                {
-                                                    <MudText Typo="Typo.body2"></MudText>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                @if (!string.IsNullOrEmpty(post.Post.Content))
-                                                {
-                                                    <MudSpacer />
-                                                    @if (!string.IsNullOrEmpty(post.Post.Content))
-                                                    {
-                                                        <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
-                                                            <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
-                                                            @{
-                                                                var displayContent = showFullContent || post.Post.Content.Length <= 200 
-                                                                    ? post.Post.Content 
-                                                                    : post.Post.Content.Substring(0, 200) + "... ";
-
-                                                                @displayContent
-                                                            }
-                                                            @if (post.Post.Content.Length > 200)
-                                                            {
-                                                                <span @onclick="ToggleContent">@GetReadMoreText()</span> 
-                                                            }
-
-                                                            </MudText>
-                                                        </MudContainer>
-                                                    }
-                                                }
-                                            }
-                                        <MudCardActions>
-                                            <MudText Typo="Typo.body2">@post.LikesCount</MudText>
-                                                <MudToggleIconButton 
-                                                    Icon="@Icons.Material.Filled.FavoriteBorder" 
-                                                    Color="@Color.Primary" 
-                                                    Title="Like" 
-                                                    ToggledIcon="@Icons.Material.Outlined.Favorite" 
-                                                    ToggledColor="@Color.Primary" 
-                                                    ToggledTitle="Liked" /> &nbsp; &nbsp; &nbsp; &nbsp;
-                                        <MudText Typo="Typo.body2">@post.RepostsCount</MudText>
-                                        <MudToggleIconButton 
-                                                    Icon="@Icons.Material.Outlined.Repeat" 
-                                                    Color="@Color.Default" 
-                                                    Title="Like" 
-                                                    ToggledIcon="@Icons.Material.Outlined.Repeat" 
-                                                    ToggledColor="@Color.Warning" 
-                                                    ToggledTitle="Reposted" /> &nbsp; &nbsp; &nbsp; &nbsp;
-                                        <MudText Typo="Typo.body2">@post.RepliesCount</MudText>
-                                        <MudIconButton Icon="@Icons.Material.Outlined.Comment" Color="Color.Info" /> &nbsp; &nbsp; &nbsp; &nbsp;
-                                        </MudCardActions>
-                                        <MudDivider />
-                                    </MudCard>
-                            </MudPaper>
-
-
+                            <MudItem>
+                                <MudPaper Height="120px" Width="120px" />
+                            </MudItem>
                         }
-                        
-                
-                <MudPagination 
-                    Count="@(totalPosts % pageSize == 0 ? totalPosts / pageSize : totalPosts / pageSize + 1)" 
-                    SelectedPage="@(currentPage + 1)" 
-                    Color="Color.Primary" 
-                    Elevation="0" 
-                    Size="Size.Small" 
-                    Variant="Variant.Outlined" 
-                    PageChanged="@OnPageChanged" />
+                    </MudGrid>
                 }
                 else
                 {
-                    <MudText>Der er ingen opslag at vise.</MudText>
-                }
-                </MudTabPanel>
-                <MudTabPanel Text="Medier">
-                    <MudGrid Spacing="4">
-                    @if (!string.IsNullOrEmpty(LongToken))
+                    @foreach (var post in posts)
                     {
-                        foreach ( var instaPic in mediaUrl )
+                        if (!string.IsNullOrEmpty(post.Post.PicturePath))
                         {
                             <MudItem>
                                 <MudLink Href="#" Underline="Underline.None">
-                                    <MudPaper Height="120px" Width="120px"><MudImage Width="120" Height="120" ObjectFit="ObjectFit.Cover" Src="@instaPic" Elevation="0" Class="rounded-lg"/></MudPaper>
+                                    <MudPaper Height="120px" Width="120px">
+                                        <MudImage Width="120" Height="120" ObjectFit="ObjectFit.Cover" Src="@post.Post.PicturePath" Elevation="0" Class="rounded-lg" />
+                                    </MudPaper>
                                 </MudLink>
                             </MudItem>
                         }
                     }
-                    @if (posts == null)
-                    {
-                    <MudGrid Spacing="4">
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px"/>
-                        </MudItem>
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px"/>
-                        </MudItem>
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px" />
-                        </MudItem>
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px" />
-                        </MudItem>
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px" />
-                        </MudItem>
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px" />
-                        </MudItem>
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px" />
-                        </MudItem>
-                        <MudItem>
-                            <MudPaper Height="120px" Width="120px" />
-                        </MudItem>
-                    </MudGrid>
-                    }
-                    else
-                    {
-                        @foreach (var post in posts)
-                        {
-                            if(post.Post.PicturePath != "")
-                            {
-                                <MudItem>
-                                    <MudLink Href="#" Underline="Underline.None">
-                                        <MudPaper Height="120px" Width="120px"><MudImage Width="120" Height="120" ObjectFit="ObjectFit.Cover" Src="@post.Post.PicturePath" Elevation="0" Class="rounded-lg"/></MudPaper>
-                                    </MudLink>
-                                </MudItem>
-                            }
-                        }
-                    }
-                    </MudGrid>
-                </MudTabPanel>
+                }
+            </MudGrid>
+        </MudTabPanel>
     </MudTabs>
 
     <MudSpacer />
 </MudPaper>
+
 @code
 {
     [Parameter]
@@ -364,6 +95,7 @@
     List<string> Followers;
     List<string> Following;
     List<PostDetails> posts;
+    
     List<InstagramMediaData> medias { get; set; } = new();
     List<InstagramMediaData> albumMedias { get; set; } = new();
     List<string> mediaUrl { get; set; } = new();
@@ -491,19 +223,7 @@
         StateHasChanged(); // Re-render the component with the new page.
     }
 
-
-
-    private async Task AuthenticateInstagram()
-    {
-        await js.InvokeAsync<string>("open", "https://api.instagram.com/oauth/authorize?app_id=1320174152716541&redirect_uri=https://localhost:7174/profile/&scope=user_profile,user_media&response_type=code" , "_parent");
-        
-    }
-
-    async Task OpenProfilePicture()
-    {
-        var dialog = await DialogService.ShowAsync<ProfilePicture>("");
-        var result = await dialog.Result;
-    }
+    
 
     public void OpenOverlay()
     {

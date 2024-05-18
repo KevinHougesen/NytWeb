@@ -1,0 +1,96 @@
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+
+@if (!string.IsNullOrEmpty(post.Post.PicturePath))
+{
+    <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" OnClick="@((e) => OpenPost(post.Post.Id))">
+        <MudCardMedia ObjectFit="ObjectFit.Contain" Height="640" Image="@post.Post.PicturePath" />
+    </MudLink>
+    @if (!string.IsNullOrEmpty(post.Post.Content))
+    {
+        <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="90%" >
+            <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                <MudLink Color="Color.Tertiary" Underline="Underline.None" OnClick="@(async () => GoToProfile(post.PostCreatorUsername))" Typo="Typo.caption"><b>@post.PostCreatorUsername</b></MudLink> 
+            </MudText>
+            <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                @{
+                    var displayContent = showFullContent || post.Post.Content.Length <= 200
+                        ? post.Post.Content
+                        : post.Post.Content.Substring(0, 200) + "... ";
+                    @displayContent
+                }
+                @if (post.Post.Content.Length > 200)
+                {
+                    <span @onclick="ToggleContent">@GetReadMoreText()</span>
+                }
+            </MudText>
+        </MudContainer>
+        
+    }
+    else
+    {
+        <MudText Typo="Typo.body2"></MudText>
+    }
+}
+else
+{
+    @if (!string.IsNullOrEmpty(post.Post.Content))
+    {
+        <MudSpacer />
+        @if (!string.IsNullOrEmpty(post.Post.Content))
+        {
+            <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+                <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
+                @{
+                    var displayContent = showFullContent || post.Post.Content.Length <= 200 
+                        ? post.Post.Content 
+                        : post.Post.Content.Substring(0, 200) + "... ";
+                    @displayContent
+                }
+                @if (post.Post.Content.Length > 200)
+                {
+                    <span @onclick="ToggleContent">@GetReadMoreText()</span> 
+                }
+                </MudText>
+            </MudContainer>
+        }
+    }
+}
+
+@code
+{
+    [Parameter]
+    public PostDetails post { get; set; }
+
+    async Task OpenPost(string postId)
+    {
+        var parameters = new DialogParameters<SinglePost> { { SinglePost => SinglePost.PostId, postId } };
+
+        var dialog = await DialogService.ShowAsync<SinglePost>("", parameters);
+        var result = await dialog.Result;
+    }
+    
+    private async Task GoToPost(string postId)
+    {
+        NavigationManager.NavigateTo($"/p/{postId}");
+    }
+
+    private async Task GoToProfile(string username)
+    {
+        NavigationManager.NavigateTo($"/u/{username}", true);
+    }
+
+    private bool showFullContent;
+
+    private void ToggleContent()
+    {
+        showFullContent = !showFullContent;
+    }
+
+    private string GetReadMoreText()
+    {
+        return showFullContent ? "Læs mindre" : "Læs mere";
+    }
+
+
+}

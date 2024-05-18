@@ -1,0 +1,19 @@
+@inject IDialogService DialogService
+
+<MudTooltip Delay="200" Color="Color.Transparent">
+    <ChildContent>
+        <MudAvatar MudBlazor.Size="Size.Medium" Image="../../Images/pain.png"  OnClick="@(async () => OpenProfilePicture())" />
+    </ChildContent>
+    <TooltipContent>
+            <MudText>Skift profilbillede</MudText>
+    </TooltipContent>
+</MudTooltip>
+
+@code
+{
+    async Task OpenProfilePicture()
+    {
+        var dialog = await DialogService.ShowAsync<ProfilePicture>("");
+        var result = await dialog.Result;
+    }
+}

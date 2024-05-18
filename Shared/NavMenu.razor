@@ -15,7 +15,7 @@
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Search" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Søg Nyt" />
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MailOutline" MudBlazor.Size="Size.Large" Color="Color.Secondary" Label="Beskeder" />
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.MeetingRoom" Color="Color.Secondary" MudBlazor.Size="Size.Large" Label="Lokaler" Width="75%"/>
-            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Create" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" MudBlazor.Size="Size.Large" Label="Nyt Skaber" Width="75%"/>
+            <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Create" OnClick="@((e) => OpenCreator())" Color="Color.Secondary" MudBlazor.Size="Size.Large" Label="Nyt Skaber" Width="75%"/>
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Bookmarks"  Color="Color.Secondary" Label="Bogmærker" Width="75%" MudBlazor.Size="Size.Large"/>
             <MudFab DisableElevation="true" StartIcon="@Icons.Material.Outlined.Person" OnClick="@(async () => GoToProfile())" Color="Color.Secondary" Label="Profil" Width="75%" MudBlazor.Size="Size.Large"/>
             <MudFab StartIcon="@Icons.Material.Filled.PostAdd" OnClick="@((e) => OpenPostCreator())" DisableElevation="true" Color="Color.Info" Label="Skab Nyt" Width="75%"MudBlazor.Size="Size.Large"/>
@@ -73,9 +73,17 @@
 
     async Task OpenPostCreator()
     {
-        var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = false };
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, Position = DialogPosition.TopCenter, CloseButton = true };
 
         var dialog = await DialogService.ShowAsync<UserPost>("", options);
+        var result = await dialog.Result;
+    }
+
+    async Task OpenCreator()
+    {
+        var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true, CloseButton = true };
+
+        var dialog = await DialogService.ShowAsync<BecomeCreator>("", options);
         var result = await dialog.Result;
     }
 }

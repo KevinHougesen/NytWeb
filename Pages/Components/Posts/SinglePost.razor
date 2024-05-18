@@ -13,11 +13,11 @@
 
 <MudDialog>
     <DialogContent>
-
-                <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
-                <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
-                    <RootReplies PostId="@PostId" />
-                </MudContainer>
+            
+                <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Large" Width="100%" >
+                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
+                        <RootReplies PostId="@PostId" />
+                    </MudContainer>
 
                 @if (post == null)
                 {
@@ -31,93 +31,24 @@
                 else
                 {
                         /* MAIN POST */
-                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
                         <div @ref="MainPostSection" >
                         </div>
-                            <MudPaper Width="100%" Class="flex-none" Elevation="0">
+                
                         
-                                    <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
-                                    <MudDivider />
-                                        <MudCard Width="100%" Height="100%" Color="Color.Background" Elevation="0" >
-                                            <MudCardHeader>
-                                                <CardHeaderAvatar>
-                                                    <MudAvatar>
-                                                        <MudImage Src="../../Images/pain.png"></MudImage>
-                                                    </MudAvatar>
-                                                </CardHeaderAvatar>
-                                                <CardHeaderContent>
-                                                    <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
-                                                        <MudText Typo="Typo.body1">@post.PostCreatorDisplayName &nbsp;</MudText>
-                                                    </MudBadge>
-                                                    <MudText Typo="Typo.body2">&#64;@post.PostCreatorUsername</MudText>
-                                                </CardHeaderContent>
-                                                <CardHeaderActions>
-                                                    <MudToggleIconButton 
-                                                            Toggled="@Follows" 
-                                                            ToggledChanged="@(toggled => OnFollowChanged(post.PostCreatorUsername, toggled))"
-                                                            Icon="@Icons.Material.Filled.AddCircleOutline" 
-                                                            Color="@Color.Secondary" 
-                                                            Variant="Variant.Filled" 
-                                                            Title="Følg" 
-                                                            Elevation="0"
-                                                            ToggledIcon="@Icons.Material.Filled.CheckCircle" 
-                                                            ToggledColor="@Color.Primary" 
-                                                            ToggledTitle="Følger" />
-                                                        
-                                                            
-                                                    <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" />
-                                                </CardHeaderActions>
-                                            </MudCardHeader>
-                                                @if (!string.IsNullOrEmpty(post.Post.PicturePath))
-                                                {
-                                                    <MudCardMedia ObjectFit="ObjectFit.Contain" Height="640" Image="@post.Post.PicturePath" />
-                                                    
-                                                }
-                                                else
-                                                {
-                                                    <MudText Typo="Typo.body2"></MudText>
-                                                }
-                                            <MudCardContent>
-                                                @if (!string.IsNullOrEmpty(post.Post.Content))
-                                                    {
-                                                        <MudText Style="white-space: pre-wrap;" Typo="Typo.body2">@post.Post.Content</MudText>
-                                                    }
-                                                else
-                                                    {
-                                                        <MudText Typo="Typo.body2"></MudText>
-                                                    }
-                                            </MudCardContent>
-                                            <MudCardActions>
+                                <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Medium" Width="100%" >
+                                    <MudPaper Width="100%" Elevation="0">
+                                        <MudCard Width="100%" Height="100%" Color="Color.Background" href="#" Elevation="0" id="@post.Post.Id" >
 
-                                                <MudText Typo="Typo.body2">@post.LikedBy.Count()</MudText>
-                                                    <MudToggleIconButton 
-                                                        Toggled="@post.LikedBy.Contains(Username)" 
-                                                        ToggledChanged="@(toggled => OnToggledChanged(post, toggled))"
-                                                        Icon="@Icons.Material.Filled.FavoriteBorder" 
-                                                        Color="@Color.Primary" 
-                                                        Title="Like" 
-                                                        ToggledIcon="@Icons.Material.Outlined.Favorite" 
-                                                        ToggledColor="@Color.Primary" 
-                                                        ToggledTitle="Liked" /> &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <PostHeader post="@post" />
+                                                
+                                            <PostContent post="@post" />
+                                        
+                                            <PostFooter post="@post" /> &nbsp; &nbsp; &nbsp; &nbsp;
 
-                                            <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
-                                            <MudToggleIconButton 
-                                                        Toggled="@post.RepostedBy.Contains(Username)" 
-                                                        ToggledChanged="@(toggled => OnRepostedChanged(post, toggled))"
-                                                        Icon="@Icons.Material.Outlined.Repeat" 
-                                                        Color="@Color.Default" 
-                                                        Title="Like" 
-                                                        ToggledIcon="@Icons.Material.Outlined.Repeat" 
-                                                        ToggledColor="@Color.Warning" 
-                                                        ToggledTitle="Reposted" /> &nbsp; &nbsp; &nbsp; &nbsp;
-
-                                            <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
-                                            <MudIconButton Icon="@Icons.Material.Outlined.Comment" OnClick="@(async () => GoToPost(post.Post.Id))" Color="Color.Info" /> &nbsp; &nbsp; &nbsp; &nbsp;
-                                            </MudCardActions>
                                         </MudCard>
-                                    </MudContainer>
-                            </MudPaper>
-                    </MudContainer>
+                                    </MudPaper>
+                                </MudContainer>
+                
                         
                 }
 
@@ -125,6 +56,7 @@
                     <PostReplies PostId="@PostId" />
                 </MudContainer>
 
+                <MudDivider />
                 <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%" >
                     <MudPaper Elevation="0" Width="100%">
                         <MudCard Elevation="0" Width="100%">

@@ -1,0 +1,17 @@
+<MudCardHeader>
+    <CardHeaderAvatar >
+        <ProfileAvatar />
+    </CardHeaderAvatar>
+    <CardHeaderContent>
+        <ProfileHeaderContent Username="@Username" />
+    </CardHeaderContent>
+    <CardHeaderActions>
+        <ProfileHeaderActions Username="@Username" />
+    </CardHeaderActions>
+</MudCardHeader>
+
+@code
+{
+    [Parameter] 
+    public string Username { get; set; }
+}

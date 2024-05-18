@@ -5,6 +5,8 @@ public class Post
     public string Id { get; set; }
     public string Content { get; set; }
     public string? PicturePath { get; set; }
+    public string? VideoPath { get; set; }
+    public string? AudioPath { get; set; }
 }
 
 public class PostDetails

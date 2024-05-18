@@ -73,7 +73,7 @@
             },
             "Microsoft.AspNetCore.Components": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.AspNetCore.Components.Authorization": {
               "target": "Package",
@@ -115,7 +115,7 @@
             },
             "MudBlazor": {
               "target": "Package",
-              "version": "[6.11.1, )"
+              "version": "[6.15.0, )"
             },
             "Neo4j.Driver": {
               "target": "Package",

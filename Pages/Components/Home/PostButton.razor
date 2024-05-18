@@ -18,36 +18,63 @@
                     <MudImage Src="../../Images/pain.png"></MudImage>
                 </MudAvatar>
             </CardHeaderAvatar>
+            <CardHeaderContent>
+                <MudStack Justify="Justify.Center" Spacing="0">
+                    <MudStack Row="true">
+                        <MudText Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>post.PostCreatorDisplayName</b></MudText> 
+                        <MudIcon Icon="@Icons.Material.Filled.Verified" MudBlazor.Size="Size.Small" Color="Color.Primary" Title="Verified User" /> 
+                    </MudStack>
+                    <MudText Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>&#64;post.PostCreatorUsername</b></MudText> 
+                </MudStack>
+            </CardHeaderContent>
+            <CardHeaderActions>            
+                <MudButton Variant="Variant.Text"
+                       Color="Color.Tertiary" 
+                       DisableElevation="true"
+                       Class="ml-auto" 
+                       Label="Udkast" >Udkast</MudButton>
+            </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent Width="100%">
-            <MudTextField @bind-Value="model.Content"
+            <MudFocusTrap DefaultFocus="DefaultFocus.FirstChild">
+                <MudTextField @bind-Value="model.Content"
                           For="@(() => model.Content)"
-                          Variant="Variant.Outlined"
+                          Variant="Variant.Text"
+                          DisableUnderLine="true"
                           Immediate="true"
                           Color="Color.Secondary"
+                          AutoGrow 
+                          Lines="4"
+                          MaxLines="16"
                           Label="Nå... Noget nyt?" />
-            
+            </MudFocusTrap>
         </MudCardContent>
         <MudCardActions>
-            <MudFileUpload T="IBrowserFile" For="@(() => model.File)" Accept=".png, .jpg" @bind-Files="model.File" OnFilesChanged="UploadFiles" >
-                <ButtonTemplate>
-                    <MudFab    HtmlTag="label"
-                               Variant="Variant.Filled"
-                               Color="Color.Primary"
-                               DisableElevation="true"
-                               StartIcon="@Icons.Material.Filled.Image"
-                               for="@context.Id">
-                    </MudFab>
-                    
-                </ButtonTemplate>
-            </MudFileUpload>
-            <MudButton Variant="Variant.Filled" 
-                               Color="Color.Primary" 
-                               DisableElevation="true"
-                               StartIcon="@Icons.Material.Filled.Add"
-                               Class="ml-auto" 
-                               OnClick="@(async () => await Submit())">
-                            </MudButton>
+            <MudToolBar>
+                <MudStack Row="true">
+                        <MudFileUpload T="IBrowserFile" For="@(() => model.File)" Accept=".png, .jpg" @bind-Files="model.File" OnFilesChanged="UploadFiles" >
+                            <ButtonTemplate>
+                                <MudIconButton    
+                                    HtmlTag="label"
+                                    Color="Color.Tertiary"
+                                    DisableElevation="true"
+                                    Icon="@Icons.Material.Filled.Image"
+                                    for="@context.Id">
+                                </MudIconButton>
+                            </ButtonTemplate>
+                        </MudFileUpload>
+                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.GifBox" />
+                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.FormatListBulleted"  />
+                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.EmojiEmotions"  />
+                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.Schedule" />
+                </MudStack>
+            </MudToolBar>
+            <MudButton Variant="Variant.Text"
+                    Color="Color.Tertiary" 
+                    DisableElevation="true"
+                    Class="ml-auto" 
+                    OnClick="@(async () => await Submit())"
+                    StartIcon="@Icons.Material.Outlined.Send">Post</MudButton>
         </MudCardActions>
     </MudForm>
 </MudCard>
@@ -291,7 +318,7 @@
         public FileModelFluentValidator()
         {
             RuleFor(x => x.Content)
-                .Length(1, 125);
+                .Length(1, 999);
             RuleFor(x => x.File);
             When(x => x.File != null, () =>
             {

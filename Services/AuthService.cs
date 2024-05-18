@@ -40,7 +40,7 @@ namespace NytWeb.Services
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
-            var response = await _client.PostAsync(apiURL, jsonContent);
+            var response = await _client.PostAsync("http://localhost:7071/api/RegisterAsync", jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
@@ -94,6 +94,7 @@ namespace NytWeb.Services
 
         public async Task<string> ConnectToHub(string Username, List<string> groupName)
         {
+            Console.WriteLine("Test: " + groupName[0] + " " + groupName[1] + " " + groupName[2] + " ");
             // SENDING JSON CONTENT
             var response = await _client.GetStringAsync($"https://nytwebapp.azurewebsites.net/negotiate?id={Username}&firstGroup={groupName[0]}&secondGroup={groupName[1]}&thirdGroup={groupName[2]}");
 

@@ -1,0 +1,83 @@
+@inject IUserService UserService
+@using Microsoft.AspNetCore.SignalR.Client
+
+
+        <MudToggleIconButton 
+            Toggled="@Follows" 
+            ToggledChanged="@(toggled => OnFollowChanged(post.PostCreatorUsername, toggled))"
+            Icon="@Icons.Material.Outlined.PersonAdd" 
+            Color="@Color.Tertiary" 
+            Variant="Variant.Text"
+            Title="Følg" 
+            ToggledIcon="@Icons.Material.Filled.Person" 
+            ToggledColor="@Color.Primary" 
+            ToggledTitle="Følger" />
+            
+    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Dense="true" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopRight">
+        <MudMenuItem><MudText Typo="Typo.body2" Color="Color.Primary"><b>Anmeld</b></MudText></MudMenuItem>
+        <MudMenuItem><MudText Typo="Typo.body2" Color="Color.Primary"><b>Følg/Følg ikke</b></MudText></MudMenuItem>
+        <MudMenuItem>Føj til bogmærker</MudMenuItem>
+        <MudMenuItem>Gå til opslag</MudMenuItem>
+        <MudMenuItem>Del opslag</MudMenuItem>
+        <MudMenuItem>Kopier link</MudMenuItem>
+        <MudMenuItem>Luk menu</MudMenuItem>
+    </MudMenu>
+
+@code
+{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    [Parameter]
+    public PostDetails post { get; set; }
+
+    public bool Follows { get; set; }
+
+    private List<string> Following;
+
+    private HubConnection? hubConnection;
+
+    private string Username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        Username = authState.User.Identity.Name;
+
+        Following = await UserService.GetUserFollowingAsync(Username);
+    }
+
+    private async Task FollowUser(string userId, bool follow)
+    {
+        Console.WriteLine($"Calling LikePost service: UserId = {userId}, follow = {follow}");
+        var followStatusChanged = await UserService.FollowUserAsync(Username, userId);
+        Console.WriteLine($"Follow status changed: {followStatusChanged}");
+
+        // Notify others via SignalR (this should be done on the server after confirming the like/unlike operation)
+        await hubConnection.SendAsync("NotifyNewFollower", userId, follow);
+    }
+
+    public async Task OnFollowChanged(string user, bool toggled)
+    {
+        
+        {
+            if (!Following.Contains(user))
+            {
+                Following.Add(user);
+                Follows = Following.Contains(user);
+                await FollowUser(user, true);
+            }
+            else
+            {
+                Following.Remove(user);
+                Follows = Following.Contains(user);
+                await FollowUser(user, false);
+            }
+
+            // Invoke state change to refresh the UI
+            InvokeAsync(StateHasChanged);
+        }
+
+        StateHasChanged();
+    }
+}

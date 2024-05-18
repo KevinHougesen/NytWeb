@@ -7,12 +7,12 @@
 
 
 
-<MudPaper Elevation="0" Class="d-flex align-content-center justify-center flex-wrap flex-grow-1 gap-4" Height="900px" style="background-color:#F5001D;">
+<MudPaper Elevation="0" Class="d-flex align-content-center justify-center flex-wrap flex-grow-1 gap-4" Height="900px" >
     <EditForm Model="@model" >
         <DataAnnotationsValidator/>
         <MudGrid>
             <MudItem xs="12" sm="7">
-                <MudCard Elevation="0" style="background-color:#F5001D;" >
+                <MudCard Elevation="0" >
                     <MudCardContent >
                         <MudTextField Color="Color.Secondary" id="txtUsername" Label="Brugernavn"
                                     @bind-Value="model.UserName"  For="@(() => model.UserName)"/>

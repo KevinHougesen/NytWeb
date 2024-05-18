@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1Daqntx0/tbf5t32rXU6ELysVSV59sGOPfJNhLNXfdl3T631jv2GpqnM08Eozi011p1s8Fy8qK2Yah4V9x/xNA==",
+  "dgSpecHash": "NTQD170rzlmLe44dNoyD3Na6EdIDzKMAp0ytTRoXpXFkDNE8gPthIAQU8AuRtBwhfGo+v52FlzFEZ562eb4njA==",
   "success": true,
   "projectFilePath": "/Users/kevinhougesen/NytWeb/NytWeb.csproj",
   "expectedPackageFiles": [
@@ -19,19 +19,19 @@
     "/Users/kevinhougesen/.nuget/packages/fluentvalidation/11.8.1/fluentvalidation.11.8.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/instagramapisharp/1.7.4/instagramapisharp.1.7.4.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.authorization/8.0.0/microsoft.aspnetcore.authorization.8.0.0.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components/8.0.0/microsoft.aspnetcore.components.8.0.0.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components.analyzers/8.0.0/microsoft.aspnetcore.components.analyzers.8.0.0.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.authorization/8.0.1/microsoft.aspnetcore.authorization.8.0.1.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components/8.0.1/microsoft.aspnetcore.components.8.0.1.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components.analyzers/8.0.1/microsoft.aspnetcore.components.analyzers.8.0.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components.authorization/8.0.0/microsoft.aspnetcore.components.authorization.8.0.0.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components.forms/8.0.0/microsoft.aspnetcore.components.forms.8.0.0.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components.web/8.0.0/microsoft.aspnetcore.components.web.8.0.0.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components.forms/8.0.1/microsoft.aspnetcore.components.forms.8.0.1.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.components.web/8.0.1/microsoft.aspnetcore.components.web.8.0.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.connections.abstractions/8.0.0/microsoft.aspnetcore.connections.abstractions.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.http/2.2.2/microsoft.aspnetcore.http.2.2.2.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.http.abstractions/2.2.0/microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.http.connections.client/8.0.0/microsoft.aspnetcore.http.connections.client.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.http.connections.common/8.0.0/microsoft.aspnetcore.http.connections.common.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.http.features/2.2.0/microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.metadata/8.0.0/microsoft.aspnetcore.metadata.8.0.0.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.metadata/8.0.1/microsoft.aspnetcore.metadata.8.0.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.signalr.client/8.0.0/microsoft.aspnetcore.signalr.client.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.signalr.client.core/8.0.0/microsoft.aspnetcore.signalr.client.core.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.aspnetcore.signalr.common/8.0.0/microsoft.aspnetcore.signalr.common.8.0.0.nupkg.sha512",
@@ -66,12 +66,12 @@
     "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.dependencymodel/8.0.0/microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.features/8.0.0/microsoft.extensions.features.8.0.0.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.localization/7.0.5/microsoft.extensions.localization.7.0.5.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.localization.abstractions/7.0.5/microsoft.extensions.localization.abstractions.7.0.5.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.localization/8.0.1/microsoft.extensions.localization.8.0.1.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.localization.abstractions/8.0.1/microsoft.extensions.localization.abstractions.8.0.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.objectpool/2.2.0/microsoft.extensions.objectpool.2.2.0.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.options/8.0.1/microsoft.extensions.options.8.0.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.identity.client/4.56.0/microsoft.identity.client.4.56.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.identity.client.extensions.msal/4.56.0/microsoft.identity.client.extensions.msal.4.56.0.nupkg.sha512",
@@ -79,7 +79,7 @@
     "/Users/kevinhougesen/.nuget/packages/microsoft.identitymodel.jsonwebtokens/7.0.3/microsoft.identitymodel.jsonwebtokens.7.0.3.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.identitymodel.logging/7.0.3/microsoft.identitymodel.logging.7.0.3.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.identitymodel.tokens/7.0.3/microsoft.identitymodel.tokens.7.0.3.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/microsoft.jsinterop/8.0.0/microsoft.jsinterop.8.0.0.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/microsoft.jsinterop/8.0.1/microsoft.jsinterop.8.0.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.jsinterop.webassembly/6.0.3/microsoft.jsinterop.webassembly.6.0.3.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.net.http.headers/2.2.0/microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
@@ -87,7 +87,7 @@
     "/Users/kevinhougesen/.nuget/packages/microsoft.visualbasic/10.3.0/microsoft.visualbasic.10.3.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/microsoft.win32.systemevents/6.0.0/microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
-    "/Users/kevinhougesen/.nuget/packages/mudblazor/6.11.1/mudblazor.6.11.1.nupkg.sha512",
+    "/Users/kevinhougesen/.nuget/packages/mudblazor/6.15.0/mudblazor.6.15.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/neo4j.driver/5.15.0/neo4j.driver.5.15.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/neo4j.driver.signed/5.7.0/neo4j.driver.signed.5.7.0.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/neo4j.driver.simple/5.15.0/neo4j.driver.simple.5.15.0.nupkg.sha512",
@@ -171,5 +171,26 @@
     "/Users/kevinhougesen/.nuget/packages/z.blazor.diagrams/3.0.1/z.blazor.diagrams.3.0.1.nupkg.sha512",
     "/Users/kevinhougesen/.nuget/packages/z.blazor.diagrams.core/3.0.1/z.blazor.diagrams.core.3.0.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.IdentityModel.Tokens.Jwt' 7.0.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.IdentityModel.Tokens.Jwt' 7.0.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-8g9c-28fc-mcx2",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

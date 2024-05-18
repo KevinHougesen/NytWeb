@@ -216,15 +216,36 @@ namespace NytWeb.Services
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
-            var response = await _client.PostAsync(apiURL, jsonContent);
+            var response = await _client.PostAsync(url, jsonContent);
 
             // RETURNING REQUEST AND CONVERTING TO OBJECT
             var jsonString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(jsonString);
             var result = JsonConvert.DeserializeObject<List<string>>(jsonString);
 
+            // CHECKING IF RESULT IS EMPTY
+            if (result == null || !result.Any())
+            {
+                result = new List<string> { "Politik", "Underholdning", "Mode" };
+            }
+
+            // If the result contains less than 3 different communities, randomly add communities from the provided list until there are 3 different communities
+            var random = new Random();
+            var availableCommunities = new List<string> { "Sport", "Konflikt", "Mode", "Musik", "Underholdning", "Mad", "Videnskab", "Sundhed", "Samfund", "Politik" };
+            var distinctCommunities = result.Distinct().ToList();
+            while (distinctCommunities.Count < 3)
+            {
+                var randomCommunity = availableCommunities[random.Next(availableCommunities.Count)];
+                if (!distinctCommunities.Contains(randomCommunity))
+                {
+                    distinctCommunities.Add(randomCommunity);
+                }
+            }
+
             // RETURNING FINAL RESULT
-            return result;
+            return distinctCommunities;
         }
+
 
         // Get All Users
         public async Task<List<string>> GetUserFollowersAsync(string Username)

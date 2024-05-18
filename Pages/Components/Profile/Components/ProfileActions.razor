@@ -1,0 +1,38 @@
+@inject IUserService UserService
+@inject IPostService PostService
+
+<MudCardActions>
+    <MudSpacer />
+    <MudText Typo="Typo.subtitle1">
+        <b>@(posts?.Count() ?? 0) opslag</b>
+    </MudText>
+    <MudSpacer />
+    <MudText Typo="Typo.subtitle1">
+        <b>@(Followers?.Count() ?? 0) følgere</b>
+    </MudText>
+    <MudSpacer />
+    <MudText Typo="Typo.subtitle1">
+        <b>@(Following?.Count() ?? 0) fulgte</b>
+    </MudText>
+    <MudSpacer />
+</MudCardActions>
+
+
+
+@code
+{
+    [Parameter]
+    public string Username { get; set; }
+
+    public List<string> Followers { get; set; }
+    public List<string> Following { get; set; }
+    public List<PostDetails> posts { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Followers = await UserService.GetUserFollowersAsync(Username);
+        Following = await UserService.GetUserFollowingAsync(Username);
+        
+        posts = await PostService.GetUserPostsAsync(Username);  
+    }
+}

@@ -1,0 +1,17 @@
+<MudCardHeader Width="100%">
+    <CardHeaderAvatar>
+        <PostAvatar />
+    </CardHeaderAvatar>
+    <CardHeaderContent >
+        <PostHeaderContent post="@post" />
+    </CardHeaderContent>
+    <CardHeaderActions>
+        <PostHeaderActions post="@post" />
+    </CardHeaderActions> 
+</MudCardHeader>
+
+@code
+{
+    [Parameter]
+    public PostDetails post { get; set; }
+}

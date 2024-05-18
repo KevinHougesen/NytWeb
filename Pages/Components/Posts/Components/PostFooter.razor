@@ -1,0 +1,111 @@
+@inject IPostService PostService
+@inject IDialogService DialogService
+@using Microsoft.AspNetCore.SignalR.Client
+
+<MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="100%">
+    <MudCardActions>
+        <MudText Typo="Typo.body2">@post.LikedBy.Count() </MudText>
+        <MudToggleIconButton 
+            Toggled="@(post.LikedBy.Contains(Username))" 
+            ToggledChanged="@(toggled => OnToggledChanged(post, toggled))"
+            Icon="@Icons.Material.Filled.FavoriteBorder" 
+            Color="@Color.Primary" 
+            Title="Like" 
+            ToggledIcon="@Icons.Material.Outlined.Favorite" 
+            ToggledColor="@Color.Primary" 
+            ToggledTitle="Liked" /> &nbsp; &nbsp; &nbsp; &nbsp;
+        <MudText Typo="Typo.body2">@post.RepostedBy.Count()</MudText>
+        <MudMenu ActivationEvent="@MouseEvent.MouseOver" Dense="true" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+            <ActivatorContent>
+                <MudToggleIconButton 
+                    Toggled="@(post.RepostedBy.Contains(Username))" 
+                    ToggledChanged="@(toggled => OnRepostedChanged(post, toggled))"
+                    Icon="@Icons.Material.Outlined.Repeat" 
+                    Color="@Color.Default" 
+                    Title="Repost" 
+                    ToggledIcon="@Icons.Material.Outlined.Repeat" 
+                    ToggledColor="@Color.Warning" 
+                    ToggledTitle="Reposted" />
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem IconSize="Size.Small" IconColor="Color.Warning" Icon="@Icons.Material.Outlined.Repeat" />
+                <MudMenuItem IconSize="Size.Small" IconColor="Color.Success" Icon="@Icons.Material.Filled.FormatQuote" />
+            </ChildContent>
+        </MudMenu> &nbsp; &nbsp; &nbsp; &nbsp;
+        <MudIconButton Icon="@Icons.Material.Outlined.Comment" OnClick="@((e) => OpenPost(post.Post.Id))" Color="Color.Info" />
+    </MudCardActions>
+</MudContainer>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    [Parameter]
+    public PostDetails post { get; set; }
+
+    private HubConnection? hubConnection;
+    private string Username;
+
+    protected override async Task OnInitializedAsync() {
+        var authState = await authenticationState;
+        Username = authState.User.Identity.Name;
+    }
+
+    public async Task OnToggledChanged(PostDetails post, bool toggled) {
+        if (post == null || post.LikedBy == null) return;
+
+        if (toggled) {
+            if (!post.LikedBy.Contains(Username)) {
+                post.LikedBy.Add(Username);
+                await LikePost(post.Post.Id, true);
+            }
+        } else {
+            if (post.LikedBy.Contains(Username)) {
+                post.LikedBy.Remove(Username);
+                await LikePost(post.Post.Id, false);
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    public async Task OnRepostedChanged(PostDetails post, bool toggled) {
+        if (post == null || post.RepostedBy == null) return;
+
+        if (toggled) {
+            if (!post.RepostedBy.Contains(Username)) {
+                post.RepostedBy.Add(Username);
+                await RepostPost(post.Post.Id, true);
+            }
+        } else {
+            if (post.RepostedBy.Contains(Username)) {
+                post.RepostedBy.Remove(Username);
+                await RepostPost(post.Post.Id, false);
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task LikePost(string postId, bool like) {
+        if (string.IsNullOrEmpty(postId)) return;
+
+        var likeStatusChanged = await PostService.OnLikePost(Username, postId);
+        await hubConnection.SendAsync("NotifyPostLiked", postId, likeStatusChanged);
+    }
+
+    private async Task RepostPost(string postId, bool repost) {
+        if (string.IsNullOrEmpty(postId)) return;
+
+        var repostStatusChanged = await PostService.OnSharePost(Username, postId);
+        await hubConnection.SendAsync("NotifyPostReposted", postId, repostStatusChanged);
+    }
+
+    private async Task OpenPost(string postId) {
+        if (string.IsNullOrEmpty(postId)) return;
+
+        var parameters = new DialogParameters<SinglePost> { { nameof(SinglePost.PostId), postId } };
+        var dialog = await DialogService.ShowAsync<SinglePost>("", parameters);
+        var result = await dialog.Result;
+    }
+}

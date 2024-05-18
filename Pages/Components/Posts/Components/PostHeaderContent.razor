@@ -1,0 +1,46 @@
+@inject NavigationManager NavigationManager
+
+<MudTooltip Delay="200" Color="Color.Secondary" Arrow="true" MudBlazor.Placement="Placement.Right">
+    <ChildContent>
+        <MudStack Row="true">
+            <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" OnClick="@(async () => GoToProfile(post.PostCreatorUsername))">
+                <MudStack Justify="Justify.Center" Spacing="0">
+                    <MudStack Row="true">
+                        <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>@post.PostCreatorDisplayName</b></MudLink> 
+                    </MudStack>
+                    <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>&#64;@post.PostCreatorUsername</b></MudLink> 
+                </MudStack>
+            </MudLink>
+            <MudIcon Icon="@Icons.Material.Filled.Verified" MudBlazor.Size="Size.Small" Color="Color.Primary" Title="Verified User" /> 
+        </MudStack>
+    </ChildContent>
+    <TooltipContent>
+        <MudCard Width="100%" Height="100%" Elevation="0" >
+            <MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Verified">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar>
+                        <MudImage Src="../../Images/pain.png"></MudImage>
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">@post.PostCreatorDisplayName &nbsp;</MudText>
+                        <MudText Typo="Typo.body2">&#64;@post.PostCreatorUsername</MudText>
+                        <MudText Typo="Typo.body2">The moon reflects your explicit beauty🌒<br/>And if you die.. I want to die with you &#64;dead.pretty_222❤️‍🔥<br/>Creative Director &#64;a1media.dk </MudText>
+                    </CardHeaderContent>
+            </MudCardHeader>
+            </MudBadge>
+        </MudCard>
+    </TooltipContent>
+</MudTooltip>
+
+@code
+{
+    [Parameter]
+    public PostDetails post { get; set; }
+
+    private async Task GoToProfile(string username)
+    {
+        NavigationManager.NavigateTo($"/u/{username}", true);
+    }
+}

@@ -1,0 +1,41 @@
+<MudToggleGroup  Class="mud-width-full" T="string" Vertical="false" SelectedClass="black white-text">
+    <MudToggleItem Value="@("Pro Edition")">
+        <div class="mud-width-full mud-height-full">
+            <div class="d-flex align-center justify-space-between flex-wrap">
+                <MudText Class="ellipsis">Nyt Premium</MudText>
+                <MudChip Color="@(context ? Color.Success : Color.Primary)" Icon="@(context ? Icons.Material.Filled.Check : "")">Premium</MudChip>
+            </div>
+            <MudList Clickable="false">
+                <MudListItem Text="Bogmærkemapper" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Rediger opslag" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Udgiv længere vidoer" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Skjul dine likes" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Længere opslag" Icon="@Icons.Material.Filled.Check" />
+            </MudList>
+        </div>
+    </MudToggleItem>
+    <MudToggleItem Value="@("Enterprise Edition")">
+        <div class="mud-width-full mud-height-full">
+            <div class="d-flex align-center justify-space-between flex-wrap">
+                <MudText Class="ellipsis">Nyt Skaber</MudText>
+                <MudChip Color="@(context ? Color.Success : Color.Primary)" Icon="@(context ? Icons.Material.Filled.Check : "")">Skaber</MudChip>
+            </div>
+            <MudText Typo="Typo.subtitle2">Alt i premium, plus</MudText>
+            <MudList Clickable="false">
+                <MudListItem Text="Bogmærkemapper" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Rediger opslag" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Udgiv længere vidoer" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Skjul dine likes" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Længere opslag" Icon="@Icons.Material.Filled.Check" />
+            </MudList>
+        </div>
+    </MudToggleItem>
+</MudToggleGroup>
+
+<style>
+    .ellipsis {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis
+    }
+</style>

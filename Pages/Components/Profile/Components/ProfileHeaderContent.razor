@@ -1,0 +1,10 @@
+<MudBadge Origin="Origin.CenterRight" Color="Color.Info" Bordered="true" Icon="@Icons.Material.Filled.Star">
+    <MudText Typo="Typo.subtitle1"><b>Navn Efternavn &nbsp;</b></MudText>
+</MudBadge>
+<MudText Typo="Typo.subtitle2"><b>&#64;@Username</b></MudText>
+
+@code
+{
+    [Parameter] 
+    public string Username { get; set; }
+}

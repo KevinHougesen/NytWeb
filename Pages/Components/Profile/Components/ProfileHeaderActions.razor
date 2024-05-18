@@ -1,0 +1,46 @@
+@inject IDialogService DialogService
+@inject IUserService UserService
+@inject IJSRuntime js
+
+@if (user == null)
+{
+    <MudFab StartIcon="@Icons.Custom.Brands.Instagram" Disabled="true" Label="" />
+}
+else
+{
+    if (string.IsNullOrEmpty(user.InstaToken))
+    {
+        <MudFab StartIcon="@Icons.Custom.Brands.Instagram" OnClick="@(async () => AuthenticateInstagram())" Label="" />
+    }
+    else
+    {
+        <MudFab StartIcon="@Icons.Custom.Brands.Instagram" Disabled="true" Label="" />
+    }
+}
+<MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Default" OnClick="@((e) => OpenProfilePicture())"/>
+
+@code
+{
+    UserModel user;
+
+    [Parameter] 
+    public string Username { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        user = await UserService.GetUserAsync(Username);
+    }
+
+    async Task OpenProfilePicture()
+    {
+        var dialog = await DialogService.ShowAsync<ProfilePicture>("");
+        var result = await dialog.Result;
+    }
+
+    private async Task AuthenticateInstagram()
+    {
+        await js.InvokeAsync<string>("open", "https://api.instagram.com/oauth/authorize?app_id=1320174152716541&redirect_uri=https://localhost:7174/profile/&scope=user_profile,user_media&response_type=code" , "_parent");
+        
+    }
+}

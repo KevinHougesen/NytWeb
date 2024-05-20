@@ -6,7 +6,7 @@
     <MudLink Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" OnClick="@((e) => OpenPost(post.Post.Id))">
         <MudCardMedia ObjectFit="ObjectFit.Contain" Height="640" Image="@post.Post.PicturePath" />
     </MudLink>
-    @if (!string.IsNullOrEmpty(post.Post.Content))
+    @if (!string.IsNullOrEmpty(post.Post.Content) && post.Post.Content != " ")
     {
         <MudContainer Height="100%" Elevation="0" MaxWidth="MaxWidth.Small" Width="90%" >
             <MudText Style="white-space: pre-wrap;" Color="Color.Tertiary" Typo="Typo.caption">
@@ -21,7 +21,7 @@
                 }
                 @if (post.Post.Content.Length > 200)
                 {
-                    <span @onclick="ToggleContent">@GetReadMoreText()</span>
+                    <span Class="cursor-pointer" @onclick="ToggleContent">@GetReadMoreText()</span>
                 }
             </MudText>
         </MudContainer>
@@ -49,7 +49,7 @@ else
                 }
                 @if (post.Post.Content.Length > 200)
                 {
-                    <span @onclick="ToggleContent">@GetReadMoreText()</span> 
+                    <span Class="cursor-pointer" @onclick="ToggleContent">@GetReadMoreText()</span> 
                 }
                 </MudText>
             </MudContainer>
@@ -89,8 +89,7 @@ else
 
     private string GetReadMoreText()
     {
-        return showFullContent ? "Læs mindre" : "Læs mere";
+        return showFullContent ? " \nLæs mindre" : "Læs mere";
     }
-
 
 }

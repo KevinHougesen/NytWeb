@@ -1,120 +1,66 @@
 @using FluentValidation
 @using Severity = MudBlazor.Severity
-@inject ISnackbar Snackbar
+@using FileManager
+@using Microsoft.AspNetCore.SignalR.Client
+@using Azure.Messaging.WebPubSub.Clients
 @inject NavigationManager NavigationManager
 @inject IPostService PostService
-@inject IUserService UserService
 @inject IBlobService BlobService
+@inject IUserService UserService
 @inject IAuthService AuthService
-@using Azure.Messaging.WebPubSub.Clients
 @inject IJSRuntime js
-@using Microsoft.AspNetCore.SignalR.Client
+@inject ISnackbar Snackbar
 
 <MudCard Elevation="0" Width="100%">
-    <MudForm Model="@model" @ref="@form" Validation="@(ValidationRules.ValidateValue)" ValidationDelay="0" Width="100%">
-        <MudCardHeader>
-            <CardHeaderAvatar>
-                <MudAvatar>
-                    <MudImage Src="../../Images/pain.png"></MudImage>
-                </MudAvatar>
-            </CardHeaderAvatar>
-            <CardHeaderContent>
-                <MudStack Justify="Justify.Center" Spacing="0">
-                    <MudStack Row="true">
-                        <MudText Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>post.PostCreatorDisplayName</b></MudText> 
-                        <MudIcon Icon="@Icons.Material.Filled.Verified" MudBlazor.Size="Size.Small" Color="Color.Primary" Title="Verified User" /> 
-                    </MudStack>
-                    <MudText Color="Color.Tertiary" Typo="Typo.caption" Underline="Underline.None" ><b>&#64;post.PostCreatorUsername</b></MudText> 
-                </MudStack>
-            </CardHeaderContent>
-            <CardHeaderActions>            
-                <MudButton Variant="Variant.Text"
-                       Color="Color.Tertiary" 
-                       DisableElevation="true"
-                       Class="ml-auto" 
-                       Label="Udkast" >Udkast</MudButton>
-            </CardHeaderActions>
-        </MudCardHeader>
-        <MudCardContent Width="100%">
-            <MudFocusTrap DefaultFocus="DefaultFocus.FirstChild">
-                <MudTextField @bind-Value="model.Content"
-                          For="@(() => model.Content)"
-                          Variant="Variant.Text"
-                          DisableUnderLine="true"
-                          Immediate="true"
-                          Color="Color.Secondary"
-                          AutoGrow 
-                          Lines="4"
-                          MaxLines="16"
-                          Label="Nå... Noget nyt?" />
-            </MudFocusTrap>
-        </MudCardContent>
-        <MudCardActions>
-            <MudToolBar>
-                <MudStack Row="true">
-                        <MudFileUpload T="IBrowserFile" For="@(() => model.File)" Accept=".png, .jpg" @bind-Files="model.File" OnFilesChanged="UploadFiles" >
-                            <ButtonTemplate>
-                                <MudIconButton    
-                                    HtmlTag="label"
-                                    Color="Color.Tertiary"
-                                    DisableElevation="true"
-                                    Icon="@Icons.Material.Filled.Image"
-                                    for="@context.Id">
-                                </MudIconButton>
-                            </ButtonTemplate>
-                        </MudFileUpload>
-                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.GifBox" />
-                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.FormatListBulleted"  />
-                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.EmojiEmotions"  />
-                        <MudIconButton Color="Color.Tertiary" Icon="@Icons.Material.Outlined.Schedule" />
-                </MudStack>
-            </MudToolBar>
-            <MudButton Variant="Variant.Text"
-                    Color="Color.Tertiary" 
-                    DisableElevation="true"
-                    Class="ml-auto" 
-                    OnClick="@(async () => await Submit())"
-                    StartIcon="@Icons.Material.Outlined.Send">Post</MudButton>
-        </MudCardActions>
+    <MudForm Model="@model" @ref="form" Validation="ValidationRules.ValidateValue" ValidationDelay="0" Width="100%">
+        <PostCreateHeader />
+        <PostCreateContent Model="@model" />
+        <PostCreateAction Model="@model" OnSubmit="HandleSubmit" />
     </MudForm>
 </MudCard>
 
-@code
-{
+@code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
     private MudForm form;
-    bool success;
-    private string Username;
-    private int maxAllowedSize;
     private FileModel model = new();
+    private bool success;
     private FileModelFluentValidator ValidationRules = new();
     private bool SuppressOnChangeWhenInvalid;
+
+    private string Username;
+    private int maxAllowedSize = 10 * 1024 * 1024; // 10 MB
     private List<string> userCommunities;
+    private List<GroupDataMessage> messages = new();
+
+    private WebPubSubClient? client = null;
     private string url = string.Empty;
     private string errorMessage = string.Empty;
     private string status = "Not connected.";
     private string connectionId = string.Empty;
     private string userId = string.Empty;
     private string message = string.Empty;
-    private WebPubSubClient? client = null;
-    private List<GroupDataMessage> messages = new();
-
-    //private List<string> messages = new List<string>();
-    private string? userInput;
-    private string? messageInput;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationState;
         Username = authState.User.Identity.Name;
         userCommunities = await UserService.GetUserCommunitiesAsync(Username);
-        Connect();
-        
+        await Connect();
     }
 
-    private async Task Submit()
+    private async Task Connect()
+    {
+        // Implement connection logic here...
+    }
+
+    private async Task SendMessage()
+    {
+        // Implement send message logic here...
+    }
+
+    private async Task HandleSubmit()
     {
         await form.Validate();
         Console.WriteLine("Form Validation");
@@ -124,8 +70,10 @@
             string blobUrl = null;
             if (model.File != null)
             {
+                Console.WriteLine("Image is attached");
                 try
                 {
+                    Console.WriteLine("Trying to upload...");
                     var stream = model.File.OpenReadStream(maxAllowedSize);
                     blobUrl = await BlobService.UploadBlobFilesAsync(stream, model.File.Name, model.File.ContentType, Username);
                     Snackbar.Add($"File uploaded successfully: {blobUrl}", Severity.Success);
@@ -141,6 +89,12 @@
             {
                 blobUrl = "";
                 Console.WriteLine("No Image Attached.");
+            }
+
+            if (string.IsNullOrEmpty(model.Content))
+            {
+                model.Content = " ";
+                Console.WriteLine("Image Attached.");
             }
 
             // Now create the post with the blobUrl
@@ -169,160 +123,14 @@
         }
     }
 
-    private async Task Connect()
-    {
-        if (client != null)
-        {
-            client.Connected += args =>
-            {
-                status = "Connected.";
-                connectionId = args.ConnectionId;
-                userId = args.UserId;
-                StateHasChanged();
-                return Task.CompletedTask;
-            };
-            client.GroupMessageReceived += args =>
-            {
-                messages.Add(args.Message);
-                StateHasChanged();
-                return Task.CompletedTask;
-            };
-            client.Disconnected += args =>
-            {
-                status = "Not connected.";
-                connectionId = string.Empty;
-                userId = string.Empty;
-                StateHasChanged();
-                return Task.CompletedTask;
-            };
-        }
-        else
-        {
-            errorMessage = string.Empty;
-            status = "Not connected.";
-            connectionId = string.Empty;
-            userId = string.Empty;
-            messages.Clear();
-            
-            var uri = await AuthService.ConnectToHub(Username, userCommunities);
-            
-            client = new WebPubSubClient(new Uri(uri));
-            client.Connected += args =>
-            {
-                status = "Connected.";
-                connectionId = args.ConnectionId;
-                userId = args.UserId;
-                StateHasChanged();
-                return Task.CompletedTask;
-            };
-            client.GroupMessageReceived += args =>
-            {
-                messages.Add(args.Message);
-                StateHasChanged();
-                return Task.CompletedTask;
-            };
-            client.Disconnected += args =>
-            {
-                status = "Not connected.";
-                connectionId = string.Empty;
-                userId = string.Empty;
-                StateHasChanged();
-                return Task.CompletedTask;
-            };
-            status = "Connecting ...";
-            StateHasChanged();
-            try
-            {
-                await client.StartAsync();
-                try
-                {
-
-                    await client.JoinGroupAsync("Sample_ChatApp");
-                    Console.WriteLine("Joined ?");
-                }
-                catch (SendMessageFailedException ex)
-                {
-                    errorMessage = ex.Message;
-                    status = "Not connected.";
-                    _ = client.StopAsync();
-                    StateHasChanged();
-                    throw;
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                status = "Not connected.";
-            }
-        }
-    }
-
-    private async Task SendMessage()
-    {
-        if (string.IsNullOrEmpty(message))
-        {
-            return;
-        }
-        if (client == null)
-        {
-            return;
-        }
-        try
-        {
-            await client.SendToGroupAsync("simplechat", BinaryData.FromString(message), WebPubSubDataType.Text);
-            message = string.Empty;
-        }
-        catch (SendMessageFailedException ex)
-        {
-            errorMessage = ex.Message;
-        }
-        catch (Exception ex)
-        {
-            errorMessage = ex.Message;
-        }
-        StateHasChanged();
-    }
-
-
-
-
-
-    private async Task UploadFiles(InputFileChangeEventArgs e)
-    {
-        maxAllowedSize = 10 * 1024 * 1024; // 10 MB
-        var file = e.File;
-
-        if (file.Size > maxAllowedSize)
-        {
-            Snackbar.Add("File size exceeds the maximum limit of 10 MB.", Severity.Error);
-            return;
-        }
-        Snackbar.Add($"File uploaded successfully: {e.File.Name}", Severity.Success);
-
-        model.FileStream = file.OpenReadStream(maxAllowedSize);
-        // Optionally, store other file properties like name and content type
-    }
-
-
-
-
-    public class FileModel
-    {
-        public string Content { get; set; }
-        public IBrowserFile File { get; set; }
-        public Stream FileStream { get; set; }
-    }
-
     public class FileModelFluentValidator : AbstractValidator<FileModel>
     {
         public FileModelFluentValidator()
         {
-            RuleFor(x => x.Content)
-                .Length(1, 999);
-            RuleFor(x => x.File);
+            RuleFor(x => x.Content).NotEmpty().WithMessage("Content is required").Length(1, 999);
             When(x => x.File != null, () =>
             {
-                RuleFor(x => x.File.Size).LessThanOrEqualTo(10485760).WithMessage("The maximum file size is 10 MB");
+                RuleFor(x => x.File.Size).LessThanOrEqualTo(10 * 1024 * 1024).WithMessage("The maximum file size is 10 MB");
             });
         }
 
@@ -334,4 +142,6 @@
             return result.Errors.Select(e => e.ErrorMessage);
         };
     }
+
+
 }

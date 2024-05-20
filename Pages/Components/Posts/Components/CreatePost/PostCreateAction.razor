@@ -1,0 +1,26 @@
+@using FluentValidation
+@using FileManager
+@using Severity = MudBlazor.Severity
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+@inject IPostService PostService
+@inject IAuthService AuthService
+@inject IUserService UserService
+@inject IBlobService BlobService
+@inject IJSRuntime js
+
+<MudButton OnClick="OnSubmit">Submit</MudButton>
+
+@code {
+    [Parameter]
+    public FileModel Model { get; set; }
+
+    [Parameter]
+    public EventCallback OnSubmit { get; set; }
+
+    private async Task OnSubmitClick()
+    {
+        Console.WriteLine("Submit button clicked");
+        await OnSubmit.InvokeAsync(null);
+    }
+}

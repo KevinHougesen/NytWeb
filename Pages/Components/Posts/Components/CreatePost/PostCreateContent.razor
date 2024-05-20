@@ -1,0 +1,48 @@
+@using FileManager
+@inject ISnackbar Snackbar
+@using Severity = MudBlazor.Severity
+
+<MudCardContent Width="100%">
+    <MudFocusTrap DefaultFocus="DefaultFocus.FirstChild">
+        <MudTextField @bind-Value="Model.Content"
+                      Variant="Variant.Text"
+                      DisableUnderLine="true"
+                      Immediate="true"
+                      Color="Color.Secondary"
+                      AutoGrow 
+                      Lines="4"
+                      MaxLines="16"
+                      Label="Nå... Noget nyt?" />
+    </MudFocusTrap>
+
+    <MudFileUpload T="IBrowserFile" For="@(() => Model.File)" Accept=".png, .jpg" @bind-Files="Model.File" OnFilesChanged="UploadFiles">
+        <ButtonTemplate>
+            <MudIconButton    
+                HtmlTag="label"
+                Color="Color.Tertiary"
+                DisableElevation="true"
+                Icon="@Icons.Material.Filled.Image"
+                for="@context.Id">
+            </MudIconButton>
+        </ButtonTemplate>
+    </MudFileUpload>
+</MudCardContent>
+
+
+@code {
+    [Parameter]
+    public FileModel Model { get; set; }
+
+    private async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file.Size > 10 * 1024 * 1024)
+        {
+            Snackbar.Add("File size exceeds the maximum limit of 10 MB.", Severity.Error);
+            return;
+        }
+
+        Snackbar.Add($"File uploaded successfully: {file.Name}", Severity.Success);
+        Model.File = file;
+    }
+}

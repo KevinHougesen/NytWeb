@@ -86,6 +86,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9NaXNjL0luUHJvZ3Jlc3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/kevinhougesen/NytWeb/Pages/Components/Misc/UploadImage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9NaXNjL1VwbG9hZEltYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/kevinhougesen/NytWeb/Pages/Components/Posts/Components/CreatePost/PostCreateAction.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9Qb3N0cy9Db21wb25lbnRzL0NyZWF0ZVBvc3QvUG9zdENyZWF0ZUFjdGlvbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

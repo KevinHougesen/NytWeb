@@ -4,7 +4,7 @@ namespace NytWeb.Services
 {
     public interface IAuthService
     {
-        Task<UserModel> RegisterAsync(UserModel User);
+        Task<UserModel> RegisterAsync(UserModel User, string Picture);
 
         Task<string> DeleteUserByIdAsync(string Username);
 

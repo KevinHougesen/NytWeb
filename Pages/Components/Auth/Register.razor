@@ -86,6 +86,9 @@
                         <MudCardActions>
                             @if (registerLoaded)
                             {
+
+                                <UploadImage Model="@fileModel" />
+
                                 <MudButton MudBlazor.ButtonType="ButtonType.Submit" OnClick="OnValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
                             }
                             else
@@ -102,7 +105,7 @@
 
 @code 
 {
-    
+    private FileModel fileModel = new();
 
     bool success;
 
@@ -149,8 +152,40 @@
             await js.InvokeVoidAsync("alert", "Username already taken");
             return;
         }
+
+        string blobUrl = null;
+        if (fileModel.File != null)
+        {
+            Console.WriteLine("Image is attached");
+            try
+            {
+                Console.WriteLine("Trying to upload...");
+                var stream = fileModel.File.OpenReadStream(maxAllowedSize);
+                blobUrl = await BlobService.UploadBlobFilesAsync(stream, fileModel.File.Name, fileModel.File.ContentType, Username);
+                Snackbar.Add($"File uploaded successfully: {blobUrl}", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error during file upload: {ex.Message}", Severity.Error);
+                return; // Abort the submit if file upload fails
+            }
+        }
+
+        if (string.IsNullOrEmpty(blobUrl))
+        {
+            blobUrl = "../../Images/nopic.jpg";
+            Console.WriteLine("No Image Attached.");
+        }
         
-        await AuthService.RegisterAsync(model);
+        var newUser = await AuthService.RegisterAsync(model, blobUrl);
+
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+        {
+            UserName = newUser.Username,
+            Role = newUser.Role
+        });
+
         success = true;
         StateHasChanged();
         NavigationManager.NavigateTo("/", true);

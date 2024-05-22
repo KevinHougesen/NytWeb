@@ -30,13 +30,13 @@ namespace NytWeb.Services
 
 
         // Get All Users
-        public async Task<UserModel> RegisterAsync(UserModel User)
+        public async Task<UserModel> RegisterAsync(UserModel User, string Picture)
         {
             // CREATING URL STRING
             string apiURL = Context + "RegisterAsync" + Key;
 
             // CREATING PAYLOAD AND JSON CONTENT
-            var payload = JsonConvert.SerializeObject(new { User });
+            var payload = JsonConvert.SerializeObject(new { User, Picture });
             var jsonContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
             // SENDING JSON CONTENT
